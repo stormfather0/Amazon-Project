@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Electronics</title>
+</head>
+<body>
+  <!-- Dynamically load header -->
+  <div id="header-container"></div>
+
+  <div class="products-grid js-products-grid"></div>
+
+  <!-- Dynamically load footer -->
+  <div id="footer-container"></div>
+  <div class="cart-quantity js-cart-quantity">0</div>
+
+  <script type="module">
+    import { generateProductHTML } from '/scripts/amazon.js';
+    import { products } from '/backend/electronics.js';
+    import {updateCartQuantity} from '/scripts/amazon.js';
+    import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
+
+const productsGrid = document.querySelector('.js-products-grid');
+if (productsGrid) {
+  productsGrid.innerHTML = generateProductHTML(products);
+} else {
+  console.error('.js-products-grid not found');
+}
+    // Function to load content dynamically
+    function loadTemplate(templateId, filePath, callback) {
+      fetch(filePath)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(templateId).innerHTML = data;
+          if (callback) callback();
+        });
+    }
+
+    // Load header and then header.js
+    loadTemplate('header-container', 'header.html', () => {
+  const script = document.createElement('script');
+  script.src = 'scripts/header.js';
+  document.getElementById('header-container').appendChild(script);
+
+
+});
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
+
+    // Find the selected quantity for this product
+    const quantitySelect = button
+      .closest('.product-container') // Ensure the container matches your HTML structure
+      .querySelector('.product-quantity-container select');
+    const quantity = parseInt(quantitySelect.value, 10);
+
+    // Pass both the product ID and the selected quantity to addToCart
+    addToCart(productId, quantity);
+    updateCartQuantity();
+  });});
+
+    
+  </script>
+</body>
+</html>

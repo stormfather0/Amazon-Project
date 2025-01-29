@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <link rel="stylesheet" href="./styles/pages/amazon.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+  <div class="product-details-container js-product-details-container"></div>
+
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      });
+
+      
+  </script>
+ <!-- header.html -->
+
+<!-- Your header HTML code here -->
+
+<!-- <script type="module"  src="scripts/amazon.js" ></script> -->
+<script type="module"  src="data/cart.js"></script>
+<script type="module"  src="scripts/checkout.js" ></script>
+  <script type="module" type="module" src="/product.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
+  <script type="module" src="/scripts/header.js"></script>
+  
+</body>
+</html>

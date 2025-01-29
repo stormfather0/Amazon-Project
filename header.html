@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/shared/general.css">
+  <link rel="stylesheet" href="styles/shared/amazon-header.css">
+  <link rel="stylesheet" href="styles/pages/amazon.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="ad-banner">
+    <p>Special Offer! Get 20% off on all products!</p>
+  </div>
+  <div class="placeholder"></div> 
+
+  <div class="header-menu-wrapper">
+  <div class="amazon-header">
+      
+    <div class="amazon-header-left-section">
+      <a href="amazon.html" class="header-link">
+        <img class="amazon-logo" src="images/amazon-logo-white.png">
+        <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
+      </a>
+    </div>
+    <img class="menu-icon menu-icon-hidden" src="/images/icons/menu.svg">
+    <div class="amazon-header-middle-section">
+      <input class="search-bar" type="text" placeholder="Search">
+      <button class="search-button">
+        <img class="search-icon " src="images/icons/search-icon.png">
+      </button>
+    </div>
+    <div class="amazon-header-right-section">
+      <a class="account-icon">
+        <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg class="account-icon-svg" width="40px" height="30px" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><circle class="cls-1" cx="12" cy="7.25" r="5.73"/><path class="cls-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"/></svg>
+      </a>
+      <a class="orders-link header-link" href="orders.html">
+        <span class="returns-text">Returns</span>
+        <span class="orders-text">& Orders</span>
+      </a>
+      <a class="cart-link header-link" href="checkout.html">
+        <img class="cart-icon" src="images/icons/cart-icon.png">
+        <div class="cart-quantity js-cart-quantity">0</div>
+        <div class="cart-text">Cart</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="menu-bar hidden">
+    <ul class="category-list">
+      <li class="category" id="clothes-category">
+        <a href="clothes.html">
+        <img src="/images/menu-images/clothes.svg" alt="">
+        Clothes</li>
+      </a>
+
+      <li class="category" id="electronics-category1"><a href="electronics.html" class="subcategory-link">
+        <img src="/images/menu-images/electronics.svg" alt="">
+        Electronics</a></li>
+   
+      <li class="category" id="electronics-category">
+        <img src="/images/menu-images/digital-content.svg" alt="">
+        Digital content</li>
+
+      <li class="category" id="electronics-category2">
+        <img src="/images/menu-images/personal-care.svg" alt="">
+        Personal care</li>
+
+      <li class="category" id="electronics-category3">
+        <img src="/images/menu-images/fashion.svg" alt="">
+        Fashion</li>
+
+      <li class="category" id="electronics-category4">
+        <img src="/images/menu-images/giftcards.svg" alt="">
+        Gift cards</li>
+
+      <button class="menu-btn">
+        <img src="images/menu-images/sales-svgrepo-com.svg" alt="Black Friday Sale" class="menu-btn-icon">
+        Black Friday Sale
+        
+      </button>
+    </ul>
+    
+ 
+      
+    </div>
+    <div class="menu-right"></div>
+  </div>
+  
+  <style>
+/* Default menu-bar styling */
+/* Default styling for menu bar */
+.menu-bar {
+  position: absolute;
+  height: 100%; 
+  top: 109px; /* This will be overridden in JS when sticky */
+  left: 0;
+  /* width: 24%; */
+width: 100%;
+  z-index: 20;
+  border-radius: 0;
+}
+
+/* Sticky menu bar styling */
+.menu-bar.is-sticky {
+  position: fixed; /* Makes the menu bar fixed */
+  top: 0; /* Adjusted dynamically based on header height */
+  left: 0;
+  /* width: 24%; */
+width: 100%;
+
+  /* width: 24%; */
+
+  height: 100%; 
+  z-index: 999; /* Ensure it is above other content */
+  margin-top: 0;
+  display: block;
+}
+
+
+
+
+  </style>
+  <script>
+    
+  </script>
+    <script type="module" src="scripts/amazon.js"></script>
+    <script type="module" src="data/cart.js"></script>
+    <script type="module" src="scripts/checkout.js"></script>
+    <script type="module" src="/scripts/header.js"></script>
+
+</body>
+</html>

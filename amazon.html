@@ -1,62 +1,307 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Amazon Project</title>
 
-    <!-- This code is needed for responsive design to work.
-      (Responsive design = make the website look good on
-      smaller screen sizes like a phone or a tablet). -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <title>Amazon Project</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/shared/general.css">
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <link rel="stylesheet" href="styles/shared/amazon-header.css">
+  <link rel="stylesheet" href="styles/pages/amazon.css">
 
-    <!-- Load a font called Roboto from Google Fonts. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
 
-    <!-- Here are the CSS files for this page. -->
-    <link rel="stylesheet" href="styles/shared/general.css">
-    <link rel="stylesheet" href="styles/shared/amazon-header.css">
-    <link rel="stylesheet" href="styles/pages/amazon.css">
-  </head>
-  <body>
-    <div class="amazon-header">
-      <div class="amazon-header-left-section">
-        <a href="amazon.html" class="header-link">
-          <img class="amazon-logo"
-            src="images/amazon-logo-white.png">
-          <img class="amazon-mobile-logo"
-            src="images/amazon-mobile-logo-white.png">
+
+<body>
+
+  <div id="header-container"></div>
+
+  <div id="ad-banner" class="hidden">
+    <p class="ad-banner-text">Special offer! Save 80% on the toaster</p>
+    <div class="ad-content">
+      <a class="ad-content-img" href="product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add" target="_blank">
+        <img src="images/products/black-2-slot-toaster.jpg" alt="Ad Banner" class="ad-image">
+
+      </a>
+      <div class="ad-bottom-wrapper">
+        <button class="ad-btn button-primary">Buy now</button>
+        <button id="close-ad" class="close-btn">✖</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="layout-container">
+    <!-- Left Column -->
+    <div class="red-div">
+      <ul class="category-list">
+        <a href="clothes.html">
+          <li class="category" id="clothes-category">
+            <img src="/images/menu-images/clothes.svg" alt="">
+            Clothes</li>
         </a>
+
+        <li class="category" id="electronics-category1"><a href="electronics.html" class="subcategory-link">
+            <img src="/images/menu-images/electronics.svg" alt="">
+            Electronics</a></li>
+
+        <li class="category" id="electronics-category">
+          <img src="/images/menu-images/digital-content.svg" alt="">
+          Digital content</li>
+
+        <li class="category" id="electronics-category2">
+          <img src="/images/menu-images/personal-care.svg" alt="">
+          Personal care</li>
+
+        <li class="category" id="electronics-category3">
+          <img src="/images/menu-images/fashion.svg" alt="">
+          Fashion</li>
+
+        <li class="category" id="electronics-category4">
+          <img src="/images/menu-images/giftcards.svg" alt="">
+          Gift cards</li>
+
+        <!-- <button class="menu-btn">
+            <img src="images/menu-images/sales-svgrepo-com.svg" alt="Black Friday Sale" class="menu-btn-icon">
+            Black Friday Sale
+            
+          </button> -->
+
+
+      </ul>
+      <a href="/favourites.html">
+        <?xml version="1.0" encoding="utf-8"?>
+        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+        <svg class="menu-icon-desktop" width="40px" height="30px" viewBox="0 0 24 24" role="img"
+          xmlns="http://www.w3.org/2000/svg" aria-labelledby="favouriteIconTitle" stroke="rgb(181, 56, 56);"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" color="red">
+          <title id="favouriteIconTitle">Favourite</title>
+          <path
+            d="M12,21 L10.55,19.7051771 C5.4,15.1242507 2,12.1029973 2,8.39509537 C2,5.37384196 4.42,3 7.5,3 C9.24,3 10.91,3.79455041 12,5.05013624 C13.09,3.79455041 14.76,3 16.5,3 C19.58,3 22,5.37384196 22,8.39509537 C22,12.1029973 18.6,15.1242507 13.45,19.7149864 L12,21 Z" />
+        </svg></a>
+
+      <!-- Scroll to Top -->
+      <button id="scrollToTopBtn" class="scroll-to-top">
+
+        <!-- Log In Message on the left side (Menu Log In)-->
+        <img src="images/icons/amazon-to-the-top.webp" alt="" srcset="">
+      </button>
+      <div class="log-in-container">
+        <div class="log-in-text">Log in to receive recommendations, personal bonuses and discounts.
+          <button class="log-in-btn button-primary ">Log in</button> </div>
+        <div class="our-stores">
+          <img src="images/icons/store.svg" alt="">
+          <a href="stores.html">
+            <p>Visit our stores</p>
+          </a>
+
+        </div>
       </div>
 
-      <div class="amazon-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
 
-        <button class="search-button">
-          <img class="search-icon" src="images/icons/search-icon.png">
-        </button>
+
+    </div>
+
+
+    <!-- Pop-up container for Login & Signup -->
+    <div class="login-popup hidden">
+      <div class="login-popup-content">
+        <span class="close-popup-btn">&times;</span>
+
+        <!-- Login Form -->
+        <div class="login-form">
+          <h2>Sign-In</h2>
+          <form id="login-form">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="Enter your email" required>
+
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Enter your password" required>
+
+            <button type="submit" class="submit-btn">Login</button>
+          </form>
+          <p><a href="#" class="switch-to-signup"></a></p>
+        </div>
+
+        <!-- Signup Form (Initially Hidden) -->
+        <div class="signup-form hidden">
+          <h2>Create Account</h2>
+          <form id="signup-form">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" placeholder="Enter your first name" required>
+
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" placeholder="Enter your last name" required>
+
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="Enter your email" required>
+
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="Enter your password" required>
+
+            <button type="submit" class="submit-btn">Create Account</button>
+          </form>
+          <p><a href="#" class="switch-to-login">Already have an account? Login</a></p>
+        </div>
+
+        <!-- Link to open the login/signup form -->
+        <p class="open-signup-link">New to Amazon? <a href="#" class="open-signup">Create your Amazon account</a></p>
+
+        <div class="popup-footer">
+          <p>By continuing, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <style>
+      .submit-btn {
+        margin-bottom: 10px;
+      }
+
+      .open-signup-link {
+        font-style: 12px;
+      }
+
+      .open-signup {
+        color: rgb(194, 59, 59);
+        font-weight: bold;
+      }
+    </style>
+
+
+
+    <!-- Added to cart notification on the bottom of the page -->
+    <div id="cart-popup" class="cart-popup">
+      <p>Item added to cart!</p>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+
+
+
+<!-- Display items from cart -->
+<!-- Display items from cart -->
+<div class="notify-about-items-in-cart" id="cart-items-notification">
+  <img src="images/icons/full-cart.svg" alt="">
+  <p class="notify-about-items-in-cart-text">
+    There are <span id="items-in-cart-count">0</span> items in your cart
+  </p>
+  <ul id="cart-items-list"></ul> <!-- To display the list of items in the cart -->
+ <a href="checkout.html"> <button class="checkout-button button-primary">Checkout</button></a>
+</div>
+
+
+
+
+      <!-- Ad Slider -->
+      <div class="ad-slider-container">
+        <div class="ad-slider">
+          <div class="ad-slide">
+            <!-- <img src="/images/ads/ad1.jpg" alt="Ad 1"> -->
+            <img src="/images/ads/AD-test.jpg" alt="Ad 1">
+
+          </div>
+          <div class="ad-slide">
+            <img src="/images/ads/AD-test.jpg" alt="Ad 2">
+          </div>
+          <div class="ad-slide">
+            <img src="/images/ads/AD-test.jpg" alt="Ad 3">
+          </div>
+        </div>
+        <!-- Buttons to change slides -->
+        <button class="prev-button">&#10094;</button>
+        <button class="next-button">&#10095;</button>
+        <!-- Small indicator buttons -->
+        <div class="indicator-container">
+          <span class="indicator" data-index="0"></span>
+          <span class="indicator" data-index="1"></span>
+          <span class="indicator" data-index="2"></span>
+        </div>
       </div>
 
-      <div class="amazon-header-right-section">
-        <a class="orders-link header-link" href="orders.html">
-          <span class="returns-text">Returns</span>
-          <span class="orders-text">& Orders</span>
-        </a>
+      <div class="menu-bottom-850px">
+        <div class="menu-icon-container">
+          <img class="menu-icon menu-icon-bottom" src="/images/icons/menu.svg">
+          <a href="/favourites.html"><img class="menu-icon menu-icon-bottom" src="/images/icons/favourite-bottom.svg"
+              alt=""></a>
+        </div>
+      </div>
 
-        <a class="cart-link header-link" href="checkout.html">
-          <img class="cart-icon" src="images/icons/cart-icon.png">
-          <div class="cart-quantity js-cart-quantity">0</div>
-          <div class="cart-text">Cart</div>
-        </a>
+
+
+      <div class="special-offers">
+        <h2 class="special-offers-text">Bestsellers</h2>
+        <div class="slider-container">
+          <!-- <button class="slider-button prev" id="prev-button">←</button> -->
+          <div class="special-offers-container" id="special-offers-container">
+            <!-- Special Offer Products will be displayed here -->
+          </div>
+          <!-- <button class="slider-button next" id="next-button">→</button> -->
+        </div>
+      </div>
+
+
+
+      <!-- Products Grid -->
+      <div class="main">
+        <div class="products-grid js-products-grid"></div>
       </div>
     </div>
 
-    <div class="main">
-      <div class="products-grid js-products-grid">
-      </div>
-    </div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
-    <script type="module" src="scripts/amazon.js"></script>
-  </body>
+
+
+  <!-- <div id="product-list"></div> -->
+  <div id="pagination-container">
+    <!-- Page number -->
+  </div>
+
+
+
+
+
+
+  <!-- Load footer -->
+  <footer id="footer">
+  </footer>
+
+
+  <script>
+    // Fetch and insert header HTML into the page
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      });
+
+    //Load footer
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('footer.html')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to load footer.');
+          }
+          return response.text();
+        })
+        .then((data) => {
+          document.getElementById('footer').innerHTML = data;
+        })
+        .catch((error) => {
+          console.error('Error loading footer:', error);
+        });
+    });
+  </script>
+  <script src="/scripts/header.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
+  <script type="module" src="login.js"></script>
+  <script type="module" src="scripts/amazon.js"></script>
+
+</body>
+
 </html>

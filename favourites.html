@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon-favourites</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
+    <link rel="stylesheet" href="/styles/pages/amazon.css">
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="styles/pages/checkout/checkout.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div class="main">
+        <h1>Your favourite products:</h1>
+        <div class="products-grid js-products-grid" id="favourite-products-container"></div>
+      </div>
+       
+    <style>
+      .shop-now-button {
+  height: 50px;
+      }
+  .empty-cart-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .empty-cart-container {
+    width: 100vh;
+  }
+
+
+    </style>
+    
+    <script type="module" src="./data/favourites.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Header -->
+    <script>
+        // Fetch and insert header HTML into the page
+        fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('header-container').innerHTML = data;
+          });
+      </script>
+</body>
+</html>

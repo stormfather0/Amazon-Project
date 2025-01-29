@@ -1,19 +1,96 @@
+
+
+/* 
 .amazon-header {
   background-color: rgb(19, 25, 33);
   color: white;
-  padding-left: 15px;
-  padding-right: 15px;
-
+  padding: 15px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 50px; 
+  z-index: 500;
+  
+} */
 
+/* .ad-banner {
+  width: 100%;
+  height: 0px;
+  background-color: #511f1f; 
+  color: white;
+  text-align: center;
+  line-height: 50px; 
+  position: relative; 
+  z-index: 1000; 
+} */
+
+.amazon-header {
+  background-color: rgb(19, 25, 33);
+  color: white;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  top: 35px; /* This will make the header sticky once you scroll past the ad */
+  z-index: 500;
+}
+
+.amazon-header.is-sticky {
+  position: fixed;
+  top: 0;
+  width: inherit;
+  margin: 0 auto;
+  z-index: 1000;
+}
+
+
+
+
+/* .ad-banner {
+  width: 100%;
+  height: 50px;
+  background-image: url('../../images/ads/ad-background.jpg');
+
+  color: white;
+  text-align: center;
+  line-height: 50px; 
+  position: absolute; 
+  top: 0;
+  left: 0;
+  z-index: 1000; 
+} */
+
+.ad-banner {
+  width: 100%;
+  height: 35px;
+  background-image: url("../../images/ads/ad-background7.jpg");
+ 
+  color: white;
+  text-align: center;
+  line-height: 36px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.amazon-header.is-sticky {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  z-index: 1000;
 }
+
+
+/* body {
+  padding-top: 60px; 
+} */
+
+
 
 .amazon-header-left-section {
   width: 180px;
@@ -68,7 +145,7 @@
 }
 
 .search-bar {
-  flex: 1;
+  flex: 0.95;
   width: 0;
   font-size: 16px;
   height: 38px;
@@ -78,6 +155,35 @@
   border-bottom-left-radius: 4px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+@media (max-width: 420px) {
+  .search-bar {
+    flex: 0.85;
+  }
+  /* .search-bar {
+    display: none;
+  } */
+  .amazon-header-middle-section {
+    flex: 1;
+    max-width: 841px;
+    margin-left: 21px;
+    margin-right: 90px;
+    display: flex;
+}
+  /* .search-button {
+    border-radius: 4px;
+   
+  } */
+  .orders-link {
+    display: none;
+  }
+  .amazon-header-right-section {
+    width: 1px !important;
+  }
+  .cart-text {
+    display: none;
+  }
 }
 
 .search-button {
@@ -90,6 +196,8 @@
   flex-shrink: 0;
 }
 
+
+
 .search-icon {
   height: 22px;
   margin-left: 2px;
@@ -101,6 +209,7 @@
   flex-shrink: 0;
   display: flex;
   justify-content: end;
+  align-items: center;
 }
 
 .orders-link {
@@ -146,4 +255,23 @@
   
   width: 26px;
   text-align: center;
+}
+
+.account-icon {
+  display: inline-block;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+justify-content: bottom;
+}
+
+
+.account-icon:hover {
+  border-left: 1px solid rgb(242, 242, 242);
+  border-right: 1px solid rgb(242, 242, 242);
+
 }
