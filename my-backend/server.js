@@ -98,7 +98,7 @@ app.use(cors({
 
 // CORS configuration to allow GitHub Pages domain
 const corsOptions = {
-  origin: 'https://stormfather0.github.io',  // The GitHub Pages domain
+  origin: '*',  // The GitHub Pages domain
   methods: ['GET', 'POST', 'PUT',], // Allowing methods you need
   allowedHeaders: 'Content-Type',  // Allowing headers you might need
 };
@@ -284,7 +284,8 @@ app.post('/api/register', async (req, res) => {
 
 
 
-
+// Handle OPTIONS pre-flight request for CORS
+app.options('/api/place-order', cors(corsOptions));
 
 
 // Place order route
