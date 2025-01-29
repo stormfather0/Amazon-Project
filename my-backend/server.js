@@ -33,6 +33,8 @@ const PORT = 3000;
 
 
 
+
+
 // app.use(
 //     session({
 //       secret: 'sb5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9',
@@ -93,6 +95,13 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow PUT along with other methods
     allowedHeaders: ['Content-Type'], // Allow these headers
 }));
+
+app.use(cors({
+  origin: 'https://stormfather0.github.io', // Allow frontend origin
+  methods: ['GET', 'POST', 'PUT',], // Allow PUT along with other methods
+  allowedHeaders: ['Content-Type'], // Allow these headers
+}));
+
   
 
 app.use(express.json());
