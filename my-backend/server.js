@@ -589,18 +589,18 @@ app.use('/images', (req, res, next) => {
 
 
 
-
-
-
-
 // Create a transporter object
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use your email provider, e.g., Gmail, Outlook
-    auth: {
-        user: 'sweetloveofmine95@gmail.com', // Replace with your email
-        pass: 'ykdk vpny ppgr rhrn'  // Replace with your email password or app-specific password
-    }
+  service: 'gmail',
+  auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+  }
 });
+
+
+
+
 
 // Function to send email
 // Function to send email
