@@ -96,12 +96,15 @@ app.use(cors({
     allowedHeaders: ['Content-Type'], // Allow these headers
 }));
 
-app.use(cors({
-  origin: 'https://stormfather0.github.io', // Allow frontend origin
-  methods: ['GET', 'POST', 'PUT',], // Allow PUT along with other methods
-  allowedHeaders: ['Content-Type'], // Allow these headers
-}));
+// CORS configuration to allow GitHub Pages domain
+const corsOptions = {
+  origin: 'https://stormfather0.github.io',  // The GitHub Pages domain
+  methods: 'GET,POST',  // Allowing methods you need
+  allowedHeaders: 'Content-Type',  // Allowing headers you might need
+};
 
+// Use CORS middleware with the options
+app.use(cors(corsOptions));
   
 
 app.use(express.json());
