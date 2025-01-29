@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .order-details {
+            margin-top: 20px;
+        }
+        .order-details div {
+            margin-bottom: 10px;
+        }
+        .order-summary {
+            margin-top: 20px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h1>Order Confirmation</h1>
+        <p>Thank you for your order!</p>
+        <div class="order-details">
+            <div><strong>Order ID:</strong> {{order_id}}</div>
+            <div><strong>Product Name:</strong> {{product_name}}</div>
+            <div><strong>Quantity:</strong> {{quantity}}</div>
+            <div><strong>Total Price:</strong> ${{total_price}}</div>
+            <div><strong>Delivery Date:</strong> {{delivery_date}}</div>
+        </div>
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <p>If you have any questions, feel free to contact us.</p>
+            <p>&copy; 2025 Your Company</p>
+        </div>
+    </div>
+</body>
+</html>
