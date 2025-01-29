@@ -9,7 +9,7 @@ import {formatCurrency} from '../scripts/utils/money.js';
 
 // Fetch products data from backend==================================================================
 let products = [];
-fetch('hhttps://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
+fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch products');
