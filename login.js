@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       try {
         // Send a POST request to the backend to create the account
-        const response = await fetch('http://localhost:3000/api/register', {
+        const response = await fetch('https://amazon-project-sta4.onrender.com//api/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
