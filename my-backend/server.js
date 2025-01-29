@@ -99,7 +99,7 @@ app.use(cors({
 // CORS configuration to allow GitHub Pages domain
 const corsOptions = {
   origin: 'https://stormfather0.github.io',  // The GitHub Pages domain
-  methods: 'GET,POST',  // Allowing methods you need
+  methods: ['GET', 'POST', 'PUT',], // Allowing methods you need
   allowedHeaders: 'Content-Type',  // Allowing headers you might need
 };
 
