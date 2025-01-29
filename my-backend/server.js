@@ -91,17 +91,10 @@ async function connectToDatabase() {
 connectToDatabase();
 
 app.use(cors({
-    origin: 'https://amazon-project-sta4.onrender.com', // Allow frontend origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow PUT along with other methods
-    allowedHeaders: ['Content-Type'], // Allow these headers
+  origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
 }));
-
-// CORS configuration to allow GitHub Pages domain
-const corsOptions = {
-  origin: '*',  // The GitHub Pages domain
-  methods: ['GET', 'POST', 'PUT',], // Allowing methods you need
-  allowedHeaders: 'Content-Type',  // Allowing headers you might need
-};
 
 // Apply CORS middleware globally
 app.use(cors(corsOptions));
