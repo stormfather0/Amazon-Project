@@ -32,8 +32,6 @@ const app = express();
 const PORT = 3000;
 
 
-const cors = require('cors');
-app.use(cors());
 
 
 // app.use(
@@ -91,16 +89,12 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-app.use(cors({
+const corsOptions = {
   origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
-}));
-
-// Apply CORS middleware globally
-app.use(cors(corsOptions));
-
-app.options('*', cors(corsOptions)); 
+};
+app.use(cors(corsOptions));  
 
   
 
