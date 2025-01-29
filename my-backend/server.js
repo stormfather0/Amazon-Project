@@ -598,8 +598,17 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+console.log('EMAIL_USER:', process.env.EMAIL_USER);
+console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Exists' : 'Missing');
 
-
+// Create a transporter object
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail', // Use your email provider, e.g., Gmail, Outlook
+//     auth: {
+//         user: 'sweetloveofmine95@gmail.com', // Replace with your email
+//         pass: 'ykdk vpny ppgr rhrn'  // Replace with your email password or app-specific password
+//     }
+// });
 
 
 // Function to send email
