@@ -42,6 +42,9 @@
   "express-session": "^1.18.1",
   
     
+  "gopd": "^1.2.0",
+  
+    
   "jsonwebtoken": "^9.0.2",
   
     
