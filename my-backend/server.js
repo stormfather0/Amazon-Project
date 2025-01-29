@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors'; 
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import path from 'path'; 
 import { fileURLToPath } from 'url'; 
