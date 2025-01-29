@@ -103,8 +103,11 @@ const corsOptions = {
   allowedHeaders: 'Content-Type',  // Allowing headers you might need
 };
 
-// Use CORS middleware with the options
+// Apply CORS middleware globally
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions)); 
+
   
 
 app.use(express.json());
