@@ -288,7 +288,7 @@ app.post('/api/register', async (req, res) => {
 
 
 // Place order route
-app.post('/api/place-order', async (req, res) => {
+app.post('/api/place-order', cors(corsOptions), async (req, res) => {
     const { items, total, deliveryOptions } = req.body;
     
 
