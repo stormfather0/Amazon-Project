@@ -17,7 +17,7 @@ function formateDate1(date) {
   return date.format('dddd, MMMM D');
 }
 // Fetch products data from backend
-fetch('http://localhost:3000/api/products') // Replace with your API endpoint
+fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch products');
