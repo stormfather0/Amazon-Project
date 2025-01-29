@@ -608,7 +608,7 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
     }),
   };
 
-  // Send the order data to the server
+  // Send the order data to the server /////
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/place-order', {
       method: 'POST',
