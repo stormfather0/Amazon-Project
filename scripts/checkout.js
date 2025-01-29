@@ -610,7 +610,7 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
 
   // Send the order data to the server
   try {
-    const response = await fetch('http://localhost:3000/api/place-order', {
+    const response = await fetch('https://amazon-project-sta4.onrender.com/api/place-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
