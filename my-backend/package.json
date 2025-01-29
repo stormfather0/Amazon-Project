@@ -48,7 +48,10 @@
   "mongodb": "^6.10.0",
   
     
-  "mongoose": "^8.9.5"
+  "mongoose": "^8.9.5",
+  
+    
+  "nodemailer": "^6.10.0"
   
   },
   
