@@ -195,7 +195,7 @@ const navigateButton = document.querySelector('.ad-btn');
 // Add an event listener to handle clicks
 navigateButton.addEventListener('click', () => {
   // Navigate to the desired URL
-  window.location.href = 'http://127.0.0.1:5500/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add'; // Replace with your target URL
+  window.location.href = 'https://amazon-project-sta4.onrender.com/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add'; // Replace with your target URL
 });
 
 
