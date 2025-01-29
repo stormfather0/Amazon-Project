@@ -625,7 +625,7 @@ app.post('/api/send-email', async (req, res) => {
 
     // Email options
     const mailOptions = {
-        from: 'sweetloveofmine95@gmail.com', // Sender's email
+        from: process.env.EMAIL_USER, // Sender's email
         to: to,
         subject: subject,
         text: text
