@@ -32,6 +32,7 @@ const app = express();
 const PORT = 3000;
 
 
+
 // app.use(
 //     session({
 //       secret: 'sb5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9',
@@ -78,7 +79,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 app.use(cors({
-    origin: 'http://127.0.0.1:5500', // Allow frontend origin
+    origin: 'https://amazon-project-sta4.onrender.com', // Allow frontend origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow PUT along with other methods
     allowedHeaders: ['Content-Type'], // Allow these headers
 }));

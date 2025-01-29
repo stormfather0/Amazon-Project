@@ -7,7 +7,7 @@ async function handleLogin(event) {
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('http://localhost:3000/api/login', {
+        const response = await fetch('https://amazon-project-sta4.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ async function handleLogin(event) {
         console.log('Login successful:', data);
 
         // Redirect to index.html after successful login
-        window.location.href = 'http://localhost:3000/index.html';
+        window.location.href = 'https://amazon-project-sta4.onrender.com/index.html';
         
     } catch (error) {
         console.error('Error during login:', error.message);
