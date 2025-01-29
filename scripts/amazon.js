@@ -8,7 +8,7 @@ import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.j
 // Fetch Products from API
 export async function fetchProducts() {
   try {
-    const response = await fetch('https://amazon-project-sta4.onrender.com//api/products');
+    const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
     
     if (!response.ok) {
       throw new Error('Failed to fetch products');
