@@ -162,21 +162,24 @@
     flex: 0.85;
   }
   .search-button {
-    height: 40px;
+    height: 15px;
   }
-
+  }
   
   /* .search-bar {
     display: none;
   } */
-  /* .amazon-header-middle-section {
+  .amazon-header-middle-section {
     flex: 1;
     max-width: 841px;
     margin-left: 21px;
     margin-right: 90px;
     display: flex;
 }
-
+  /* .search-button {
+    border-radius: 4px;
+   
+  } */
   .orders-link {
     display: none;
   }
@@ -185,7 +188,7 @@
   }
   .cart-text {
     display: none;
-  } */
+  }
 }
 
 .search-button {
