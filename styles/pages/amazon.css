@@ -539,20 +539,17 @@ a {
 
 .ad-slide img {
   width: 95%;
-
   object-fit: cover;
   display: block;
   border-radius: 10px;
-height: 300px;
+height: auto;
 }
 
 .ad-slide-img {
-  width: 95%;
-background-color: red;
-  object-fit: cover;
-  display: block;
-  border-radius: 10px;
-height: 300px;
+  display: block; /* Ensure the image is displayed */
+  width: 100%; /* Adjust to fill the container */
+  height: auto; /* Maintain the aspect ratio */
+  object-fit: cover; /* Optional, ensures image fits properly */
 }
 
 
