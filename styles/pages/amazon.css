@@ -515,7 +515,7 @@ a {
   overflow: hidden;
   /* border-radius: 8px; */
   border-radius: 10px;
-
+height: 250px;
 }
 
 /* Slider wrapper */
@@ -523,8 +523,6 @@ a {
   display: flex;
   transition: transform 0.5s ease-in-out;
   will-change: transform;
-
-  
   
 }
 
