@@ -1,9 +1,9 @@
 // import { products, } from '../data/products.js';
 
-// import { formatCurrency } from '/scripts/utils/money.js';
+import { formatCurrency } from '/scripts/utils/money.js';
 import {cart, addToCart, calculateCartQuantity} from './data/cart.js'; // Import addToCart from './data/cart.js';
 
-// import {formatCurrency} from './utils/money.js';
+import {formatCurrency} from './utils/money.js';
 // Fetch products data from backend
 let products = [];
 fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
