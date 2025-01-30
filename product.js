@@ -1,4 +1,3 @@
-// import { products, } from '../data/products.js';
 import {cart, addToCart, calculateCartQuantity} from './data/cart.js'; // Import addToCart from './data/cart.js';
 
 
@@ -72,4 +71,3 @@ function updateCartQuantity() {
 updateCartQuantity();
 
 
-console.log('Product ID from URL:', window.location.search);
