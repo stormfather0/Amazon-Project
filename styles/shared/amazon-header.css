@@ -203,7 +203,8 @@
 } */
 
 .search-button {
-  background-color: red;
+  background-color: rgb(254, 189, 105);
+  padding: 1px;
 }
 
 
