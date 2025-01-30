@@ -552,7 +552,7 @@ a {
     object-fit: cover;
     display: block;
   border-radius: 10px;
-
+  background-color: red !important;
 }
 .notify-about-items-in-cart.visible  {
   width: 90% !important;
