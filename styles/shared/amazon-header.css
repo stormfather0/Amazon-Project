@@ -137,10 +137,13 @@
 
 .amazon-header-middle-section {
   flex: 1;
-  max-width: 850px;
-  margin-left: 10px;
-  margin-right: 10px;
-  display: flex;
+    max-width: 100%; /* Ensure it doesn't exceed 100% */
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: space-between; 
+
 }
 
 .search-bar {
@@ -160,9 +163,9 @@
   .search-bar {
     flex: 0.85;
   }
-  .search-icon {
+  /* .search-icon {
     flex: 1;
-  }
+  } */
   /* .search-bar {
     display: none;
   } */
