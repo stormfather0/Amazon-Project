@@ -311,9 +311,7 @@ document.addEventListener('click', (event) => {
 
 
 
-console.log(slides); // Check if slides exist
-console.log(totalSlides); // Ensure total count is correct
-console.log(slider); // Check if the slider exists
+
 // Image Slider Functionality======================================================================
 let currentIndex = 0;
 const slides = document.querySelectorAll('.ad-slide');
