@@ -25,6 +25,18 @@ fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with y
     console.error('Error fetching products:', error);
   });
 
+
+
+  const orderSummaryContainer = document.querySelector('.js-order-summary');
+
+if (orderSummaryContainer) {
+  orderSummaryContainer.innerHTML = cartSummaryHTML;
+} else {
+  console.error("Error: .js-order-summary element not found in the HTML.");
+}
+
+
+
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
