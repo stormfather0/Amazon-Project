@@ -598,8 +598,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Exists' : 'Missing');
+
 
 // Create a transporter object
 // const transporter = nodemailer.createTransport({
@@ -609,7 +608,6 @@ console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Exists' : 'Missing');
 //         pass: 'ykdk vpny ppgr rhrn'  // Replace with your email password or app-specific password
 //     }
 // });
-
 
 // Function to send email
 // Function to send email
@@ -625,7 +623,7 @@ app.post('/api/send-email', async (req, res) => {
 
     // Email options
     const mailOptions = {
-        from: process.env.EMAIL_USER, // Sender's email
+        from: 'sweetloveofmine95@gmail.com', // Sender's email
         to: to,
         subject: subject,
         text: text
