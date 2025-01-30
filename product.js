@@ -26,7 +26,7 @@ fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with y
     console.error('Error fetching products:', error);
   });
 
-
+  console.log("Product List:", products);
 
   const orderSummaryContainer = document.querySelector('.js-order-summary');
 
@@ -36,7 +36,7 @@ if (orderSummaryContainer) {
   console.error("Error: .js-order-summary element not found in the HTML.");
 }
 
-
+const product = products.find((p) => p.id === Number(productId));
 
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
