@@ -1,5 +1,4 @@
 // import { products, } from '../data/products.js';
-
 import { formatCurrency } from '/scripts/utils/money.js';
 import {cart, addToCart, calculateCartQuantity} from './data/cart.js'; // Import addToCart from './data/cart.js';
 
