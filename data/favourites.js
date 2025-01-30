@@ -9,7 +9,7 @@ import {formatCurrency} from '../scripts/utils/money.js';
 
 // Fetch products data from backend==================================================================
 let products = [];
-fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
+fetch('https://amazon-project-sta4.onrender.com/api/products') 
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch products');
@@ -69,7 +69,7 @@ window.onload = async function () {
 
         // Fetch products first
         try {
-            const response = await fetch('http://localhost:3000/api/products'); // Replace with your API endpoint
+            const response = await fetch('https://amazon-project-sta4.onrender.com/api/products'); // Replace with your API endpoint
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
