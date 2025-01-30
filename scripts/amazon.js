@@ -310,9 +310,7 @@ document.addEventListener('click', (event) => {
 
 
 
-
-
-// Image Slider Functionality======================================================================
+// Image Slider Functionality
 let currentIndex = 0;
 const slides = document.querySelectorAll('.ad-slide');
 const totalSlides = slides.length;
@@ -403,6 +401,7 @@ slider.addEventListener('mouseup', () => {
     autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
   }
 });
+
 // Enable touch events for mobile devices
 slider.addEventListener('touchstart', (e) => {
   isDragging = true;
@@ -427,11 +426,6 @@ slider.addEventListener('touchend', () => {
     autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
   }
 }, { passive: true });
-
-
-
-
-
 
 // Popup Message=====================================================================================
 document.addEventListener("DOMContentLoaded", function () {
