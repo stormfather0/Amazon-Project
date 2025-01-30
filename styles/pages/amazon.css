@@ -535,26 +535,19 @@ a {
 
 }
 
-/*  */
-.ad-slide, .ad-slider {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  background-color: red !important; /* Force visible */
-  min-height: 250px !important; /* Ensure it has a height */
-  z-index: 9999!important;
-}
 
-/* .ad-slide img {
+
+.ad-slide img {
   width: 95%;
 
   object-fit: cover;
   display: block;
   border-radius: 10px;
+height: 300px;
 
 
   
-} */
+}
 
 
 
