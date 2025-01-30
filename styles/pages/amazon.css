@@ -542,6 +542,7 @@ a {
   visibility: visible !important;
   background-color: red !important; /* Force visible */
   min-height: 250px !important; /* Ensure it has a height */
+  z-index: 9999!important;
 }
 
 /* .ad-slide img {
