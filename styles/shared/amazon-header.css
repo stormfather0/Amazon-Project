@@ -161,6 +161,9 @@
   .search-bar {
     flex: 0.85;
   }
+  .search-icon {
+    flex: 0.85;
+  }
   /* .search-bar {
     display: none;
   } */
