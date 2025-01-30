@@ -506,42 +506,96 @@ a {
 } */
 
 /* Main container */
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Slider</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Ensure the correct path -->
-</head>
-<body>
+/* Main container */
+.ad-slider-container {
+  position: relative;
+  width: 100%;
+  margin: 52px 0 0px 21px;
+  overflow: hidden;
+  border-radius: 10px;
+  height: 400px;
+}
 
-    <!-- Ad Slider -->
-    <div class="ad-slider-container">
-        <div class="ad-slider">
-            <div class="ad-slide">
-                <img src="images/ads/AD-test.jpg" alt="Ad 1">
-            </div>
-            <div class="ad-slide">
-                <img src="images/ads/AD-test.jpg" alt="Ad 2">
-            </div>
-            <div class="ad-slide">
-                <img src="images/ads/AD-test.jpg" alt="Ad 3">
-            </div>
-        </div>
-        <!-- Add navigation buttons and indicators -->
-        <button class="prev-button">Prev</button>
-        <button class="next-button">Next</button>
-        <div class="indicators">
-            <span class="indicator"></span>
-            <span class="indicator"></span>
-            <span class="indicator"></span>
-        </div>
-    </div>
+/* Slider wrapper */
+.ad-slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
 
-    <script src="script.js"></script> <!-- Ensure the correct path -->
-</body>
-</html>
+/* Each slide */
+.ad-slide {
+  flex: 0 0 100%;
+  max-width: 100%;
+  position: relative;
+  border-radius: 10px;
+}
+
+.ad-slide img {
+  width: 95%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+@media (max-width: 688px) {
+  .ad-slide img {
+    width: 95%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+  }
+}
+
+/* Ensure proper closing of media query */
+@media (max-width: 460px) {
+  .ad-slide img {
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+  }
+}
+
+/* Add styles for buttons and indicators */
+.prev-button, .next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.indicator.active {
+  background-color: #fff;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
