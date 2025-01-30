@@ -515,7 +515,8 @@ a {
   overflow: hidden;
   /* border-radius: 8px; */
   border-radius: 10px;
-/* height: 250px; */
+  height: 400px;
+
 }
 
 /* Slider wrapper */
@@ -523,6 +524,8 @@ a {
   display: flex;
   transition: transform 0.5s ease-in-out;
   will-change: transform;
+
+
   
 }
 
@@ -535,25 +538,12 @@ a {
 
 }
 
-
-
 .ad-slide img {
   width: 95%;
+  /* height: 400px; */
   object-fit: cover;
   display: block;
   border-radius: 10px;
-height: auto;
-}
-
-.ad-slide-img {
-  display: block; /* Ensure the image is displayed */
-  width: 100%; /* Adjust to fill the container */
-  height: auto; /* Maintain the aspect ratio */
-  object-fit: cover; /* Optional, ensures image fits properly */
-}
-
-.ad-slide-img {
-  background-image: url('https://stormfather0.github.io/Amazon-Project/images/newad.jpg');
 }
 
 
@@ -564,7 +554,7 @@ height: auto;
     /* height: 300px; */
     object-fit: cover;
     display: block;
-    border-radius: 10px;
+  border-radius: 10px;
 
 }
 .notify-about-items-in-cart.visible  {
@@ -583,7 +573,6 @@ height: auto;
     object-fit: cover;
     display: block;
   border-radius: 10px;
-  height: auto;
 
   
 }
