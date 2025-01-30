@@ -552,6 +552,10 @@ height: auto;
   object-fit: cover; /* Optional, ensures image fits properly */
 }
 
+.ad-slide-img {
+  background-image: url('https://stormfather0.github.io/Amazon-Project/images/newad.jpg');
+}
+
 
 
 @media (max-width: 688px) {
