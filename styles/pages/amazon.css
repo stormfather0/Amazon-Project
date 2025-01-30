@@ -544,9 +544,15 @@ a {
   display: block;
   border-radius: 10px;
 height: 300px;
+}
 
-
-  
+.ad-slide-img {
+  width: 95%;
+background-color: red;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+height: 300px;
 }
 
 
