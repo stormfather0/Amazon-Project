@@ -161,6 +161,10 @@
   .search-bar {
     flex: 0.85;
   }
+  .search-button {
+    height: 40px;
+  }
+}
   
   /* .search-bar {
     display: none;
