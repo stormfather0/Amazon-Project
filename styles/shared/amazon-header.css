@@ -137,13 +137,11 @@
 
 .amazon-header-middle-section {
   flex: 1;
-    max-width: 100%; /* Ensure it doesn't exceed 100% */
-    margin-left: 10px;
-    margin-right: 10px;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping */
-    justify-content: space-between; 
-
+  max-width: 850px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  
 }
 
 .search-bar {
@@ -200,8 +198,6 @@
   border-bottom-right-radius: 4px;
   flex: 0 0 45px; /* Prevent shrinking */
 }
-
-/*  */
 
 
 
