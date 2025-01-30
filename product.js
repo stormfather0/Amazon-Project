@@ -3,10 +3,10 @@
 import { formatCurrency } from '/scripts/utils/money.js';
 import {cart, addToCart, calculateCartQuantity} from './data/cart.js'; // Import addToCart from './data/cart.js';
 
-import {formatCurrency} from './utils/money.js';
+// import {formatCurrency} from './utils/money.js';
 // Fetch products data from backend
 let products = [];
-fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with your API endpoint
+fetch('https://amazon-project-sta4.onrender.com/api/products')
   .then((response) => {
     if (!response.ok) {
       throw new Error('Failed to fetch products');
@@ -14,29 +14,18 @@ fetch('https://amazon-project-sta4.onrender.com/api/products') // Replace with y
     return response.json();
   })
   .then((data) => {
-    products = data; // Assign fetched data to products
+    products = data;
     console.log('Products fetched successfully:', products);
 
-    // Call to render product details after products are loaded
+    // Get product ID after fetching data
     const productId = getProductIdFromURL();
     const product = products.find((p) => p.id === productId);
+
     renderProductDetails(product);
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
   });
-
-  console.log("Product List:", products);
-
-  const orderSummaryContainer = document.querySelector('.js-order-summary');
-
-if (orderSummaryContainer) {
-  orderSummaryContainer.innerHTML = cartSummaryHTML;
-} else {
-  console.error("Error: .js-order-summary element not found in the HTML.");
-}
-
-const product = products.find((p) => p.id === Number(productId));
 
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
@@ -44,6 +33,9 @@ function getProductIdFromURL() {
   console.log('Product ID from URL:', id); // Debugging
   return id;
 }
+
+const product = products.find((p) => p.id === Number(productId));
+
 
 function renderProductDetails(product) {
   const container = document.querySelector('.js-product-details-container');
