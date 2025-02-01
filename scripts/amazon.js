@@ -2,7 +2,6 @@ import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 // import {products} from '../data/products.js';
 // import { UpdateCartPrice } from '../';
 import { formatCurrency } from './utils/money.js';
-
 import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
 
 // Fetch Products from API
@@ -190,7 +189,7 @@ for (let i = 1; i <= totalPages; i++) {
 
 
 // On click AD button
-const navigateButton = document.querySelector('.ad-btn');
+const navigateButton = document.querySelector('.promotion-btn');
 
 // Add an event listener to handle clicks
 navigateButton.addEventListener('click', () => {
@@ -489,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const adBanner = document.getElementById("ad-banner");
+  const adBanner = document.getElementById("promotion-banner");
   const closeAdBtn = document.getElementById("close-ad");
   const adDisplayDelay = 10 * 1000; // 10 seconds
   const hideDuration = 30 * 60 * 1000; // 30 minutes in milliseconds
