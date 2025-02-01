@@ -312,12 +312,12 @@ document.addEventListener('click', (event) => {
 
 // Image Slider Functionality
 let currentIndex = 0;
-const slides = document.querySelectorAll('.ad-slide');
+const slides = document.querySelectorAll('.promotion-slide');
 const totalSlides = slides.length;
 const prevButton = document.querySelector('.prev-button');
 const nextButton = document.querySelector('.next-button');
 const indicators = document.querySelectorAll('.indicator');
-const slider = document.querySelector('.ad-slider');
+const slider = document.querySelector('.promotion-slider');
 const slideInterval = 5000; // Auto slide speed
 
 // Function to move to the next slide
