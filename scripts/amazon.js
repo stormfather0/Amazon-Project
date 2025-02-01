@@ -242,11 +242,21 @@ export function favouritesListener() {
 // Update Cart Quantity
 export function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+
+  if (!cartQuantityElement) {
+    console.warn("⚠️ Warning: .js-cart-quantity element not found.");
+    return; // Exit the function to prevent errors
+  }
+
+  cartQuantityElement.innerHTML = cartQuantity;
   return cartQuantity;
 }
 
-updateCartQuantity();
+// Ensure the function runs only after the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartQuantity();
+});
 
 // Add to Cart Button Listener
 
