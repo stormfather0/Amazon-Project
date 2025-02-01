@@ -6,50 +6,47 @@ import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.j
 
 // Fetch Products from API
 // Fetch Products from API
-export async function fetchProducts() {
-  try {
-    const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
+// Fetch Products from API with Retry Mechanism
+export async function fetchProducts(retryCount = 3, delay = 2000) {
+  for (let i = 0; i < retryCount; i++) {
+    try {
+      console.log(`🔄 Fetch attempt ${i + 1}`);
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch products');
-    }
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch products - Status: ${response.status}`);
+      }
 
-    const products = await response.json();
-    
-    // Store products globally for later use
-    window.products = products; // Store products in a global variable
+      const products = await response.json();
 
-    console.log('✅ Products fetched successfully:', products); // Debugging
+      if (!Array.isArray(products) || products.length === 0) {
+        throw new Error('API returned empty product list.');
+      }
 
-    // Ensure products are loaded before calling display functions
-    if (products.length > 0) {
+      // ✅ Store globally and log success
+      window.products = products;
+      console.log('✅ Products fetched successfully:', products);
+
+      // Ensure products are rendered only after data is available
       displaySpecialOfferProducts(products);
-      displayProducts(products); // Pass products explicitly
+      displayProducts(products); // Pass products directly
       favouritesListener();
-    } else {
-      console.warn('⚠️ No products found in API response.');
+      return; // Exit function if successful
+
+    } catch (error) {
+      console.error(`❌ Error fetching products (Attempt ${i + 1}):`, error);
+
+      if (i < retryCount - 1) {
+        console.log(`🔁 Retrying in ${delay / 1000} seconds...`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      } else {
+        console.error('🚨 All fetch attempts failed.');
+        document.querySelector('.js-product-list').innerHTML =
+          '<p class="error-message">Failed to load products. Please refresh the page.</p>';
+      }
     }
-
-  } catch (error) {
-    console.error('❌ Error fetching products:', error);
   }
-}
-
-// Ensure products are only displayed when available
-export function displayProducts(products = window.products) {
-  if (!products || products.length === 0) {
-    console.warn('⚠️ No products available for display.');
-    return;
-  }
-
-  const container = document.querySelector('.js-product-list');
-
-  if (!container) {
-    console.error('❌ Error: .js-product-list container not found');
-    return;
-  }
-
-  container.innerHTML = generateProductHTML(products);
 }
 
 // Call fetchProducts on page load
