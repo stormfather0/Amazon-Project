@@ -703,7 +703,7 @@ function displaySpecialOfferProducts(products) {
  function updateCartNotification() {
   const cartItemsNotification = document.getElementById('cart-items-notification'); // Select the notification container
   const quantityElement = document.getElementById('items-in-cart-count'); // Element to display item count
-  const adSliderContainer = document.querySelector('.ad-slider-container');
+  const adSliderContainer = document.querySelector('.promotion-slider-container');
   let totalQuantity = 0;
 
   // Loop through the cart to calculate total quantity
