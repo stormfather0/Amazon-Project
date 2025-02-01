@@ -242,23 +242,11 @@ export function favouritesListener() {
 // Update Cart Quantity
 export function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
-
-  if (!cartQuantityElement) {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
-    return; // Stop execution if element doesn't exist
-  }
-
-  console.log("✅ Updating cart quantity:", cartQuantity); // Debugging
-  cartQuantityElement.innerHTML = cartQuantity;
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   return cartQuantity;
 }
 
-// Run only after the page has fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Page loaded, checking cart quantity...");
-  updateCartQuantity();
-});
+updateCartQuantity();
 
 // Add to Cart Button Listener
 
@@ -292,58 +280,23 @@ document.addEventListener('click', (event) => {
   if (event.target && event.target.classList.contains('js-add-to-cart')) {
     const button = event.target;
     const productId = button.dataset.productId;
-    const productContainer = button.closest('.product-container');
-
-    if (!productContainer) {
-      console.error("❌ Error: Product container not found.");
-      return;
-    }
-
-    const quantitySelect = productContainer.querySelector('.product-quantity-container select');
-    
-    if (!quantitySelect) {
-      console.error("❌ Error: Quantity selector not found.");
-      return;
-    }
-
+    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
     const quantity = parseInt(quantitySelect.value, 10);
 
-    // Add product to cart
     addToCart(productId, quantity);
-
-    // Ensure cart quantity element exists before updating
-    const cartQuantityElement = document.querySelector('.js-cart-quantity');
-
-    if (cartQuantityElement) {
-      updateCartQuantity();
-    } else {
-      console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
-    }
+    updateCartQuantity();
 
     // Show the popup
     const popup = document.getElementById('cart-popup');
-    if (popup) {
-      popup.classList.add('show');
+    popup.classList.add('show');
 
-      // Hide the popup after 3 seconds
-      setTimeout(() => {
-        popup.classList.remove('show');
-      }, 3000);
-    } else {
-      console.warn("⚠️ Warning: Cart popup element not found.");
-    }
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 3000);
   }
 });
 
-// Ensure cart quantity updates on page load
-document.addEventListener("DOMContentLoaded", () => {
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
-  if (cartQuantityElement) {
-    updateCartQuantity();
-  } else {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found on page load.");
-  }
-});
 
 
 
@@ -745,65 +698,29 @@ function displaySpecialOfferProducts(products) {
 
 
 // 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Page loaded, checking cart quantity...");
-  
-  // Check if the cart quantity element exists before calling updateCartQuantity
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
-  if (cartQuantityElement) {
-    updateCartQuantity();
-  } else {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found on page load.");
-  }
 
-  // Update cart notification
-  updateCartNotification();
-});
-
-function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
-
-  if (!cartQuantityElement) {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
-    return; // Stop execution if element doesn't exist
-  }
-
-  cartQuantityElement.innerHTML = cartQuantity;
-  return cartQuantity;
-}
-
-function updateCartNotification() {
-  const cartItemsNotification = document.getElementById('cart-items-notification');
-  const quantityElement = document.getElementById('items-in-cart-count');
+ function updateCartNotification() {
+  const cartItemsNotification = document.getElementById('cart-items-notification'); // Select the notification container
+  const quantityElement = document.getElementById('items-in-cart-count'); // Element to display item count
   const adSliderContainer = document.querySelector('.promotion-slider-container');
-  
-  if (!cartItemsNotification || !quantityElement || !adSliderContainer) {
-    console.warn("⚠️ Warning: One or more notification elements not found.");
-    return;
-  }
-
   let totalQuantity = 0;
 
   // Loop through the cart to calculate total quantity
   cart.forEach(item => {
-    totalQuantity += item.quantity;
+    totalQuantity += item.quantity; // Add quantity to total
   });
 
   // Update the UI based on the cart's content
-  if (totalQuantity > 1) {
-    cartItemsNotification.classList.add('visible');
-    quantityElement.textContent = totalQuantity;
-    quantityElement.style.fontWeight = 'bold';
+  if (totalQuantity > 1) {  // Check if there is more than one item in the cart
+    cartItemsNotification.classList.add('visible'); // Add 'visible' class if there is more than one item
+    quantityElement.textContent = totalQuantity; // Update total quantity of items
+    quantityElement.style.fontWeight = 'bold'; // Display total quantity of items
     console.log('Total Quantity:', totalQuantity);
     adSliderContainer.style.margin = "20px 0 0px 21px";
   } else {
-    cartItemsNotification.classList.remove('visible');
+    cartItemsNotification.classList.remove('visible'); // Remove 'visible' class if there is 1 or fewer items
   }
 }
 
-// Call this function when needed after updates to the cart
-window.addEventListener("load", () => {
-  console.log("🚀 Page fully loaded, updating cart quantity...");
-  updateCartQuantity();
-});
+// Call the function to update cart notification
+updateCartNotification();
