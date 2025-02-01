@@ -770,4 +770,7 @@ function displaySpecialOfferProducts(products) {
 }
 
 // Call the function to update cart notification
-updateCartNotification();
+window.addEventListener("load", () => {
+  console.log("🚀 Page fully loaded, updating cart quantity...");
+  updateCartQuantity();
+});
