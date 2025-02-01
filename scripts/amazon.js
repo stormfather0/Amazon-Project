@@ -290,23 +290,58 @@ document.addEventListener('click', (event) => {
   if (event.target && event.target.classList.contains('js-add-to-cart')) {
     const button = event.target;
     const productId = button.dataset.productId;
-    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
+    const productContainer = button.closest('.product-container');
+
+    if (!productContainer) {
+      console.error("❌ Error: Product container not found.");
+      return;
+    }
+
+    const quantitySelect = productContainer.querySelector('.product-quantity-container select');
+    
+    if (!quantitySelect) {
+      console.error("❌ Error: Quantity selector not found.");
+      return;
+    }
+
     const quantity = parseInt(quantitySelect.value, 10);
 
+    // Add product to cart
     addToCart(productId, quantity);
-    updateCartQuantity();
+
+    // Ensure cart quantity element exists before updating
+    const cartQuantityElement = document.querySelector('.js-cart-quantity');
+
+    if (cartQuantityElement) {
+      updateCartQuantity();
+    } else {
+      console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
+    }
 
     // Show the popup
     const popup = document.getElementById('cart-popup');
-    popup.classList.add('show');
+    if (popup) {
+      popup.classList.add('show');
 
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popup.classList.remove('show');
-    }, 3000);
+      // Hide the popup after 3 seconds
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 3000);
+    } else {
+      console.warn("⚠️ Warning: Cart popup element not found.");
+    }
   }
 });
 
+// Ensure cart quantity updates on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+  if (cartQuantityElement) {
+    updateCartQuantity();
+  } else {
+    console.warn("⚠️ Warning: .js-cart-quantity element not found on page load.");
+  }
+});
 
 
 
