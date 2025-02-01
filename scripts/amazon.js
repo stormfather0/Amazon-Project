@@ -308,8 +308,6 @@ document.addEventListener('click', (event) => {
 
 
 
-
-
 // Image Slider Functionality
 let currentIndex = 0;
 const slides = document.querySelectorAll('.promotion-slide');
@@ -403,29 +401,41 @@ slider.addEventListener('mouseup', () => {
 });
 
 // Enable touch events for mobile devices
-slider.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  startX = e.touches[0].pageX;
-  clearInterval(autoSlide);
-}, { passive: true });
+slider.addEventListener(
+  'touchstart',
+  (e) => {
+    isDragging = true;
+    startX = e.touches[0].pageX;
+    clearInterval(autoSlide);
+  },
+  { passive: true }
+);
 
-slider.addEventListener('touchmove', (e) => {
-  if (isDragging) {
-    endX = e.touches[0].pageX;
-  }
-}, { passive: true });
-
-slider.addEventListener('touchend', () => {
-  if (isDragging) {
-    if (startX - endX > 50) {
-      moveToNextSlide();
-    } else if (endX - startX > 50) {
-      moveToPrevSlide();
+slider.addEventListener(
+  'touchmove',
+  (e) => {
+    if (isDragging) {
+      endX = e.touches[0].pageX;
     }
-    isDragging = false;
-    autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
-  }
-}, { passive: true });
+  },
+  { passive: true }
+);
+
+slider.addEventListener(
+  'touchend',
+  () => {
+    if (isDragging) {
+      if (startX - endX > 50) {
+        moveToNextSlide();
+      } else if (endX - startX > 50) {
+        moveToPrevSlide();
+      }
+      isDragging = false;
+      autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
+    }
+  },
+  { passive: true }
+);
 
 // Popup Message=====================================================================================
 document.addEventListener("DOMContentLoaded", function () {
