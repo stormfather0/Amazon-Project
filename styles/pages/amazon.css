@@ -1020,10 +1020,7 @@ margin-top: 50px;
     position: fixed;
     bottom: 0;
     z-index: 1000;
-  }
-  
-  .menu-bottom-850px {
-    display: none;
+    display: block;  
   }
   /* .menu-icon-hidden {
     display: none;
