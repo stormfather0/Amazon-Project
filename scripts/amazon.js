@@ -5,51 +5,38 @@ import { formatCurrency } from './utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
 
 // Fetch Products from API
-// Fetch Products from API
-// Fetch Products from API with Retry Mechanism
-export async function fetchProducts(retryCount = 3, delay = 2000) {
-  for (let i = 0; i < retryCount; i++) {
-    try {
-      console.log(`🔄 Fetch attempt ${i + 1}`);
-
-      const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch products - Status: ${response.status}`);
-      }
-
-      const products = await response.json();
-
-      if (!Array.isArray(products) || products.length === 0) {
-        throw new Error('API returned empty product list.');
-      }
-
-      // ✅ Store globally and log success
-      window.products = products;
-      console.log('✅ Products fetched successfully:', products);
-
-      // Ensure products are rendered only after data is available
-      displaySpecialOfferProducts(products);
-      displayProducts(products); // Pass products directly
-      favouritesListener();
-      return; // Exit function if successful
-
-    } catch (error) {
-      console.error(`❌ Error fetching products (Attempt ${i + 1}):`, error);
-
-      if (i < retryCount - 1) {
-        console.log(`🔁 Retrying in ${delay / 1000} seconds...`);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      } else {
-        console.error('🚨 All fetch attempts failed.');
-        document.querySelector('.js-product-list').innerHTML =
-          '<p class="error-message">Failed to load products. Please refresh the page.</p>';
-      }
+export async function fetchProducts() {
+  try {
+    const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
     }
+    
+    const products = await response.json();
+    
+    // Store products globally for later use
+    window.products = products; // Store products in a global variable
+    
+
+
+    //
+    displaySpecialOfferProducts(products);
+
+    // Get the current page from the URL or default to 1
+    const pageFromURL = new URLSearchParams(window.location.search).get('page') || 1;
+    currentPage = parseInt(pageFromURL, 10); // Set currentPage based on the URL
+    
+    // Display the products for the current page
+    displayProducts();
+    
+    // Initialize favourites listener
+    favouritesListener();
+  } catch (error) {
+    console.error('Error fetching products:', error);
   }
 }
 
-// Call fetchProducts on page load
 fetchProducts();
 
 // Generate Product HTML
