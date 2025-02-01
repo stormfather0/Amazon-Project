@@ -189,7 +189,7 @@ for (let i = 1; i <= totalPages; i++) {
 
 
 // On click AD button
-const navigateButton = document.querySelector('.promotion-btn');
+const navigateButton = document.querySelector('.ad-btn');
 
 // Add an event listener to handle clicks
 navigateButton.addEventListener('click', () => {
