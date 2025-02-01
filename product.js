@@ -39,7 +39,7 @@ const product = products.find((p) => p.id === Number(productId));
 
 
 function renderProductDetails(product) {
-  const container = document.querySelector('.js-product-details-container-page');
+  const container = document.querySelector('.js-product-details-container ');
 
   if (!product) {
     container.innerHTML = `<p>Product not found.</p>`;
