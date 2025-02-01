@@ -245,16 +245,18 @@ export function updateCartQuantity() {
   const cartQuantityElement = document.querySelector('.js-cart-quantity');
 
   if (!cartQuantityElement) {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found.");
-    return; // Exit the function to prevent errors
+    console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
+    return; // Stop execution if element doesn't exist
   }
 
+  console.log("✅ Updating cart quantity:", cartQuantity); // Debugging
   cartQuantityElement.innerHTML = cartQuantity;
   return cartQuantity;
 }
 
-// Ensure the function runs only after the DOM is fully loaded
+// Run only after the page has fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 Page loaded, checking cart quantity...");
   updateCartQuantity();
 });
 
