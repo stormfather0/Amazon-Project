@@ -1,78 +1,67 @@
-
 let headerInitialized = false;
 
 function initializeHeader() {
   if (headerInitialized) {
-    console.log('Header already initialized for:', window.location.href);
+    console.log('ℹ️ Header already initialized.');
     return;
   }
   headerInitialized = true;
 
-  // Menu bar logic
-  const menuIcons = document.querySelectorAll('.menu-icon'); // Select both menu icons
-  const menuBar = document.querySelector('.menu-bar'); // Select the menu bar
-  const header = document.querySelector('.amazon-header'); // Select the header
+  console.log("✅ Initializing header...");
 
-  if (menuIcons.length > 0 && menuBar && header) {
-    menuIcons.forEach((icon) => {
-      icon.addEventListener('click', () => {
-        console.log('Menu icon clicked:', icon);
-        menuBar.classList.toggle('hidden');
-        icon.classList.toggle('menu-icon-active');
-      });
-    });
-  } else {
-    console.error('Menu icons or menu bar or header not found!');
+  const menuIcons = document.querySelectorAll('.menu-icon'); 
+  const menuBar = document.querySelector('.menu-bar'); 
+  const header = document.querySelector('.amazon-header'); 
+  const placeholder = document.querySelector('.placeholder');
+
+  if (menuIcons.length === 0 || !menuBar || !header) {
+    console.error("❌ Missing header elements. Stopping initialization.");
+    return;
   }
 
-  // Sticky header logic
+  menuIcons.forEach((icon) => {
+    icon.addEventListener('click', () => {
+      menuBar.classList.toggle('hidden');
+      icon.classList.toggle('menu-icon-active');
+    });
+  });
+
   const adBanner = document.querySelector('.ad-banner');
-  const placeholder = document.querySelector('.placeholder');
 
   const handleScroll = () => {
     const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
-    const headerHeight = header ? header.offsetHeight : 0;
-
-    // Get the position of the header relative to the viewport
-    const headerRect = header.getBoundingClientRect();
-    const headerTop = headerRect.top; // This is the distance from the top of the viewport
-
-    // Calculate the position of the menu bar based on header's position
-    const menuBarTop = headerTop + headerHeight;
+    const headerHeight = header.offsetHeight;
 
     if (window.scrollY > adBannerHeight) {
       header.classList.add("is-sticky");
-      menuBar.classList.add("is-sticky"); // Add sticky class to menu-bar
-      placeholder.style.height = `${headerHeight}px`;
+      menuBar.classList.add("is-sticky");
 
-      // Adjust the top of the menu bar based on the header's top position
-      menuBar.style.top = `${menuBarTop}px`; // Position menu bar below the header
+      if (placeholder) {
+        placeholder.style.height = `${headerHeight}px`;
+      }
     } else {
       header.classList.remove("is-sticky");
-      menuBar.classList.remove("is-sticky"); // Remove sticky class from menu-bar
-      placeholder.style.height = '0px';
-      menuBar.style.top = ''; // Reset the top position when it's not sticky
+      menuBar.classList.remove("is-sticky");
+
+      if (placeholder) {
+        placeholder.style.height = "0px";
+      }
     }
   };
 
-  if (header && placeholder) {
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial setup
-  } else {
-    console.error('Header or placeholder not found!');
-  }
+  window.addEventListener("scroll", handleScroll);
+  handleScroll(); 
 }
 
-// Cleanup before reinitialization
-function cleanupHeader() {
+// Detect page content changes (for dynamic page loads)
+const observer = new MutationObserver(() => {
+  console.log("🔄 Page content updated. Reinitializing header...");
   headerInitialized = false;
-}
-
-// Handle initialization on navigation and handle query parameters
-window.addEventListener("pageshow", () => {
-  const currentUrl = window.location.href;
-
-  // Reinitialize only if the URL has changed (including query parameters)
-  cleanupHeader();
   initializeHeader();
 });
+
+// Observe changes in the entire document body
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Ensure header is initialized on initial page load
+document.addEventListener("DOMContentLoaded", initializeHeader);
