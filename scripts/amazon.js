@@ -5,38 +5,54 @@ import { formatCurrency } from './utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
 
 // Fetch Products from API
+// Fetch Products from API
 export async function fetchProducts() {
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
-    
+
     const products = await response.json();
     
     // Store products globally for later use
     window.products = products; // Store products in a global variable
-    
 
+    console.log('✅ Products fetched successfully:', products); // Debugging
 
-    //
-    displaySpecialOfferProducts(products);
+    // Ensure products are loaded before calling display functions
+    if (products.length > 0) {
+      displaySpecialOfferProducts(products);
+      displayProducts(products); // Pass products explicitly
+      favouritesListener();
+    } else {
+      console.warn('⚠️ No products found in API response.');
+    }
 
-    // Get the current page from the URL or default to 1
-    const pageFromURL = new URLSearchParams(window.location.search).get('page') || 1;
-    currentPage = parseInt(pageFromURL, 10); // Set currentPage based on the URL
-    
-    // Display the products for the current page
-    displayProducts();
-    
-    // Initialize favourites listener
-    favouritesListener();
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error('❌ Error fetching products:', error);
   }
 }
 
+// Ensure products are only displayed when available
+export function displayProducts(products = window.products) {
+  if (!products || products.length === 0) {
+    console.warn('⚠️ No products available for display.');
+    return;
+  }
+
+  const container = document.querySelector('.js-product-list');
+
+  if (!container) {
+    console.error('❌ Error: .js-product-list container not found');
+    return;
+  }
+
+  container.innerHTML = generateProductHTML(products);
+}
+
+// Call fetchProducts on page load
 fetchProducts();
 
 // Generate Product HTML
