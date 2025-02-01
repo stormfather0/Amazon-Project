@@ -278,14 +278,14 @@ document.addEventListener('click', function (event) {
 // Function to update the cart quantity display
 function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
+  document.querySelector('.return-to-home-link').innerHTML = `${cartQuantity}`;
+  document.querySelector('.payment-quantity').innerHTML = `Items (${cartQuantity})`;
+ 
   
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
-  if (cartQuantityElement) {
-    cartQuantityElement.innerHTML = cartQuantity;
-  } else {
-    console.warn("⚠️ Element `.js-cart-quantity` not found in the DOM.");
-  }
+  return cartQuantity
 }
+
+updateCartQuantity(); 
 // Update quantity handler
 // Update quantity handler
 // Update quantity handler
