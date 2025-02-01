@@ -246,13 +246,16 @@ export function updateCartQuantity() {
 
   if (!cartQuantityElement) {
     console.warn("⚠️ Warning: .js-cart-quantity element not found.");
-    return; // Stop execution if element doesn't exist
+    return;
   }
 
   cartQuantityElement.innerHTML = cartQuantity;
+
+  // Store the cart quantity in localStorage
+  localStorage.setItem('cartQuantity', cartQuantity);
+
   return cartQuantity;
 }
-
 // Add to Cart Button Listener
 
 
