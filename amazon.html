@@ -3,7 +3,7 @@
 
 <head>
   <title>Amazon Project</title>
-  <link rel="icon" type="image/x-icon" href="images/favicon.webp">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,8 @@
   <div id="ad-banner" class="hidden">
     <p class="ad-banner-text">Special offer! Save 80% on the toaster</p>
     <div class="ad-content">
-      <a class="ad-content-img" href="https://stormfather0.github.io/Amazon-Project/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add" target="_blank">
-        <img src="https://stormfather0.github.io/Amazon-Project/images/products/black-2-slot-toaster.jpg" alt="Ad Banner" class="ad-image">
+      <a class="ad-content-img" href="product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add" target="_blank">
+        <img src="images/products/black-2-slot-toaster.jpg" alt="Ad Banner" class="ad-image">
 
       </a>
       <div class="ad-bottom-wrapper">
@@ -41,28 +41,28 @@
       <ul class="category-list">
         <a href="clothes.html">
           <li class="category" id="clothes-category">
-            <img src="images/menu-images/clothes.svg" alt="">
+            <img src="/images/menu-images/clothes.svg" alt="">
             Clothes</li>
         </a>
 
         <li class="category" id="electronics-category1"><a href="electronics.html" class="subcategory-link">
-            <img src="images/menu-images/electronics.svg" alt="">
+            <img src="/images/menu-images/electronics.svg" alt="">
             Electronics</a></li>
 
         <li class="category" id="electronics-category">
-          <img src="images/menu-images/digital-content.svg" alt="">
+          <img src="/images/menu-images/digital-content.svg" alt="">
           Digital content</li>
 
         <li class="category" id="electronics-category2">
-          <img src="images/menu-images/personal-care.svg" alt="">
+          <img src="/images/menu-images/personal-care.svg" alt="">
           Personal care</li>
 
         <li class="category" id="electronics-category3">
-          <img src="images/menu-images/fashion.svg" alt="">
+          <img src="/images/menu-images/fashion.svg" alt="">
           Fashion</li>
 
         <li class="category" id="electronics-category4">
-          <img src="images/menu-images/giftcards.svg" alt="">
+          <img src="/images/menu-images/giftcards.svg" alt="">
           Gift cards</li>
 
         <!-- <button class="menu-btn">
@@ -73,7 +73,7 @@
 
 
       </ul>
-      <a href="favourites.html">
+      <a href="/favourites.html">
         <?xml version="1.0" encoding="utf-8"?>
         <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
         <svg class="menu-icon-desktop" width="40px" height="30px" viewBox="0 0 24 24" role="img"
@@ -198,33 +198,36 @@
 
 
 
-    <!-- Ad Slider -->
-    <div class="ad-slider-container">
-      <div class="ad-slider">
+      <!-- Ad Slider -->
+      <div class="ad-slider-container">
+        <div class="ad-slider">
           <div class="ad-slide">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png" alt="Ad 1">
+            <!-- <img src="/images/ads/ad1.jpg" alt="Ad 1"> -->
+            <img src="/images/ads/AD-test.jpg" alt="Ad 1">
+
           </div>
           <div class="ad-slide">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png" alt="Ad 2">
+            <img src="/images/ads/AD-test.jpg" alt="Ad 2">
           </div>
           <div class="ad-slide">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png" alt="Ad 3">
+            <img src="/images/ads/AD-test.jpg" alt="Ad 3">
           </div>
+        </div>
+        <!-- Buttons to change slides -->
+        <button class="prev-button">&#10094;</button>
+        <button class="next-button">&#10095;</button>
+        <!-- Small indicator buttons -->
+        <div class="indicator-container">
+          <span class="indicator" data-index="0"></span>
+          <span class="indicator" data-index="1"></span>
+          <span class="indicator" data-index="2"></span>
+        </div>
       </div>
-      <!-- Add navigation buttons and indicators -->
-      <button class="prev-button">Prev</button>
-      <button class="next-button">Next</button>
-      <div class="indicators">
-          <span class="indicator"></span>
-          <span class="indicator"></span>
-          <span class="indicator"></span>
-      </div>
-  </div>
 
       <div class="menu-bottom-850px">
         <div class="menu-icon-container">
-          <img class="menu-icon menu-icon-bottom" src="images/icons/menu.svg">
-          <a href="favourites.html"><img class="menu-icon menu-icon-bottom" src="images/icons/favourite-bottom.svg"
+          <img class="menu-icon menu-icon-bottom" src="/images/icons/menu.svg">
+          <a href="/favourites.html"><img class="menu-icon menu-icon-bottom" src="/images/icons/favourite-bottom.svg"
               alt=""></a>
         </div>
       </div>
@@ -294,7 +297,7 @@
         });
     });
   </script>
-  <script src="scripts/header.js"></script>
+  <script src="/scripts/header.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
   <script type="module" src="login.js"></script>
   <script type="module" src="scripts/amazon.js"></script>
