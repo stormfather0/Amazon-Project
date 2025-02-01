@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const adBanner = document.getElementById("promotion-banner");
-  const closeAdBtn = document.getElementById("close-ad");
+  const closeAdBtn = document.getElementById("close-promotion");
   const adDisplayDelay = 10 * 1000; // 10 seconds
   const hideDuration = 30 * 60 * 1000; // 30 minutes in milliseconds
 
