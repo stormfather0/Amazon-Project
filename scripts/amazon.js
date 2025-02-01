@@ -439,8 +439,8 @@ slider.addEventListener(
 
 // Popup Message=====================================================================================
 document.addEventListener("DOMContentLoaded", function () {
-  const popup = document.getElementById("ad-banner");
-  const closeBtn = document.getElementById("close-ad");
+  const popup = document.getElementById("promotion-banner");
+  const closeBtn = document.getElementById("close-promotion");
 
   // Check if the popup was recently closed
   const popupClosedTime = localStorage.getItem("popupClosedTime");

@@ -1084,7 +1084,7 @@ margin-top: 50px;
 }
 
 /* When the ad is visible */
-#ad-banner {
+#promotion-banner {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -1101,16 +1101,16 @@ margin-top: 50px;
   border: 2px solid #ffa900;
 }
 
-.ad-content {
+.promotion-content {
   position: relative;
   padding: 10px;
 }
 
-.ad-content-img {
+.promotion-content-img {
 display: flex;
 justify-content: center;
 }
-.ad-image {
+.promotion-image {
   width: 60%;
   border-radius: 5px;
   max-width: 100%;  
@@ -1127,7 +1127,7 @@ justify-content: center;
   color: black;
 }
 
-.ad-banner-text {
+.promotion-banner-text {
   padding: 10px;
   font-size: 20px;
   /* color: #ffa900; */
@@ -1136,19 +1136,19 @@ justify-content: center;
   background-color: #f0f0f0;
 }
 
-.ad-btn {
+.promotion-btn {
   width: 200px;
   height: 40px;
 font-size: 20px;
 }
 
-.ad-bottom-wrapper {
+.promotion-bottom-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 15px;
 }
 
-
+/*  */
 
 
 
