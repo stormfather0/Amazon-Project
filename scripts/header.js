@@ -1,9 +1,3 @@
-console.log("Checking header elements...");
-console.log("Menu Icons:", document.querySelectorAll('.menu-icon'));
-console.log("Menu Bar:", document.querySelector('.menu-bar'));
-console.log("Header:", document.querySelector('.amazon-header'));
-console.log("Placeholder:", document.querySelector('.placeholder'));
-
 
 let headerInitialized = false;
 
