@@ -13,9 +13,20 @@ export async function fetchProducts() {
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
   
-    // Get category from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('category');
+    // Get current page filename
+    const page = window.location.pathname.split('/').pop();
+
+    // Determine category based on the page
+    let category;
+    if (page === 'electronics.html') {
+        category = 'electronics';
+    } else if (page === 'clothes.html') {
+        category = 'clothes';
+    } else {
+        category = null; // Show all products if on an unspecified page
+    }
+
+    console.log(`Page: ${page}, Category: ${category}`); // Debug log
     
     // Filter products based on category
     const filteredProducts = category 
