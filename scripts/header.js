@@ -9,11 +9,16 @@ function initializeHeader() {
 
   // Wait until the DOM is fully loaded
   document.addEventListener('DOMContentLoaded', () => {
-    // Menu bar logic
-    const menuIcons = document.querySelectorAll('.menu-icon'); // Select both menu icons
-    const menuBar = document.querySelector('.menu-bar'); // Select the menu bar
-    const header = document.querySelector('.amazon-header'); // Select the header
-    const placeholder = document.querySelector('.placeholder'); // Select the placeholder
+    // Log elements to check if they're in the DOM
+    const menuIcons = document.querySelectorAll('.menu-icon'); 
+    const menuBar = document.querySelector('.menu-bar');
+    const header = document.querySelector('.amazon-header'); 
+    const placeholder = document.querySelector('.placeholder');
+
+    console.log('Menu Icons:', menuIcons); // Log menuIcons
+    console.log('Menu Bar:', menuBar); // Log menuBar
+    console.log('Header:', header); // Log header
+    console.log('Placeholder:', placeholder); // Log placeholder
 
     if (menuIcons.length > 0 && menuBar && header && placeholder) {
       menuIcons.forEach((icon) => {
@@ -33,31 +38,27 @@ function initializeHeader() {
       const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
       const headerHeight = header ? header.offsetHeight : 0;
 
-      // Get the position of the header relative to the viewport
       const headerRect = header.getBoundingClientRect();
-      const headerTop = headerRect.top; // This is the distance from the top of the viewport
+      const headerTop = headerRect.top; 
 
-      // Calculate the position of the menu bar based on header's position
       const menuBarTop = headerTop + headerHeight;
 
       if (window.scrollY > adBannerHeight) {
         header.classList.add("is-sticky");
-        menuBar.classList.add("is-sticky"); // Add sticky class to menu-bar
+        menuBar.classList.add("is-sticky");
         placeholder.style.height = `${headerHeight}px`;
-
-        // Adjust the top of the menu bar based on the header's top position
-        menuBar.style.top = `${menuBarTop}px`; // Position menu bar below the header
+        menuBar.style.top = `${menuBarTop}px`;
       } else {
         header.classList.remove("is-sticky");
-        menuBar.classList.remove("is-sticky"); // Remove sticky class from menu-bar
+        menuBar.classList.remove("is-sticky");
         placeholder.style.height = '0px';
-        menuBar.style.top = ''; // Reset the top position when it's not sticky
+        menuBar.style.top = '';
       }
     };
 
     if (header && placeholder) {
       window.addEventListener("scroll", handleScroll);
-      handleScroll(); // Initial setup
+      handleScroll();
     } else {
       console.error('Header or placeholder not found!');
     }
@@ -73,7 +74,6 @@ function cleanupHeader() {
 window.addEventListener("pageshow", () => {
   const currentUrl = window.location.href;
 
-  // Reinitialize only if the URL has changed (including query parameters)
   cleanupHeader();
   initializeHeader();
 });
