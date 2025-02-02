@@ -242,7 +242,13 @@ export function favouritesListener() {
 // Update Cart Quantity
 export function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  if (cartQuantity === 0) {
+  
+    document.querySelector('.js-cart-quantity').innerHTML = '';
+  } else  {
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
+  // document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   return cartQuantity;
 }
 
