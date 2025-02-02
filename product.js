@@ -65,7 +65,12 @@ function renderProductDetails(product) {
 
 function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  if (cartQuantity === 0) {
+    document.querySelector('.js-cart-quantity').innerHTML = '0';
+  } else {
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
+
 }
 
 updateCartQuantity();
