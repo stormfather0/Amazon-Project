@@ -12,43 +12,44 @@
     <div id="header-container"></div>
 
 <!-- Main -->
-    <div class="products-grid js-products-grid" id="products-container"></div> 
-
+    <div class="products-grid js-products-grid" id="clothes-products-container">
+        <!-- Products will be dynamically injected here -->
+    </div> 
 <!-- Load footer -->
     <div id="footer"></div>
 
     <script type="module">
-      // Load header and footer
-      fetch('header.html')
+        // Load header
+        fetch('header.html')
         .then(response => response.text())
         .then(data => {
-          document.getElementById('header-container').innerHTML = data;
+            document.getElementById('header-container').innerHTML = data;
         });
 
-      document.addEventListener("DOMContentLoaded", () => {
-        console.log("DOM content loaded");
-        fetch('footer.html')
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Failed to load footer.');
-            }
-            return response.text();
-          })
-          .then((data) => {
-            document.getElementById('footer').innerHTML = data;
-          })
-          .catch((error) => {
-            console.error('Error loading footer:', error);
-          });
-      });
+        // Load footer
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('footer.html')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to load footer.');
+                }
+                return response.text();
+            })
+            .then((data) => {
+                document.getElementById('footer').innerHTML = data;
+            })
+            .catch((error) => {
+                console.error('Error loading footer:', error);
+            });
+        });
 
-      // Function to fetch products based on the selected category
-      import { fetchProducts } from './scripts/menu-products.js'; // Your products fetching function
-
-      fetchProducts(); // Fetch and display products based on category
+        // Fetch Products based on category from URL
+        import { fetchProducts } from './menu-products.js';
+        fetchProducts();  // Fetch and display products based on category
     </script>
 
+    <script src="scripts/header.js"></script>
     <script type="module" src="login.js"></script>
-    <script type="module" src="scripts/menu-products.js"></script>
+    <script type="module" src="menu-products.js"></script>
 </body>
 </html>

@@ -1,15 +1,15 @@
 import { formatCurrency } from './scripts/utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from './data/favourites.js';
 
-// Fetch Products from API and filter by category from URL
+// Fetch Products from API
 export async function fetchProducts() {
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-
+  
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
-
+  
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
 
@@ -18,14 +18,14 @@ export async function fetchProducts() {
     const category = urlParams.get('category');
 
     console.log(`Category from URL: ${category}`); // Debug log
-
+    
     // Filter products based on category
-    const filteredProducts = category
+    const filteredProducts = category 
       ? products.filter(product => product.type && product.type.toLowerCase() === category.toLowerCase())
       : products;
-
+  
     console.log('Filtered products:', filteredProducts); // Debug log
-
+    
     const productsGrid = document.querySelector('.js-products-grid');
     if (productsGrid) {
       productsGrid.innerHTML = generateProductHTML(filteredProducts);
@@ -38,10 +38,9 @@ export async function fetchProducts() {
   }
 }
 
-// Generate HTML for filtered products
 export function generateProductHTML(products) {
   let productsHTML = '';
-
+  
   products.forEach((product) => {
     productsHTML += `
       <div class="product-container">
@@ -102,35 +101,35 @@ export function generateProductHTML(products) {
       </div>
     `;
   });
-
+  
   return productsHTML;
 }
 
 // Favourites Icon Listener
 export function favouritesListener(products) {
-    const favouriteIcons = document.querySelectorAll('.favourites-style');
+  const favouriteIcons = document.querySelectorAll('.favourites-style');
   
-    favouriteIcons.forEach((icon) => {
-      const productId = icon.dataset.favouritesId;
-  
-      // Check if the product is already in the favourites list from localStorage
-      if (isFavourite(productId)) {
-        icon.classList.add('favourite-active');
+  favouriteIcons.forEach((icon) => {
+    const productId = icon.dataset.favouritesId;
+
+    // Check if the product is already in the favourites list from localStorage
+    if (isFavourite(productId)) {
+      icon.classList.add('favourite-active');
+    }
+
+    icon.addEventListener('click', () => {
+      // Toggle 'favourite-active' class
+      icon.classList.toggle('favourite-active');
+
+      // Add or remove product from favourites based on the state of the icon
+      if (icon.classList.contains('favourite-active')) {
+        addFavourite(productId); // Add product to favourites
+      } else {
+        removeFavourite(productId); // Remove product from favourites
       }
-  
-      icon.addEventListener('click', () => {
-        // Toggle 'favourite-active' class
-        icon.classList.toggle('favourite-active');
-  
-        // Add or remove product from favourites based on the state of the icon
-        if (icon.classList.contains('favourite-active')) {
-          addFavourite(productId); // Add product to favourites
-        } else {
-          removeFavourite(productId); // Remove product from favourites
-        }
-  
-        console.log(`Favourite clicked for Product ID: ${productId}`);
-        console.log('Favourites:', JSON.parse(localStorage.getItem('favourite')));
-      });
+
+      console.log(`Favourite clicked for Product ID: ${productId}`);
+      console.log('Favourites:', JSON.parse(localStorage.getItem('favourite')));
     });
+  });
 }
