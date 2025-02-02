@@ -560,6 +560,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 
+
+
+
+
+//Moved to login.js
+
 // document.addEventListener('DOMContentLoaded', () => {
 //   // Ensure elements are available before attaching event listeners
 //   const loginButton = document.querySelector('.log-in-btn');
