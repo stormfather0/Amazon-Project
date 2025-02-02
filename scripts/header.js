@@ -1,5 +1,9 @@
 let headerInitialized = false;
 
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed');
+  initializeHeader();
+});
 function initializeHeader() {
   if (headerInitialized) {
     console.log('Header already initialized for:', window.location.href);
