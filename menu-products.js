@@ -13,7 +13,7 @@ export async function fetchProducts() {
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
 
-    // Get category from URL query parameters (e.g., ?category=electronics)
+    // Get category from URL query parameters (e.g., ?category=clothes)
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
 
