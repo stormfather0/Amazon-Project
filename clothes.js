@@ -1,6 +1,7 @@
 // import { generateProductHTML } from '../scripts/amazon.js';
 import { formatCurrency } from './scripts/utils/money.js';
-import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
+import { addFavourite, removeFavourite, isFavourite } from 'data/favourites.js';
+
 
 // Fetch Products from API
 export async function fetchProducts() {
