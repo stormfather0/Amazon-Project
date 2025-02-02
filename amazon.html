@@ -294,18 +294,12 @@
 
 
   <script>
-  // Fetch and insert header HTML into the page
-  document.addEventListener('DOMContentLoaded', () => {
-  // Fetch header content and then initialize everything else
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-container').innerHTML = data;
-      console.log('Header loaded successfully. Now initializing the popup...');
-      initializePopup();  // Call the function that attaches event listeners here
-    })
-    .catch(error => console.error('Error loading header:', error));
-});
+    // Fetch and insert header HTML into the page
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      });
 
     //Load footer
     document.addEventListener("DOMContentLoaded", () => {
@@ -333,7 +327,7 @@ document.querySelectorAll('.category-list a').forEach((categoryLink) => {
   });
 });
   </script>
-  <script type="module"  src="scripts/header.js"></script>
+  <script src="scripts/header.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
   <script type="module" src="login.js"></script>
   <script type="module" src="scripts/amazon.js"></script>
