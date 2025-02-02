@@ -12,28 +12,14 @@ export async function fetchProducts() {
   
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
-  
-    const page = window.location.pathname.split('/').pop();
 
-    let category;
-    if (page === 'electronics.html') {
-        category = 'electronics';
-    } else if (page === 'clothes.html') {
-        category = 'clothing';
-    } else if (page === 'digital-content.html') {
-        category = 'digital-content';
-    } else if (page === 'personal-care.html') {
-        category = 'personal-care';
-    } else if (page === 'fashion.html') {
-        category = 'fashion';
-    } else if (page === 'gift-cards.html') {
-        category = 'gift-cards';
-    } else {
-        category = null;
-    }
+    // Get category from URL query parameters (e.g., ?category=electronics)
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
 
-    console.log(`Page: ${page}, Category: ${category}`); // Debug log
+    console.log(`Category from URL: ${category}`); // Debug log
     
+    // Filter products based on category
     const filteredProducts = category 
       ? products.filter(product => product.type && product.type.toLowerCase() === category.toLowerCase())
       : products;
@@ -122,7 +108,7 @@ export function generateProductHTML(products) {
 }
 
 // Favourites Icon Listener
-export function favouritesListener() {
+export function favouritesListener(products) {
     const favouriteIcons = document.querySelectorAll('.favourites-style');
   
     favouriteIcons.forEach((icon) => {
