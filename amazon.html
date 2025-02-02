@@ -292,53 +292,50 @@
   <footer id="footer">
   </footer>
 
-  <script>
-    // Fetch and insert header HTML into the page
-   
-    // Load footer (unchanged)
-    document.addEventListener("DOMContentLoaded", () => {
-
-      fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-        
-        // ✅ Now that the header is loaded, initialize the script
-        import('./scripts/header.js')
-          .catch(err => console.error("Error loading header.js:", err));
-      });
-  
+<script>
+  // Fetch and insert header HTML into the page
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-container').innerHTML = data;
       
-      fetch('footer.html')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to load footer.');
-          }
-          return response.text();
-        })
-        .then(data => {
-          document.getElementById('footer').innerHTML = data;
-        })
-        .catch(error => {
-          console.error('Error loading footer:', error);
-        });
+      // ✅ Now that the header is loaded, initialize the script
+      import('./scripts/header.js')
+        .catch(err => console.error("Error loading header.js:", err));
     });
-  
-    // Function to redirect to the filtered products page based on category
-    document.querySelectorAll('.category-list a').forEach((categoryLink) => {
-      categoryLink.addEventListener('click', (event) => {
-        const category = event.target.innerText.toLowerCase();
-        window.location.href = `filtered-products.html?category=${category}`;
+
+  // Load footer (unchanged)
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch('footer.html')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load footer.');
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+      })
+      .catch(error => {
+        console.error('Error loading footer:', error);
       });
+  });
+
+  // Function to redirect to the filtered products page based on category
+  document.querySelectorAll('.category-list a').forEach((categoryLink) => {
+    categoryLink.addEventListener('click', (event) => {
+      const category = event.target.innerText.toLowerCase();
+      window.location.href = `filtered-products.html?category=${category}`;
     });
-  </script>
-  
-  <!-- Day.js Library -->
-  <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
-  
-  <!-- 🚀 Remove header.js from here because we now load it dynamically above -->
-  <script type="module" src="login.js"></script>
-  <script type="module" src="scripts/amazon.js"></script>
+  });
+</script>
+
+<!-- Day.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
+
+<!-- 🚀 Remove header.js from here because we now load it dynamically above -->
+<script type="module" src="login.js"></script>
+<script type="module" src="scripts/amazon.js"></script>
 
 
 
