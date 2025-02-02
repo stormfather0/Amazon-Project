@@ -76,3 +76,32 @@ window.addEventListener("pageshow", () => {
   cleanupHeader();
   initializeHeader();
 });
+
+const handleScroll = () => {
+  const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
+  const headerHeight = header ? header.offsetHeight : 0;
+
+  // Get the position of the header relative to the viewport
+  const headerRect = header.getBoundingClientRect();
+  const headerTop = headerRect.top; // This is the distance from the top of the viewport
+
+  // Log for debugging
+  console.log('Header top:', headerTop);
+  console.log('Window scroll position:', window.scrollY);
+
+  const menuBarTop = headerTop + headerHeight;
+
+  if (window.scrollY > adBannerHeight) {
+    header.classList.add("is-sticky");
+    menuBar.classList.add("is-sticky"); // Add sticky class to menu-bar
+    placeholder.style.height = `${headerHeight}px`;
+
+    // Adjust the top of the menu bar based on the header's top position
+    menuBar.style.top = `${menuBarTop}px`; // Position menu bar below the header
+  } else {
+    header.classList.remove("is-sticky");
+    menuBar.classList.remove("is-sticky"); // Remove sticky class from menu-bar
+    placeholder.style.height = '0px';
+    menuBar.style.top = ''; // Reset the top position when it's not sticky
+  }
+};
