@@ -303,6 +303,7 @@
       document.getElementById('header-container').innerHTML = data;
       console.log('Header loaded successfully. Now initializing the popup...');
       initializePopup();  // Call the function that attaches event listeners here
+      initializeHeader();
     })
     .catch(error => console.error('Error loading header:', error));
 });
