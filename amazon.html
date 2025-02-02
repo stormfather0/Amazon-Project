@@ -38,7 +38,7 @@
   <div class="layout-container">
     <!-- Left Column -->
     <div class="red-div">
-      <!-- <ul class="category-list">
+      <ul class="category-list">
         <a href="clothes.html">
           <li class="category" id="clothes-category">
             <img src="images/menu-images/clothes.svg" alt="">
@@ -78,22 +78,7 @@
             <img src="images/menu-images/giftcards.svg" alt="Gift Cards">
             Gift cards
           </a>
-        </li> -->
-
-
-   <!-- Category Menu -->
-   <ul class="category-list">
-    <li><a href="products.html?category=electronics">Electronics</a></li>
-    <li><a href="products.html?category=clothing">Clothing</a></li>
-    <li><a href="products.html?category=digital-content">Digital Content</a></li>
-    <li><a href="products.html?category=personal-care">Personal Care</a></li>
-    <li><a href="products.html?category=fashion">Fashion</a></li>
-    <li><a href="products.html?category=gift-cards">Gift Cards</a></li>
-</ul>
-
-
-
-
+        </li>
 
         <!-- <button class="menu-btn">
             <img src="images/menu-images/sales-svgrepo-com.svg" alt="Black Friday Sale" class="menu-btn-icon">
@@ -325,6 +310,15 @@
           console.error('Error loading footer:', error);
         });
     });
+
+
+    // Function to redirect to the filtered products page based on category
+document.querySelectorAll('.category-list a').forEach((categoryLink) => {
+  categoryLink.addEventListener('click', (event) => {
+    const category = event.target.innerText.toLowerCase(); // Get category name
+    window.location.href = `filtered-products.html?category=${category}`;
+  });
+});
   </script>
   <script src="scripts/header.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>

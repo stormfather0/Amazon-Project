@@ -1,15 +1,15 @@
 import { formatCurrency } from './scripts/utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from './data/favourites.js';
 
-// Fetch Products from API
+// Fetch Products from API and filter by category from URL
 export async function fetchProducts() {
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-  
+
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
-  
+
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
 
@@ -18,14 +18,14 @@ export async function fetchProducts() {
     const category = urlParams.get('category');
 
     console.log(`Category from URL: ${category}`); // Debug log
-    
+
     // Filter products based on category
-    const filteredProducts = category 
+    const filteredProducts = category
       ? products.filter(product => product.type && product.type.toLowerCase() === category.toLowerCase())
       : products;
-  
+
     console.log('Filtered products:', filteredProducts); // Debug log
-    
+
     const productsGrid = document.querySelector('.js-products-grid');
     if (productsGrid) {
       productsGrid.innerHTML = generateProductHTML(filteredProducts);
@@ -38,11 +38,10 @@ export async function fetchProducts() {
   }
 }
 
-fetchProducts();
-
+// Generate HTML for filtered products
 export function generateProductHTML(products) {
   let productsHTML = '';
-  
+
   products.forEach((product) => {
     productsHTML += `
       <div class="product-container">
@@ -103,7 +102,7 @@ export function generateProductHTML(products) {
       </div>
     `;
   });
-  
+
   return productsHTML;
 }
 
