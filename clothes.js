@@ -1,7 +1,5 @@
-// import { generateProductHTML } from '../scripts/amazon.js';
 import { formatCurrency } from './scripts/utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from './data/favourites.js';
-
 
 // Fetch Products from API
 export async function fetchProducts() {
@@ -15,20 +13,22 @@ export async function fetchProducts() {
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
   
-    // Filter products by type 'clothing'
-    const clothingProducts = products.filter(product => 
-      product.type && product.type.toLowerCase() === 'clothing'
-    );
-  
-    console.log('Filtered clothing products:', clothingProducts); // Debug log
+    // Get category from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
     
-    // Generate and insert HTML for clothing products
+    // Filter products based on category
+    const filteredProducts = category 
+      ? products.filter(product => product.type && product.type.toLowerCase() === category.toLowerCase())
+      : products; // If no category is provided, show all products
+  
+    console.log(`Filtered products for category: ${category}`, filteredProducts); // Debug log
+    
+    // Generate and insert HTML for filtered products
     const productsGrid = document.querySelector('.js-products-grid');
     if (productsGrid) {
-      productsGrid.innerHTML = generateProductHTML(clothingProducts);
-
-      // Attach favourites listener to the filtered products and grid
-      favouritesListener(clothingProducts, productsGrid);
+      productsGrid.innerHTML = generateProductHTML(filteredProducts);
+      favouritesListener(filteredProducts, productsGrid);
     } else {
       console.error('Products grid container not found');
     }
@@ -39,12 +39,9 @@ export async function fetchProducts() {
 
 fetchProducts();
 
-
-
-
 export function generateProductHTML(products) {
   let productsHTML = '';
-
+  
   products.forEach((product) => {
     productsHTML += `
       <div class="product-container">
@@ -105,7 +102,7 @@ export function generateProductHTML(products) {
       </div>
     `;
   });
-
+  
   return productsHTML;
 }
 
@@ -132,9 +129,8 @@ export function favouritesListener() {
           removeFavourite(productId); // Remove product from favourites
         }
   
-        // Log the result (optional)
         console.log(`Favourite clicked for Product ID: ${productId}`);
         console.log('Favourites:', JSON.parse(localStorage.getItem('favourite')));
       });
     });
-  }
+}
