@@ -66,6 +66,7 @@ function renderProductDetails(product) {
 function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
   if (cartQuantity === 0) {
+    cartQuantity = 0;
     document.querySelector('.js-cart-quantity').innerHTML = '0';
   } else {
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
