@@ -242,15 +242,22 @@ export function favouritesListener() {
 // Update Cart Quantity
 // Update Cart Quantity
 export function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
+
+
+totalQuantity = 0;
+  // Loop through the cart to calculate total quantity
+  cart.forEach(item => {
+    totalQuantity += item.quantity; // Add quantity to total
+  });
+
   const cartQuantityElement = document.querySelector('.js-cart-quantity');
 
   if (!cartQuantityElement) {
-    console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
+    console.warn("Warning: .js-cart-quantity element not found. Skipping update.");
     return;
   }
 
-  cartQuantityElement.innerHTML = cartQuantity;
+  cartQuantityElement.innerHTML = totalQuantity;
   return cartQuantity;
 }
 
