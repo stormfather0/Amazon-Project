@@ -240,19 +240,19 @@ export function favouritesListener() {
 }
 
 // Update Cart Quantity
+// Update Cart Quantity
 export function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-  if (cartQuantity === 0) {
-  
-    document.querySelector('.js-cart-quantity').innerHTML = '';
-  } else  {
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+
+  if (!cartQuantityElement) {
+    console.warn("⚠️ Warning: .js-cart-quantity element not found. Skipping update.");
+    return;
   }
-  // document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+  cartQuantityElement.innerHTML = cartQuantity;
   return cartQuantity;
 }
-
-updateCartQuantity();
 
 // Add to Cart Button Listener
 
