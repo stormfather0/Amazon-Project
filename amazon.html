@@ -302,8 +302,7 @@
     .then(data => {
       document.getElementById('header-container').innerHTML = data;
       console.log('Header loaded successfully. Now initializing the popup...');
-      // initializePopup();  // Call the function that attaches event listeners here
-      // initializeHeader();
+      initializePopup();  // Call the function that attaches event listeners here
     })
     .catch(error => console.error('Error loading header:', error));
 });
@@ -334,7 +333,7 @@ document.querySelectorAll('.category-list a').forEach((categoryLink) => {
   });
 });
   </script>
-<script type="module" src="scripts/header.js" defer></script>
+  <script type="module"  src="scripts/header.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
   <script type="module" src="login.js"></script>
   <script type="module" src="scripts/amazon.js"></script>

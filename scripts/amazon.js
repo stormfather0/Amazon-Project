@@ -289,26 +289,26 @@ totalQuantity = 0;
 
 //WORKING EVENT LISTENER
 
-// document.addEventListener('click', (event) => {
-//   if (event.target && event.target.classList.contains('js-add-to-cart')) {
-//     const button = event.target;
-//     const productId = button.dataset.productId;
-//     const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-//     const quantity = parseInt(quantitySelect.value, 10);
+document.addEventListener('click', (event) => {
+  if (event.target && event.target.classList.contains('js-add-to-cart')) {
+    const button = event.target;
+    const productId = button.dataset.productId;
+    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
+    const quantity = parseInt(quantitySelect.value, 10);
 
-//     addToCart(productId, quantity);
-//     updateCartQuantity();
+    addToCart(productId, quantity);
+    updateCartQuantity();
 
-//     // Show the popup
-//     const popup = document.getElementById('cart-popup');
-//     popup.classList.add('show');
+    // Show the popup
+    const popup = document.getElementById('cart-popup');
+    popup.classList.add('show');
 
-//     // Hide the popup after 3 seconds
-//     setTimeout(() => {
-//       popup.classList.remove('show');
-//     }, 3000);
-//   }
-// });
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 3000);
+  }
+});
 
 
 
@@ -558,9 +558,12 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }
 //   });
 // });
+
+
 document.addEventListener('DOMContentLoaded', () => {
   // Ensure elements are available before attaching event listeners
   const loginButton = document.querySelector('.log-in-btn');
+  const accountIconButton = document.querySelector('.account-icon'); // Check if this element exists
   const createAccountLink = document.querySelector('.open-signup'); // Link for "Create your Amazon account"
   const popup = document.querySelector('.login-popup');
   const closeButton = document.querySelector('.close-popup-btn'); // Updated selector
@@ -577,6 +580,17 @@ document.addEventListener('DOMContentLoaded', () => {
       loginForm.classList.remove('hidden'); // Show login form
       signupForm.classList.add('hidden'); // Hide signup form
     });
+
+    // Show the pop-up when the account icon button is clicked
+    if (accountIconButton) { // Check if the account icon exists
+      accountIconButton.addEventListener('click', () => {
+        popup.classList.remove('hidden'); // Show pop-up
+        loginForm.classList.remove('hidden'); // Show login form
+        signupForm.classList.add('hidden'); // Hide signup form
+      });
+    } else {
+      console.error('Account icon button not found.');
+    }
 
     // Show the signup form when the "Create your Amazon account" link is clicked
     if (createAccountLink) {
@@ -623,6 +637,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Some necessary elements are missing in the DOM.');
   }
 });
+
+
 
 // Special offers
 
