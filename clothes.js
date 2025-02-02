@@ -19,7 +19,7 @@ export async function fetchProducts() {
     if (page === 'electronics.html') {
         category = 'electronics';
     } else if (page === 'clothes.html') {
-        category = 'clothes';
+        category = 'clothing';
     } else {
         category = null;
     }
