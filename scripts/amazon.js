@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('DOMContentLoaded', () => {
   // Ensure elements are available before attaching event listeners
   const loginButton = document.querySelector('.log-in-btn');
-  const accountIconButton = document.querySelector('.account-icon'); // Check if this element exists
+  const accountIconButton = document.querySelector('.account-icon');// Check if this element exists
   const createAccountLink = document.querySelector('.open-signup'); // Link for "Create your Amazon account"
   const popup = document.querySelector('.login-popup');
   const closeButton = document.querySelector('.close-popup-btn'); // Updated selector
