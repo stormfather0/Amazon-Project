@@ -1,19 +1,21 @@
-document.addEventListener("DOMContentLoaded", () => {
-  let headerInitialized = false;
+let headerInitialized = false;
 
-  function initializeHeader() {
-    if (headerInitialized) {
-      console.log('Header already initialized for:', window.location.href);
-      return;
-    }
-    headerInitialized = true;
+function initializeHeader() {
+  if (headerInitialized) {
+    console.log('Header already initialized for:', window.location.href);
+    return;
+  }
+  headerInitialized = true;
 
+  // Wait until the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
     // Menu bar logic
     const menuIcons = document.querySelectorAll('.menu-icon'); // Select both menu icons
     const menuBar = document.querySelector('.menu-bar'); // Select the menu bar
     const header = document.querySelector('.amazon-header'); // Select the header
+    const placeholder = document.querySelector('.placeholder'); // Select the placeholder
 
-    if (menuIcons.length > 0 && menuBar && header) {
+    if (menuIcons.length > 0 && menuBar && header && placeholder) {
       menuIcons.forEach((icon) => {
         icon.addEventListener('click', () => {
           console.log('Menu icon clicked:', icon);
@@ -27,8 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Sticky header logic
     const adBanner = document.querySelector('.ad-banner');
-    const placeholder = document.querySelector('.placeholder');
-
     const handleScroll = () => {
       const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
       const headerHeight = header ? header.offsetHeight : 0;
@@ -61,21 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       console.error('Header or placeholder not found!');
     }
-  }
-
-  // Cleanup before reinitialization
-  function cleanupHeader() {
-    headerInitialized = false;
-  }
-
-  // Handle initialization on navigation and handle query parameters
-  window.addEventListener("pageshow", () => {
-    const currentUrl = window.location.href;
-
-    // Reinitialize only if the URL has changed (including query parameters)
-    cleanupHeader();
-    initializeHeader();
   });
+}
 
-  initializeHeader(); // Initial header setup
+// Cleanup before reinitialization
+function cleanupHeader() {
+  headerInitialized = false;
+}
+
+// Handle initialization on navigation and handle query parameters
+window.addEventListener("pageshow", () => {
+  const currentUrl = window.location.href;
+
+  // Reinitialize only if the URL has changed (including query parameters)
+  cleanupHeader();
+  initializeHeader();
 });
