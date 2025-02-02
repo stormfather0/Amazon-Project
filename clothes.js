@@ -20,6 +20,14 @@ export async function fetchProducts() {
         category = 'electronics';
     } else if (page === 'clothes.html') {
         category = 'clothing';
+    } else if (page === 'digital-content.html') {
+        category = 'digital-content';
+    } else if (page === 'personal-care.html') {
+        category = 'personal-care';
+    } else if (page === 'fashion.html') {
+        category = 'fashion';
+    } else if (page === 'gift-cards.html') {
+        category = 'gift-cards';
     } else {
         category = null;
     }
