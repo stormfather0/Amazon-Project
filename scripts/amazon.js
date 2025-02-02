@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('DOMContentLoaded', () => {
   // Ensure elements are available before attaching event listeners
   const loginButton = document.querySelector('.log-in-btn');
-  const accountIconButton = document.querySelector('.account-icon');// Check if this element exists
+
   const createAccountLink = document.querySelector('.open-signup'); // Link for "Create your Amazon account"
   const popup = document.querySelector('.login-popup');
   const closeButton = document.querySelector('.close-popup-btn'); // Updated selector
@@ -580,17 +580,6 @@ document.addEventListener('DOMContentLoaded', () => {
       loginForm.classList.remove('hidden'); // Show login form
       signupForm.classList.add('hidden'); // Hide signup form
     });
-
-    // Show the pop-up when the account icon button is clicked
-    if (accountIconButton) { // Check if the account icon exists
-      accountIconButton.addEventListener('click', () => {
-        popup.classList.remove('hidden'); // Show pop-up
-        loginForm.classList.remove('hidden'); // Show login form
-        signupForm.classList.add('hidden'); // Hide signup form
-      });
-    } else {
-      console.error('Account icon button not found.');
-    }
 
     // Show the signup form when the "Create your Amazon account" link is clicked
     if (createAccountLink) {
