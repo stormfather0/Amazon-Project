@@ -13,29 +13,25 @@ export async function fetchProducts() {
     const products = await response.json();
     console.log('Fetched products:', products); // Debug log
   
-    // Get current page filename
     const page = window.location.pathname.split('/').pop();
 
-    // Determine category based on the page
     let category;
     if (page === 'electronics.html') {
         category = 'electronics';
     } else if (page === 'clothes.html') {
         category = 'clothes';
     } else {
-        category = null; // Show all products if on an unspecified page
+        category = null;
     }
 
     console.log(`Page: ${page}, Category: ${category}`); // Debug log
     
-    // Filter products based on category
     const filteredProducts = category 
       ? products.filter(product => product.type && product.type.toLowerCase() === category.toLowerCase())
-      : products; // If no category is provided, show all products
+      : products;
   
-    console.log(`Filtered products for category: ${category}`, filteredProducts); // Debug log
+    console.log('Filtered products:', filteredProducts); // Debug log
     
-    // Generate and insert HTML for filtered products
     const productsGrid = document.querySelector('.js-products-grid');
     if (productsGrid) {
       productsGrid.innerHTML = generateProductHTML(filteredProducts);
