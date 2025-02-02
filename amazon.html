@@ -294,7 +294,11 @@
 
   <script>
     // Fetch and insert header HTML into the page
-    fetch('header.html')
+   
+    // Load footer (unchanged)
+    document.addEventListener("DOMContentLoaded", () => {
+
+      fetch('header.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('header-container').innerHTML = data;
@@ -304,8 +308,7 @@
           .catch(err => console.error("Error loading header.js:", err));
       });
   
-    // Load footer (unchanged)
-    document.addEventListener("DOMContentLoaded", () => {
+      
       fetch('footer.html')
         .then(response => {
           if (!response.ok) {
