@@ -63,6 +63,6 @@ function initializeHeader() {
 }
 
 // Wait for everything (including images) to be fully loaded
-window.onload = function() {
+window.addEventListener('load', () => {
   initializeHeader();
-};
+});
