@@ -670,5 +670,23 @@
       "apparel",
       "mens"
     ]
+  },
+  {
+    "id": "5968897c-4d27-4872-89f6-5bcb05273333",
+    "image": "images/products/ipad.webp",
+    "name": "Ipad 2024 64GB Silver",
+    "rating": {
+      "stars": 5,
+      "count": 235
+    },
+    "priceCents": 20070,
+    "keywords": [
+      "ipad",
+      "tablet",
+      "apple",
+      "electronics"
+    ],
+    "type": "electronics"
+  
   }
 ]

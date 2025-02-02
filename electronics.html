@@ -1,66 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Electronics</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.webp">
+    <link rel="stylesheet" href="./styles/pages/amazon.css">
 </head>
 <body>
-  <!-- Dynamically load header -->
-  <div id="header-container"></div>
+   <!-- Load header -->
+    <div id="header-container"></div>
 
-  <div class="products-grid js-products-grid"></div>
+<!-- Main -->
+    <div class="products-grid js-products-grid" id="clothes-products-container">
 
-  <!-- Dynamically load footer -->
-  <div id="footer-container"></div>
-  <div class="cart-quantity js-cart-quantity">0</div>
+    </div> 
+<!-- Load footer -->
+    <div id="footer"></div>
 
-  <script type="module">
-    import { generateProductHTML } from '/scripts/amazon.js';
-    import { products } from '/backend/electronics.js';
-    import {updateCartQuantity} from '/scripts/amazon.js';
-    import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
 
-const productsGrid = document.querySelector('.js-products-grid');
-if (productsGrid) {
-  productsGrid.innerHTML = generateProductHTML(products);
-} else {
-  console.error('.js-products-grid not found');
-}
-    // Function to load content dynamically
-    function loadTemplate(templateId, filePath, callback) {
-      fetch(filePath)
+
+
+    <script type="module">
+
+
+
+        //Load header
+         fetch('header.html')
         .then(response => response.text())
         .then(data => {
-          document.getElementById(templateId).innerHTML = data;
-          if (callback) callback();
+          document.getElementById('header-container').innerHTML = data;
         });
-    }
-
-    // Load header and then header.js
-    loadTemplate('header-container', 'header.html', () => {
-  const script = document.createElement('script');
-  script.src = 'scripts/header.js';
-  document.getElementById('header-container').appendChild(script);
-
-
+      
+        //Load footer 
+        
+        document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM content loaded");
+    fetch('footer.html')
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to load footer.');
+            }
+            return response.text();
+        })
+        .then((data) => {
+            document.getElementById('footer').innerHTML = data;
+        })
+        .catch((error) => {
+            console.error('Error loading footer:', error);
+        });
 });
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
+    </script>
 
-    // Find the selected quantity for this product
-    const quantitySelect = button
-      .closest('.product-container') // Ensure the container matches your HTML structure
-      .querySelector('.product-quantity-container select');
-    const quantity = parseInt(quantitySelect.value, 10);
+     <script src="scripts/header.js"></script>
+     <script type="module" src="login.js"></script>
+     <!-- <script type="module" src="/scripts/amazon.js"></script> -->
+     <script type="module" src="clothes.js"></script>
 
-    // Pass both the product ID and the selected quantity to addToCart
-    addToCart(productId, quantity);
-    updateCartQuantity();
-  });});
-
-    
-  </script>
+     
 </body>
 </html>
