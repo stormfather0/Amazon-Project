@@ -738,7 +738,7 @@
   {
     "id": "aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f4",
     "image": "images/products/amazon-1x1.png",
-    "name": "Gift Card",
+    "name": "Gift Card 10$",
     "rating": {
       "stars": 4.5,
       "count": 1045
@@ -749,6 +749,47 @@
       "gift card"
     ],
        "type": "gift-cards"
-  }
+  },
+  {
+    "id": "aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f5",
+    "image": "images/products/amazon-1x1.png",
+    "name": "Gift Card 50$",
+    "rating": {
+      "stars": 4.4,
+      "count": 1035
+    },
+    "priceCents": 49999,
+    "keywords": [
+      "gift",
+      "gift card"
+    ],
+       "type": "gift-cards"
+  }, 
+  {
+    "id": "aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f6",
+    "image": "images/products/amazon-1x1.png",
+    "name": "Gift Card 100$",
+    "rating": {
+      "stars": 5,
+      "count": 300
+    },
+    "priceCents": 100000,
+    "keywords": [
+      "gift",
+      "gift card"
+    ],
+       "type": "gift-cards"
+  },
+
+
+
+
+
+
+
+
+
+
+
   
 ]
