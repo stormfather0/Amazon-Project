@@ -779,6 +779,176 @@
       "gift card"
     ],
        "type": "gift-cards"
+  },
+  {
+    "id": "f4a0c2b8-3bb7-44a7-b062-70f3149e61f8",
+    "image": "images/products/smartwatch.webp",
+    "name": "Smartwatch 2024 Edition",
+    "rating": {
+      "stars": 4,
+      "count": 120
+    },
+    "priceCents": 15000,
+    "keywords": [
+      "smartwatch",
+      "electronics",
+      "wearable",
+      "fitness"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "bd4e5685-f869-4f9d-a3a3-903b6adf6373",
+    "image": "images/products/laptop.webp",
+    "name": "Laptop 2024 Pro Edition",
+    "rating": {
+      "stars": 4,
+      "count": 315
+    },
+    "priceCents": 125000,
+    "keywords": [
+      "laptop",
+      "electronics",
+      "computer",
+      "work"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "1c9a0d7d-b7a1-420b-bad5-b087c86d1f97",
+    "image": "images/products/smartphone.webp",
+    "name": "Smartphone 2024 Ultra",
+    "rating": {
+      "stars": 4,
+      "count": 450
+    },
+    "priceCents": 22000,
+    "keywords": [
+      "smartphone",
+      "electronics",
+      "mobile",
+      "android"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "a0b40a3f-19fa-409f-b7f6-2d6e07fdc2d3",
+    "image": "images/products/airpods.webp",
+    "name": "AirPods 2024 Pro",
+    "rating": {
+      "stars": 5,
+      "count": 789
+    },
+    "priceCents": 29900,
+    "keywords": [
+      "airpods",
+      "electronics",
+      "headphones",
+      "audio"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "2a9c27ea-cb92-4c76-b111-b5df6a8f9cfb",
+    "image": "images/products/digital-camera.webp",
+    "name": "Digital Camera 2024 Ultra Zoom",
+    "rating": {
+      "stars": 4,
+      "count": 99
+    },
+    "priceCents": 55000,
+    "keywords": [
+      "camera",
+      "electronics",
+      "photography",
+      "zoom"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "7423b362-ea45-45c5-9d52-9a401f602f93",
+    "image": "images/products/gaming-console.webp",
+    "name": "Gaming Console 2024 Edition",
+    "rating": {
+      "stars": 5,
+      "count": 1000
+    },
+    "priceCents": 40000,
+    "keywords": [
+      "gaming",
+      "electronics",
+      "console",
+      "video-games"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "d4e37f28-fc93-4ab9-b062-d13cf994f3ac",
+    "image": "images/products/keyboard.webp",
+    "name": "Mechanical Keyboard 2024 RGB",
+    "rating": {
+      "stars": 4,
+      "count": 230
+    },
+    "priceCents": 9500,
+    "keywords": [
+      "keyboard",
+      "electronics",
+      "computer",
+      "rgb"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "cb429f50-ea4f-4d8c-a4f7-f218fd67c6ff",
+    "image": "images/products/earbuds.webp",
+    "name": "Wireless Earbuds 2024 Edition",
+    "rating": {
+      "stars": 4,
+      "count": 150
+    },
+    "priceCents": 12900,
+    "keywords": [
+      "earbuds",
+      "electronics",
+      "audio",
+      "wireless"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "083b1a1d-b01f-44c0-99d1-0585e18b3e68",
+    "image": "images/products/monitor.webp",
+    "name": "4K Monitor 2024 Ultra Display",
+    "rating": {
+      "stars": 5,
+      "count": 312
+    },
+    "priceCents": 60000,
+    "keywords": [
+      "monitor",
+      "electronics",
+      "display",
+      "4k"
+    ],
+    "type": "electronics"
+  },
+  {
+    "id": "63cfce93-5e1f-4ef5-b7a2-d276f6dbba02",
+    "image": "images/products/robot-vacuum.webp",
+    "name": "Robot Vacuum 2024 Pro",
+    "rating": {
+      "stars": 4,
+      "count": 220
+    },
+    "priceCents": 35000,
+    "keywords": [
+      "robot-vacuum",
+      "electronics",
+      "cleaning",
+      "home"
+    ],
+    "type": "electronics"
   }
 
 
