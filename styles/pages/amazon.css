@@ -376,10 +376,10 @@ text-align: center;
 
 #clothes-category, 
 #electronics-category,
- #electronics-category1, 
- #electronics-category2, 
- #electronics-category3, 
- #electronics-category4 {
+ #digital-content-category, 
+ #personal-care-category, 
+ #fashion-category, 
+ #gift-cards-category {
   /* width: 100%; */
   list-style-type: none; 
   color: inherit; 
