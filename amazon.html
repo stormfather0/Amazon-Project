@@ -295,17 +295,14 @@
 
   <script>
   // Fetch and insert header HTML into the page
-fetch('header.html')
+  fetch('header.html')
   .then(response => response.text())
   .then(data => {
     document.getElementById('header-container').innerHTML = data;
-
-    // Now that the header is loaded, initialize it
-    initializeHeader();
+    console.log('Header loaded successfully. Now initializing the popup...');
+    initializePopup();  // Call the function that attaches event listeners here
   })
-  .catch(error => {
-    console.error('Error loading header:', error);
-  });
+  .catch(error => console.error('Error loading header:', error));
 
     //Load footer
     document.addEventListener("DOMContentLoaded", () => {
