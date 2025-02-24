@@ -771,24 +771,33 @@ app.get('/api/favourites', async (req, res) => {
   }
 });
 
-// Endpoint to fetch user details based on the token
-app.get('/api/account', isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.user.userId; // Extracted from the JWT token
+app.get('/api/account', (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
-    // You can fetch any additional data about the user if needed
-    const user = await User.findById(userId);
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+  // Verify the token
+  jwt.verify(token, 'yourSecretKey', (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Failed to authenticate token' });
     }
 
-    // Return the userId in the response
-    res.json({ userId: user._id });
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
+    // Fetch user from the database using decoded.userId from the token
+    User.findById(decoded.userId, (err, user) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error finding user' });
+      }
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Send user details (including userId)
+      res.json({ userId: user._id }); // Send the userId back to the frontend
+    });
+  });
 });
 
 
