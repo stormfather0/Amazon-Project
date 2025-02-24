@@ -733,8 +733,8 @@ app.get('/account', isAuthenticated, (req, res) => {
 
 
 const favouriteSchema = new mongoose.Schema({
-  userId: String, // Optional: if you have user authentication
-  productId: String,
+  userId: { type: String, required: true, unique: true }, // Ensure each user has one document
+  productIds: { type: [String], default: [] } // Store multiple favourites in an array
 });
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
