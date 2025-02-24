@@ -242,7 +242,7 @@ text-align: center;
 
 .menu-icon:hover{
   opacity: 0.8;
-  transition: 0.3s ease-in-out;
+  /* transition: 0.3s ease-in-out; */
   cursor: pointer; 
 }
 
@@ -1081,7 +1081,7 @@ margin-top: 50px;
   transform: translateX(100%); /* Move off-screen */
   opacity: 0;
   visibility: hidden;
-  transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+  /* transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease; */
 }
 
 /* When the ad is visible */
@@ -1559,7 +1559,7 @@ form input:focus {
 
 .userInfo.show {
   display: block;
-  transition: opacity 0.5s ease-in-out;
+  /* transition: opacity 0.5s ease-in-out; */
   opacity: 1;
   margin-top: 28px;
   text-align: center;

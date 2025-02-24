@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('🎉 Account created successfully!');
                 popup.classList.add('hidden');
                 // Optionally redirect to login page
-                window.location.href = '/login.html';
+                // window.location.href = '/login.html';
             } else {
                 alert('❌ Signup failed: ' + (data.message || 'Unknown error'));
             }
@@ -198,3 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+async function isLoggedIn() {
+    try {
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/check-auth', { credentials: 'include' });
+      if (!response.ok) {
+        throw new Error('Not logged in');
+      }
+      const data = await response.json();
+      return data.loggedIn;
+    } catch (error) {
+      return false;
+    }
+  }
