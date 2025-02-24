@@ -706,94 +706,31 @@ app.get('/api/getUser', async (req, res) => {
 
 // Middleware to check if the user is authenticated
 function isAuthenticated(req, res, next) {
-  const token = req.headers['authorization'];
+    const token = req.headers['authorization'];
 
-  if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
-  }
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
 
-  try {
-      // Verify the token (assuming JWT is used)
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;  // Store user info in request object
-      next();  // Continue to the next middleware or route handler
-  } catch (error) {
-      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-  }
+    try {
+        // Verify the token (assuming JWT is used)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;  // Store user info in request object
+        next();  // Continue to the next middleware or route handler
+    } catch (error) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
 }
 
 // Protect account route
 app.get('/account', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'account.html'));
-});
-
-// Favourite Schema
-const favouriteSchema = new mongoose.Schema({
-  userId: String,  // Link favourites to a user
-  productIds: [String],  // Store product IDs
-});
-const Favourite = mongoose.model('Favourite', favouriteSchema);
-
-
-
-// Save favourite product (ADD)
-app.post('/api/favourites', isAuthenticated, async (req, res) => {
-  const { productId } = req.body;
-  const userId = req.session.userId;
-
-  try {
-    let favourite = await Favourite.findOne({ userId });
-    if (!favourite) {
-      favourite = new Favourite({ userId, productIds: [productId] });
-    } else if (!favourite.productIds.includes(productId)) {
-      favourite.productIds.push(productId);
-    }
-
-    await favourite.save();
-    res.json({ message: 'Favourite added', favourites: favourite.productIds });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Remove favourite product (REMOVE)
-app.delete('/api/favourites/:productId', isAuthenticated, async (req, res) => {
-  const { productId } = req.params;
-  const userId = req.session.userId;
-
-  try {
-    const favourite = await Favourite.findOne({ userId });
-    if (favourite) {
-      favourite.productIds = favourite.productIds.filter(id => id !== productId);
-      await favourite.save();
-    }
-
-    res.json({ message: 'Favourite removed', favourites: favourite.productIds });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Fetch user's favourite products
-app.get('/api/favourites', isAuthenticated, async (req, res) => {
-  const userId = req.session.userId;
-
-  try {
-    const favourite = await Favourite.findOne({ userId });
-    res.json(favourite ? favourite.productIds : []);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+    res.sendFile(path.join(__dirname, 'public', 'account.html'));
 });
 
 
-app.get('/api/check-auth', (req, res) => {
-  if (req.session.userId) {
-    res.json({ loggedIn: true });
-  } else {
-    res.json({ loggedIn: false });
-  }
-});
+
+
+
 
 
 
