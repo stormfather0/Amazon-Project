@@ -173,29 +173,32 @@ const userSchema = new mongoose.Schema({
 //   const User = mongoose.model('User', userSchema)
 
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
+  try {
       // Find the user in the database
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       // Compare provided password with stored hashed password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       // Generate a JWT token
       const token = jwt.sign({ email: user.email }, 'secret_key', { expiresIn: '1h' });
-      res.json({ message: 'Login successful', token });
-    } catch (error) {
+
+      // ✅ Include the user's email in the response
+      res.json({ message: 'Login successful', token, email: user.email });
+
+  } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Server error' });
-    }
-  });
+  }
+});
 
 // Register route
 app.post('/api/register', async (req, res) => {

@@ -114,16 +114,30 @@
         <img src="images/icons/amazon-to-the-top.webp" alt="" srcset="">
       </button>
       <div class="log-in-container">
-        <div class="log-in-text">Log in to receive recommendations, personal bonuses and discounts.
-          <button class="log-in-btn button-primary ">Log in</button> </div>
-        <div class="our-stores">
-          <img src="images/icons/store.svg" alt="">
-          <a href="stores.html">
-            <p>Visit our stores</p>
-          </a>
-
-        </div>
+        <div class="log-in-text">
+          <!-- Initially show login prompt -->
+          <div id="loginPrompt">
+            <p>Log in to receive recommendations, personal bonuses, and discounts.</p>
+            <button class="log-in-btn button-primary">Log in</button>
+          </div>
+      
+    
       </div>
+    <!-- User info will show here after login -->
+    <div class="userInfo">
+      <!-- Now only show Email -->
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+      <button class="log-out-btn button-primary">Log out</button>
+    </div>
+  </div>
+
+  <div class="our-stores">
+    <img src="images/icons/store.svg" alt="">
+    <a href="stores.html">
+      <p>Visit our stores</p>
+    </a>
+  </div>
+
 
 
 

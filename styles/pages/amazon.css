@@ -131,6 +131,8 @@ text-align: center;
   flex-direction: column;
 }
 
+
+
 .product-container:hover, .product-card:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease;
@@ -1541,4 +1543,31 @@ form input:focus {
   font-size: 14px;
   background-color: rgb(254, 189, 105);
   font-weight: bold ;
+}
+
+
+.userInfo {
+  display: none; 
+  width: 400px;
+  height: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* text-align: center; */
+  margin: 0 auto;
+  background-color: red;
+}
+
+.userInfo.show {
+  display: block; /* Visible when class 'show' is added */
+  /* Optional: Add animation or transition */
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+#loginPrompt {
+  display: block; /* Show the login prompt by default */
+}
+
+#loginPrompt.hidden {
+  display: none; /* Hide the login prompt when it's not needed */
 }
