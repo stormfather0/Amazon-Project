@@ -129,8 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Hide login popup
                 popup.classList.add('hidden');
+                window.location.href = '/account.html'; // Optionally redirect to account page
             } else {
                 console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
+                alert('Login failed. Please try again.');
             }
         } catch (error) {
             console.error('❌ Error logging in:', error);
@@ -173,6 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 alert('🎉 Account created successfully!');
                 popup.classList.add('hidden');
+                // Optionally redirect to login page
+                window.location.href = '/login.html';
             } else {
                 alert('❌ Signup failed: ' + (data.message || 'Unknown error'));
             }

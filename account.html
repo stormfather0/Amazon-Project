@@ -29,6 +29,13 @@
 
     <script type="module" src="login.js"></script>
     <script>
+        // Check if user is logged in by verifying the authToken
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            // If no token, redirect to login page
+            window.location.href = '/login.html';
+        }
+
         // Load header
         fetch('header.html')
             .then(response => response.text())
