@@ -771,6 +771,26 @@ app.get('/api/favourites', async (req, res) => {
   }
 });
 
+// Endpoint to fetch user details based on the token
+app.get('/api/account', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user.userId; // Extracted from the JWT token
+
+    // You can fetch any additional data about the user if needed
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Return the userId in the response
+    res.json({ userId: user._id });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 
 

@@ -25,22 +25,60 @@ if (!userId) {
 
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
-export function addFavourite(productId) {
-  if (!favourite.includes(productId)) {
-    favourite.push(productId);
-    localStorage.setItem('favourite', JSON.stringify(favourite));
-
-    // Send favourite to backend including userId and productId
-    fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, productId }),  // Send userId and productId to backend
+// Fetch the userId from the server using the stored token
+function getUserIdFromServer() {
+    const token = localStorage.getItem('token'); // Assuming you have the token stored in localStorage
+    
+    if (!token) {
+      console.error("No token found, user not authenticated.");
+      return null;
+    }
+  
+    return fetch('https://amazon-project-sta4.onrender.com/api/account', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`, // Send token in the Authorization header
+      }
     })
-      .then(response => response.json())
-      .then(data => console.log('Favourite added:', data))
-      .catch(error => console.error('Error adding favourite:', error));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to get user ID');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data.userId; // Assuming userId is returned in the response
+      })
+      .catch(error => {
+        console.error('Error fetching user ID:', error);
+        return null;
+      });
   }
-}
+  
+  export function addFavourite(productId) {
+      getUserIdFromServer().then(userId => {
+          if (!userId) {
+              console.error("User ID is missing, can't add favourite.");
+              return;
+          }
+  
+          const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
+          if (!favourite.includes(productId)) {
+              favourite.push(productId);
+              localStorage.setItem('favourite', JSON.stringify(favourite));
+  
+              // Send favourite to backend with userId
+              fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, productId }),  // Include userId here
+              })
+                .then(response => response.json())
+                .then(data => console.log('Favourite added:', data))
+                .catch(error => console.error('Error adding favourite:', error));
+          }
+      });
+  }
 
 export function removeFavourite(productId) {
   const index = favourite.indexOf(productId);
