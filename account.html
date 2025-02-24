@@ -9,61 +9,74 @@
 <body>
     <div id="header-container"></div>
 
+    <div class="account">
+        <div class="account-menu">
+            <ul class="account-menu-list">
+                <li>Your Personal Info</li>
+                <li>Favourites</li>
+                <li>Orders</li>
+                <li>Discounts</li>
+            </ul>
+            <button class="button-primary logout-btn">Log Out</button>
+        </div>
 
-<div class="account">
-<div class="account-menu">
-<ul class="account-menu-list">
-    <li>Your Personal Info</li>
-    <li>Favourites</li>
-    <li>Orders</li>
-    <li>Discounts</li>
-</ul>
-<button class="button-primary logout-btn">Log Out</button>
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
+        <div class="account-info">
+            <h2>Welcome, <span id="user-name">Loading...</span></h2>
+        </div>
+    </div>
 
     <div id="footer"></div>
 
-<script type="module" src="login.js"></script>
+    <script type="module" src="login.js"></script>
     <script>
-                //Load header
-                fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
-        });
-      
-        //Load footer 
-        
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            });
+
+        // Load footer
         document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM content loaded");
-    fetch('footer.html')
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Failed to load footer.');
-            }
-            return response.text();
-        })
-        .then((data) => {
-            document.getElementById('footer').innerHTML = data;
-        })
-        .catch((error) => {
-            console.error('Error loading footer:', error);
+            console.log("DOM content loaded");
+            fetch('footer.html')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load footer.');
+                    }
+                    return response.text();
+                })
+                .then((data) => {
+                    document.getElementById('footer').innerHTML = data;
+                })
+                .catch((error) => {
+                    console.error('Error loading footer:', error);
+                });
         });
-});
 
+        // Fetch the user's name and display it
+        document.addEventListener('DOMContentLoaded', () => {
+            const userNameElement = document.getElementById('user-name');
+            const savedEmail = localStorage.getItem('userEmail');
+
+            if (savedEmail) {
+                fetch(`https://amazon-project-sta4.onrender.com/api/getUser?email=${savedEmail}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.firstName && data.lastName) {
+                            userNameElement.textContent = `${data.firstName} ${data.lastName}`;
+                        } else {
+                            userNameElement.textContent = 'User not found';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user data:', error);
+                        userNameElement.textContent = 'Failed to load user info';
+                    });
+            } else {
+                userNameElement.textContent = 'No user logged in';
+            }
+        });
     </script>
-
 </body>
 </html>

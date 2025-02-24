@@ -683,7 +683,25 @@ app.get('/api/account', async (req, res) => {
   }
 });
 
+//
+app.get('/api/getUser', async (req, res) => {
+  const { email } = req.query; // Get email from query parameters
 
+  try {
+      const user = await User.findOne({ email });
+      if (user) {
+          res.status(200).json({
+              firstName: user.firstName,
+              lastName: user.lastName,
+          });
+      } else {
+          res.status(404).json({ message: 'User not found' });
+      }
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 

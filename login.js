@@ -38,13 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('🚪 Logging out...');
         localStorage.removeItem('authToken');
         localStorage.removeItem('userEmail');
-
+    
         // Reset UI
         loginContainer.classList.remove('hidden'); // Show login container after logout
         userInfoContainer.classList.remove('show'); // Hide user info container
         userEmail.textContent = '';  // Clear email text
-
-        // Optionally, you can show a success message, but you mentioned removing alerts
+    
+        // Redirect to login page or show login options again
+        window.location.href = '/login.html';  // Optionally redirect to login page
     });
 
     // Function to handle login popup visibility
