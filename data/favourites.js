@@ -24,11 +24,21 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 export function addFavourite(productId) {
-  if (!favourite.includes(productId)) {
-    favourite.push(productId);
-    localStorage.setItem('favourite', JSON.stringify(favourite));
+    if (!favourite.includes(productId)) {
+      favourite.push(productId);
+      localStorage.setItem('favourite', JSON.stringify(favourite));
+  
+      // Send favourite to backend
+      fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId }),
+      })
+        .then(response => response.json())
+        .then(data => console.log('Favourite added:', data))
+        .catch(error => console.error('Error adding favourite:', error));
+    }
   }
-}
 
 export function removeFavourite(productId) {
   const index = favourite.indexOf(productId);
