@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInfoContainer = document.querySelector('.userInfo');
     const loginContainer = document.querySelector('.log-in-container');
     const userEmail = document.querySelector('#userEmail');
-    const logoutButton = document.querySelector('.logout-btn'); // Added for logout functionality
+    const logoutButton = document.querySelector('.logout-btn');
 
     // Ensure essential elements exist
     if (!popup || !userInfoContainer || !loginContainer || !userEmail) {
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update UI after login
     function updateUIAfterLogin(email) {
         console.log('✅ Updating UI for user:', email);
-        loginContainer.classList.add('hidden');
         userInfoContainer.classList.add('show');
         userEmail.textContent = email;
+        loginContainer.classList.add('hidden');  // Hide login container after login
     }
 
     // Check if user is already logged in
@@ -32,6 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedEmail) {
         updateUIAfterLogin(savedEmail);
     }
+
+    // Handle logout
+    logoutButton?.addEventListener('click', () => {
+        console.log('🚪 Logging out...');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userEmail');
+
+        // Reset UI
+        loginContainer.classList.remove('hidden'); // Show login container after logout
+        userInfoContainer.classList.remove('show'); // Hide user info container
+        userEmail.textContent = '';  // Clear email text
+
+        // Optionally, you can show a success message, but you mentioned removing alerts
+    });
 
     // Function to handle login popup visibility
     function openLoginPopup() {
@@ -105,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const { email, token } = data;
                 console.log('🎉 Login successful:', email);
-
                 // Store login data
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('userEmail', email);
@@ -116,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Hide login popup
                 popup.classList.add('hidden');
             } else {
-                alert('❌ Login failed: ' + (data.message || 'Unknown error'));
+                console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
             }
         } catch (error) {
             console.error('❌ Error logging in:', error);
@@ -166,19 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('❌ Error signing up:', error);
             alert('An error occurred. Please try again.');
         }
-    });
-
-    // Handle logout
-    logoutButton?.addEventListener('click', () => {
-        console.log('🚪 Logging out...');
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userEmail');
-
-        // Reset UI
-        loginContainer.classList.remove('hidden');
-        userInfoContainer.classList.remove('show');
-        userEmail.textContent = '';
-
-        alert('You have been logged out.');
     });
 });
