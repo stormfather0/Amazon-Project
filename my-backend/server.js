@@ -739,11 +739,21 @@ const favouriteSchema = new mongoose.Schema({
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
-// Save favourite product to MongoDB
 app.post('/api/favourites', async (req, res) => {
   try {
     const { userId, productId } = req.body;
-    const favourite = new Favourite({ userId, productId });
+    let favourite = await Favourite.findOne({ userId });
+
+    if (!favourite) {
+      // If no favourites document for the user, create one
+      favourite = new Favourite({ userId, productIds: [productId] });
+    } else {
+      // Add productId to existing favourites if not already there
+      if (!favourite.productIds.includes(productId)) {
+        favourite.productIds.push(productId);
+      }
+    }
+
     await favourite.save();
     res.status(201).json({ message: 'Favourite added successfully' });
   } catch (error) {
