@@ -43,10 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         loginContainer.classList.remove('hidden'); // Show login container after logout
         userInfoContainer.classList.remove('show'); // Hide user info container
         userEmail.textContent = '';  // Clear email text
-    
-        // Redirect to login page or show login options again
-        window.location.href = '/login.html';  // Optionally redirect to login page
     });
+
+    // Function to check login status
+    function isUserLoggedIn() {
+        return !!localStorage.getItem('authToken');
+    }
 
     // Function to handle login popup visibility
     function openLoginPopup() {
@@ -55,9 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
         signupForm.classList.add('hidden');
     }
 
-    // Event listeners for opening login popup
+    // Event listener for login button (just opens login popup)
     loginButton?.addEventListener('click', openLoginPopup);
-    accountIconButton?.addEventListener('click', openLoginPopup);
+
+    // Event listener for account icon click (only `.account-icon-svg` triggers redirect)
+    accountIconButton?.addEventListener('click', (event) => {
+        if (event.target.classList.contains('account-icon-svg')) {
+            if (isUserLoggedIn()) {
+                window.location.href = 'account.html';
+            } else {
+                openLoginPopup();
+            }
+        }
+    });
 
     // Event listeners for switching between login/signup
     createAccountLink?.addEventListener('click', (e) => {
@@ -129,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Hide login popup
                 popup.classList.add('hidden');
-                window.location.href = '/account.html'; // Optionally redirect to account page
+            
             } else {
                 console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
                 alert('Login failed. Please try again.');

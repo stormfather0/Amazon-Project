@@ -16,154 +16,115 @@
   <div class="placeholder"></div> 
 
   <div class="header-menu-wrapper">
-  <div class="amazon-header">
-      
-    <div class="amazon-header-left-section">
-      <a href="amazon.html" class="header-link">
-        <img class="amazon-logo" src="images/amazon-logo-white.png">
-        <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
-      </a>
-    </div>
-   
-    <div class="amazon-header-middle-section">
-      <img class="menu-icon menu-icon-hidden" src="images/icons/menu.svg">
-      <input class="search-bar" type="text" placeholder="Search">
-      <button class="search-button">
-        <img class="search-icon " src="images/icons/search-icon.png">
-      </button>
-    </div>
-    <div class="amazon-header-right-section">
-      <a class="account-icon" onclick="location.href='account.html';">
-       
-        <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg class="account-icon-svg" width="40px" height="30px" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><circle class="cls-1" cx="12" cy="7.25" r="5.73"/><path class="cls-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"/></svg>
-      </a>
-      <a class="orders-link header-link" href="orders.html">
-        <span class="returns-text">Returns</span>
-        <span class="orders-text">& Orders</span>
-      </a>
-      <a class="cart-link header-link" href="checkout.html">
-        <img class="cart-icon" src="images/icons/cart-icon.png">
-        <div class="cart-quantity js-cart-quantity">0</div>
-        <div class="cart-text">Cart</div>
-      </a>
+    <div class="amazon-header">
+      <div class="amazon-header-left-section">
+        <a href="amazon.html" class="header-link">
+          <img class="amazon-logo" src="images/amazon-logo-white.png">
+          <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
+        </a>
+      </div>
+
+      <div class="amazon-header-middle-section">
+        <img class="menu-icon menu-icon-hidden" src="images/icons/menu.svg">
+        <input class="search-bar" type="text" placeholder="Search">
+        <button class="search-button">
+          <img class="search-icon " src="images/icons/search-icon.png">
+        </button>
+      </div>
+
+      <div class="amazon-header-right-section">
+        <a class="account-icon">
+          <svg class="account-icon-svg" width="40px" height="30px" viewBox="0 0 24 24" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
+            <defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs>
+            <circle class="cls-1" cx="12" cy="7.25" r="5.73"/>
+            <path class="cls-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"/>
+          </svg>
+        </a>
+
+        <a class="orders-link header-link" href="orders.html">
+          <span class="returns-text">Returns</span>
+          <span class="orders-text">& Orders</span>
+        </a>
+        <a class="cart-link header-link" href="checkout.html">
+          <img class="cart-icon" src="images/icons/cart-icon.png">
+          <div class="cart-quantity js-cart-quantity">0</div>
+          <div class="cart-text">Cart</div>
+        </a>
+      </div>
     </div>
   </div>
 
-  <div class="menu-bar hidden">
-    <ul class="category-list">
-      <!-- Updated Clothes Category Link -->
-<a href="filtered-products.html?category=clothing">
-<li class="category" id="clothes-category">
-  <img src="images/menu-images/clothes.svg" alt="">
-  Clothes
-</li>
-</a>
+  <!-- Pop-up container for Login & Signup -->
+  <div class="login-popup hidden">
+    <div class="login-popup-content">
+      <span class="close-popup-btn">&times;</span>
 
-<!-- Updated Electronics Category Link -->
-<li class="category" id="electronics-category">
-<a href="filtered-products.html?category=electronics" class="subcategory-link">
-  <img src="images/menu-images/electronics.svg" alt="Electronics">
-  Electronics
-</a>
-</li>
+      <!-- Login Form -->
+      <div class="login-form">
+        <h2>Sign-In</h2>
+        <form id="login-form">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email" required>
 
-<!-- Updated Digital Content Category Link -->
-<li class="category" id="digital-content-category">
-<a href="filtered-products.html?category=digital-content" class="subcategory-link">
-  <img src="images/menu-images/digital-content.svg" alt="Digital Content">
-  Digital content
-</a>
-</li>
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
 
-<!-- Updated Personal Care Category Link -->
-<li class="category" id="personal-care-category">
-<a href="filtered-products.html?category=personal-care" class="subcategory-link">
-  <img src="images/menu-images/personal-care.svg" alt="Personal Care">
-  Personal care
-</a>
-</li>
+          <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <p><a href="#" class="switch-to-signup"></a></p>
+      </div>
 
-<!-- Updated Fashion Category Link -->
-<li class="category" id="fashion-category">
-<a href="filtered-products.html?category=fashion" class="subcategory-link">
-  <img src="images/menu-images/fashion.svg" alt="Fashion">
-  Fashion
-</a>
-</li>
+      <!-- Signup Form (Initially Hidden) -->
+      <div class="signup-form hidden">
+        <h2>Create Account</h2>
+        <form id="signup-form">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" placeholder="Enter your first name" required>
 
-<!-- Updated Gift Cards Category Link -->
-<li class="category" id="gift-cards-category">
-<a href="filtered-products.html?category=gift-cards" class="subcategory-link">
-  <img src="images/menu-images/giftcards.svg" alt="Gift Cards">
-  Gift cards
-</a>
-</li>
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" placeholder="Enter your last name" required>
 
-  <!-- <button class="menu-btn">
-      <img src="images/menu-images/sales-svgrepo-com.svg" alt="Black Friday Sale" class="menu-btn-icon">
-      Black Friday Sale
-      
-    </button> -->
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email" required>
 
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="Enter your password" required>
 
+          <button type="submit" class="submit-btn">Create Account</button>
+        </form>
+        <p><a href="#" class="switch-to-login">Already have an account? Login</a></p>
+      </div>
 
+      <p class="open-signup-link">New to Amazon? <a href="#" class="open-signup">Create your Amazon account</a></p>
 
-
-      <button class="menu-btn">
-        <img src="images/menu-images/sales-svgrepo-com.svg" alt="Black Friday Sale" class="menu-btn-icon">
-        Black Friday Sale
-        
-      </button>
-    </ul>
-    
- 
-      
+      <div class="popup-footer">
+        <p>By continuing, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+      </div>
     </div>
-    <div class="menu-right"></div>
   </div>
-  
-  <style>
-/* Default menu-bar styling */
-/* Default styling for menu bar */
-.menu-bar {
-  position: absolute;
-  height: 100%; 
-  top: 109px; /* This will be overridden in JS when sticky */
-  left: 0;
-  /* width: 24%; */
-width: 100%;
-  z-index: 20;
-  border-radius: 0;
-}
 
-/* Sticky menu bar styling */
-.menu-bar.is-sticky {
-  position: fixed; /* Makes the menu bar fixed */
-  top: 0; /* Adjusted dynamically based on header height */
-  left: 0;
-  /* width: 24%; */
-width: 100%;
-
-  /* width: 24%; */
-
-  height: 100%; 
-  z-index: 999; /* Ensure it is above other content */
-  margin-top: 0;
-  display: block;
-}
-
-
-
-
-  </style>
   <script>
-    
+    // Show the popup when account icon is clicked
+    document.querySelector('.account-icon').addEventListener('click', function() {
+      document.querySelector('.login-popup').classList.remove('hidden');
+    });
+
+    // Close the popup when the close button is clicked
+    document.querySelector('.close-popup-btn').addEventListener('click', function() {
+      document.querySelector('.login-popup').classList.add('hidden');
+    });
+
+    // Switch between login and signup forms
+    document.querySelector('.switch-to-signup').addEventListener('click', function() {
+      document.querySelector('.login-form').classList.add('hidden');
+      document.querySelector('.signup-form').classList.remove('hidden');
+    });
+
+    document.querySelector('.switch-to-login').addEventListener('click', function() {
+      document.querySelector('.signup-form').classList.add('hidden');
+      document.querySelector('.login-form').classList.remove('hidden');
+    });
   </script>
-    <!-- <script type="module" src="scripts/amazon.js"></script> -->
-    <script type="module" src="data/cart.js"></script>
-    <script type="module" src="scripts/checkout.js"></script>
-    <script type="module" src="/scripts/header.js"></script>
 
 </body>
 </html>
