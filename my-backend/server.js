@@ -201,38 +201,37 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Register route
+// Register route
 app.post('/api/register', async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-    // If the first name or last name is missing, you should see this in your logs
-    console.log('Received data:', { firstName, lastName, email, password });
+  try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+          return res.status(400).json({ message: 'User already exists' });
+      }
 
-    try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({
+          firstName,
+          lastName,
+          email,
+          password: hashedPassword
+      });
 
-        const newUser = new User({
-            firstName,  // Expecting this value to be passed
-            lastName,   // Expecting this value to be passed
-            email,
-            password: hashedPassword
-        });
+      // Save the new user and get the result
+      const savedUser = await newUser.save();
 
-        console.log('Saving user:', newUser);
-
-        await newUser.save();
-
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-        console.error('Error during registration:', error);
-        res.status(500).json({ message: 'Server error' });
-    }
+      res.status(201).json({ 
+          message: 'User registered successfully',
+          userId: savedUser._id  // Send the MongoDB-generated _id as the user ID
+      });
+  } catch (error) {
+      console.error('Error during registration:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
 });
-
 
 // Register route
 // Ensure this route is correctly set up and it's placed inside the app.use or at the top level of your server
@@ -647,7 +646,54 @@ app.post('/api/send-email', async (req, res) => {
 });
 
 
-// Auth
+
+
+
+
+
+
+
+
+
+
+//Account 
+// Endpoint to fetch user account details
+app.get('/api/account', async (req, res) => {
+  const token = req.headers['authorization'];
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, 'secret_key'); // Verify JWT token
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      email: user.email,
+      // Add other fields as necessary
+    });
+  } catch (error) {
+    console.error('Error fetching account:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

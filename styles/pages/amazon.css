@@ -1554,28 +1554,28 @@ form input:focus {
   padding-bottom: 20px;
   /* text-align: center; */
   margin: 0 auto;
-  background-color: rgb(242, 242, 242);
+  background-color: #e9e9e9;
 }
 
 .userInfo.show {
   display: block;
   transition: opacity 0.5s ease-in-out;
   opacity: 1;
-  margin-top: 20px;
-  margin: 0 auto;
+  margin-top: 28px;
   text-align: center;
-  width: 100%;
-height: 60px;
+  width: 92%;
+  height: 66px;
+  border-radius: 8px;
 }
-
 #userEmail {
   font-size: 0.9rem;
   opacity: 0.8;
 }
 .logout-btn {
-  width: 100px;
+  width: 140px;
   height: 30px;
   margin-top: 20px;
+  background-color: rgb(254, 189, 105);
 }
 
 
