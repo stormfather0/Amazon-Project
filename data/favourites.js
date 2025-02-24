@@ -1,11 +1,8 @@
 // import { favouritesListener } from '../scripts/amazon.js';
 
-
-
 // import { products } from '../data/products.js'; 
 import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
 import {formatCurrency} from '../scripts/utils/money.js';
-
 
 // Fetch products data from backend==================================================================
 let products = [];
@@ -17,47 +14,33 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
     return response.json();
   })
   .then(data => {
-    products = data; // Assign fetched data to products
-    // console.log('Products fetched successfully:', products);
+    products = data;
   })
   .catch(error => {
     console.error('Error fetching products:', error);
   });
 //=================================================================================================
 
-// Initialize favourite array (this will hold product IDs or product objects)
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
-// Function to add a product to the favourite array
 export function addFavourite(productId) {
-  // Add product ID to the array if not already in the list
   if (!favourite.includes(productId)) {
     favourite.push(productId);
-    // Save updated array to localStorage
     localStorage.setItem('favourite', JSON.stringify(favourite));
   }
 }
 
-// Function to remove a product from the favourite array
 export function removeFavourite(productId) {
   const index = favourite.indexOf(productId);
   if (index > -1) {
     favourite.splice(index, 1);
-    // Save updated array to localStorage
     localStorage.setItem('favourite', JSON.stringify(favourite));
   }
 }
 
-// Function to check if a product is in the favourite array
 export function isFavourite(productId) {
   return favourite.includes(productId);
 }
-
-// Export functions for use in other files
-// export { addFavourite, removeFavourite, isFavourite, favourite };
-
-
-
 
 window.onload = async function () {
     if (document.location.pathname.includes('favourites.html')) {
@@ -67,26 +50,20 @@ window.onload = async function () {
             return;
         }
 
-        // Fetch products first
         try {
-            const response = await fetch('https://amazon-project-sta4.onrender.com/api/products'); // Replace with your API endpoint
+            const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
-            products = await response.json(); // Assign fetched data to products
-            console.log('Products fetched successfully:', products);
+            products = await response.json();
         } catch (error) {
             console.error('Error fetching products:', error);
             return;
         }
 
-        // Get favourite product IDs from localStorage
         const favouriteIds = JSON.parse(localStorage.getItem('favourite')) || [];
-
-        // Filter the products that are marked as favourites
         const favouriteProducts = products.filter(product => favouriteIds.includes(product.id));
 
-        // Render favourite products
         if (favouriteProducts.length === 0) {
             favouriteProductsContainer.innerHTML = `
                 <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"> 
@@ -94,7 +71,7 @@ window.onload = async function () {
                     <a href="amazon.html">Shop Now</a>
                 </button>`;
         } else {
-            favouriteProductsContainer.innerHTML = ''; // Clear existing content
+            favouriteProductsContainer.innerHTML = '';
             favouriteProducts.forEach(product => {
                 const productHTML = `
                 <div class="product-container">
@@ -137,10 +114,6 @@ window.onload = async function () {
                             ${[...Array(10)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
                         </select>
                     </div>
-                    <div class="product-spacer"></div>
-                    <div class="added-to-cart">
-                        <img src="images/icons/checkmark.png"> Added
-                    </div>
                     <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
                         Add to Cart
                     </button>
@@ -149,17 +122,13 @@ window.onload = async function () {
             });
         }
 
-        // Call favouritesListener after the products are rendered
         favouritesListener();
     }
 };
+
 function favouritesListener() {
-
     const favouriteIcons = document.querySelectorAll('.favourites-style');
-  
     favouriteIcons.forEach((icon) => {
-  
-
         const productId = icon.dataset.favouritesId;
         if (!productId) {
             console.error("Missing data-favourites-id for icon:", icon);
@@ -167,17 +136,12 @@ function favouritesListener() {
         }
 
         icon.addEventListener('click', () => {
-            console.log(`Clicked Product ID: ${productId}`);
-
-            // Toggle 'favourite-active' class
             icon.classList.toggle('favourite-active');
 
             if (icon.classList.contains('favourite-active')) {
                 addFavourite(productId);
             } else {
                 removeFavourite(productId);
-
-                // Remove the product from the page
                 const productContainer = icon.closest('.product-container');
                 if (productContainer) {
                     productContainer.remove();
@@ -185,33 +149,11 @@ function favouritesListener() {
             }
             
             const remainingProducts = document.querySelectorAll('.product-container');
-        if (remainingProducts.length === 0) {
-            // Update the container to show No Items picture
-            const favouriteProductsContainer = document.getElementById('favourite-products-container');
-            favouriteProductsContainer.innerHTML = '<div class="empty-cart-container"><img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"></div> <button class="button-primary shop-now-button"><a href="amazon.html">Shop Now</button>';
-        }
+            if (remainingProducts.length === 0) {
+                const favouriteProductsContainer = document.getElementById('favourite-products-container');
+                favouriteProductsContainer.innerHTML = '<div class="empty-cart-container"><img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"></div> <button class="button-primary shop-now-button"><a href="amazon.html">Shop Now</a></button>';
+            }
             localStorage.setItem('favourite', JSON.stringify(favourite));
-            console.log('Updated Favourites:', JSON.parse(localStorage.getItem('favourite')));
         });
     });
 }
-
-
-
-
-// document.addEventListener('click', (event) => {
-//     if (event.target && event.target.classList.contains('js-add-to-cart')) {
-//       const button = event.target;
-//       const productId = button.dataset.productId;
-//       const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-//       const quantity = parseInt(quantitySelect.value, 10);
-  
-//       addToCart(productId, quantity);
-//       updateCartQuantity();
-//     }
-//   });
-
-//    function updateCartQuantity() {
-//     const cartQuantity = calculateCartQuantity();
-//     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-//   }
