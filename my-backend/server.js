@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path'; 
 import { MongoClient, ObjectId } from 'mongodb';
 import fs from 'fs';
+// import { API_BASE_URL } from "./backend-config.js";
 
 import session from 'express-session';
 // import User from './models/User.js';
@@ -90,7 +91,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 const corsOptions = {
-  origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com'],
+  origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com', "http://127.0.0.1:5500", "http://localhost:5500",],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
 };
