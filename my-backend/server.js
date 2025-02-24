@@ -744,10 +744,14 @@ app.post('/api/favourites', async (req, res) => {
   try {
     const { userId, productId } = req.body;
 
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
     const favourite = await Favourite.findOneAndUpdate(
-      { userId }, // Find the document for the user
+      { userId }, // Find favourites for this specific user
       { $addToSet: { productIds: productId } }, // Add product ID if not already in the array
-      { upsert: true, new: true } // Create if it doesn't exist
+      { upsert: true, new: true, setDefaultsOnInsert: true } // Create if it doesn't exist
     );
 
     res.status(200).json({ message: 'Favourite updated successfully', favourite });
