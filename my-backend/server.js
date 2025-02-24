@@ -743,11 +743,16 @@ const Favourite = mongoose.model('Favourite', favouriteSchema);
 app.post('/api/favourites', async (req, res) => {
   try {
     const { userId, productId } = req.body;
-    const favourite = new Favourite({ userId, productId });
-    await favourite.save();
-    res.status(201).json({ message: 'Favourite added successfully' });
+
+    const favourite = await Favourite.findOneAndUpdate(
+      { userId }, // Find the document for the user
+      { $addToSet: { productIds: productId } }, // Add product ID if not already in the array
+      { upsert: true, new: true } // Create if it doesn't exist
+    );
+
+    res.status(200).json({ message: 'Favourite updated successfully', favourite });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to add favourite' });
+    res.status(500).json({ error: 'Failed to update favourites' });
   }
 });
 
@@ -756,6 +761,21 @@ app.get('/api/favourites', async (req, res) => {
   try {
     const favourites = await Favourite.find();
     res.json(favourites);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch favourites' });
+  }
+});
+
+app.get('/api/favourites/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const favourite = await Favourite.findOne({ userId });
+
+    if (!favourite) {
+      return res.json({ productIds: [] }); // Return empty if no favourites found
+    }
+
+    res.json(favourite);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch favourites' });
   }
