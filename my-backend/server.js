@@ -657,6 +657,9 @@ const transporter = nodemailer.createTransport({
 
 // Token verification route
 // Token verification route
+
+const token = jwt.sign({ email: user.email }, 'sb5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9', { expiresIn: '1h' });
+
 app.get('/api/verify', async (req, res) => {
   console.log('🟢 /api/verify route hit');  // Debug log
 
@@ -697,7 +700,14 @@ app.get('/api/verify', async (req, res) => {
   }
 });
 
-
+fs.readFile(productsFilePath, 'utf8', (err, data) => {
+  if (err) {
+      console.error('Error reading file:', err); // Log the error for more details
+      return res.status(500).json({ error: 'Failed to read products file' });
+  }
+  console.log('File read successfully:', data); // Log the contents
+  res.json(JSON.parse(data)); // Send products to frontend
+});
 
 
 // Start the server
