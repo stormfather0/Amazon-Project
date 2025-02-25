@@ -694,6 +694,45 @@ app.get('/api/verify', verifyUser, (req, res) => {
 
 
 
+
+
+
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ message: 'Access Denied' });
+
+  try {
+      const verified = jwt.verify(token, JWT_SECRET);
+      req.user = verified; // Attach user info to request object
+      next();
+  } catch (err) {
+      return res.status(403).json({ message: 'Invalid Token' });
+  }
+};
+
+// Fetch user details
+app.get('/api/user', authenticateToken, async (req, res) => {
+  try {
+      const user = await User.findById(req.user.userId).select('-password'); // Exclude password
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      return res.json({ firstName: user.firstName, lastName: user.lastName });
+  } catch (error) {
+      console.error('❌ Error fetching user:', error);
+      return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
