@@ -668,20 +668,17 @@ const transporter = nodemailer.createTransport({
 
 
 
-
-
-
-
-// Favourite model
-const Favourite = mongoose.model('Favourite', new mongoose.Schema({
+// Define schema
+const favouriteSchema = new mongoose.Schema({
   productId: { type: String, required: true },
   userId: { type: String, required: true },
-}, {
-  indexes: [{ 
-    unique: true, 
-    fields: ['userId', 'productId'] 
-  }]
-}));
+});
+
+// Create a compound index to ensure unique combination of userId and productId
+favouriteSchema.index({ userId: 1, productId: 1 }, { unique: true });
+
+// Create model
+const Favourite = mongoose.model('Favourite', favouriteSchema);
 
 // Route to add a favourite
 app.post('/api/favourites', async (req, res) => {
