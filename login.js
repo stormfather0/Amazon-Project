@@ -138,13 +138,25 @@ loginForm?.addEventListener('submit', async (event) => {
             localStorage.setItem('userEmail', email);
 
             // Fetch User ID
-            const userResponse = await fetch('https://amazon-project-sta4.onrender.com/api/account', {
+            fetch('https://amazon-project-sta4.onrender.com/api/account', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
                 }
-            });
+              })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(userResponse => {
+                console.log("✅ User data:", userResponse);
+              })
+              .catch(error => {
+                console.error('❌ Error fetching account:', error);
+              });
 
             const userData = await userResponse.json();
             if (userResponse.ok) {

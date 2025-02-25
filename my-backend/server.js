@@ -93,7 +93,8 @@ connectToDatabase();
 const corsOptions = {
   origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com', "http://127.0.0.1:5500", "http://localhost:5500",],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type, Authorization']
+  allowedHeaders: ['Content-Type, Authorization'],
+  credentials: true
 };
 app.use(cors(corsOptions));  
 
