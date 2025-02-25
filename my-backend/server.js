@@ -685,15 +685,23 @@ const favouriteSchema = new mongoose.Schema({
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
 // Route to get favorite products
-app.get('/api/favourites', authenticateToken, async (req, res) => {
-    try {
-        const favourites = await Favourite.find({ userId: req.user.id }).populate('productId');
-        res.json(favourites);
-    } catch (error) {
-        console.error('Error fetching favourites:', error);
-        res.status(500).json({ message: 'Error fetching favourites' });
-    }
-});
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
+
+  if (!token) {
+      return res.status(401).json({ message: 'Authentication required' }); // Missing token
+  }
+
+  // Verify token
+  jwt.verify(token, process.env.AUTH_SECRET, (err, user) => {
+      if (err) {
+          return res.status(403).json({ message: 'Forbidden' });  // Token verification failed
+      }
+
+      req.user = user; // Attach the user object to the request
+      next();  // Proceed to the next middleware or route handler
+  });
+}
 
 // Route to add a product to favorites
 app.post('/api/favourites', authenticateToken, async (req, res) => {
