@@ -31,6 +31,9 @@ console.log('JWT_SECRET:', JWT_SECRET);  //// Check if the JWT_SECRET value is c
 
 
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ik1hcmtUZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQwNTA5NzcyLCJleHAiOjE3NDA1MTMzNzJ9.euntcB1gm3SobQGIY_Jm5SfdHYRRuxrAbBOQviMPFPs';
+const decoded = JSON.parse(atob(token.split('.')[1])); // Decodes the payload part of the token
+console.log(decoded);
 
 console.log(JWT_SECRET); // Should output the JWT secret from your .env file
 
