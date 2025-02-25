@@ -811,21 +811,7 @@ app.get('/api/account', (req, res) => {
   });
 });
 
-// Middleware to validate token and extract userId
-const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from "Bearer <token>"
-  if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-  }
 
-  jwt.verify(token, 'your-secret-key', (err, user) => {
-      if (err) {
-          return res.status(403).json({ message: 'Invalid token' });
-      }
-      req.userId = user.userId; // Attach userId to request
-      next();
-  });
-};
 
 
 
