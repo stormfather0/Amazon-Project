@@ -659,44 +659,43 @@ const transporter = nodemailer.createTransport({
 
 
 
-
-app.get('/api/verify', async (req, res) => {
-  console.log('🟢 /api/verify route hit');  // Debug log
-
-  const token = req.headers.authorization?.split(' ')[1]; // Extract token
+// Middleware to verify JWT and check if the user is verified
+const verifyUser = async (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    console.error('❌ Token missing');
-    return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ error: 'Authentication token is required.' });
   }
 
   try {
-    const decoded = jwt.verify(token, AUTH_SECRET); // Verify token
-    console.log('🟢 Token decoded:', decoded);
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      
+      // Find the user by ID
+      const user = await User.findById(decoded.userId);
 
-    const user = await User.findById(decoded.userId); // Find user by ID from token
-    if (!user) {
-      console.error('❌ User not found');
-      return res.status(404).json({ message: 'User not found' });
-    }
+      if (!user) {
+          return res.status(404).json({ error: 'User not found.' });
+      }
 
-    console.log('✅ Auth successful for user:', user.email);
+      // Check if user is verified
+      if (!user.isVerified) {
+          return res.status(403).json({ isVerified: false, message: 'User is not verified.' });
+      }
 
-    if (!user.verified) {
-      console.error('❌ User not verified');
-      return res.status(403).json({ message: 'User is not verified' });
-    }
-
-    res.json({ isVerified: user.verified });
+      // Attach user to request object for further use
+      req.user = user;
+      next();
   } catch (error) {
-    console.error('❌ Error verifying token:', error);
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired. Please log in again.' });
-    }
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+      console.error('Verification error:', error);
+      res.status(400).json({ error: 'Invalid or expired token.' });
   }
-});
+};
 
+// Example route to verify user
+app.get('/api/verify', verifyUser, (req, res) => {
+  res.json({ isVerified: true, message: 'User is verified.' });
+});
 
 
 
