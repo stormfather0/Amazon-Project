@@ -662,6 +662,22 @@ const transporter = nodemailer.createTransport({
 // });
 
 app.get('/api/verify', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
+  
+  if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+  }
+
+  try {
+      const decoded = jwt.verify(token, 'secret_key'); // Ensure 'secret_key' matches your login route
+      res.status(200).json({ message: 'Token is valid', user: decoded });
+  } catch (error) {
+      console.error('Token verification error:', error);
+      res.status(401).json({ message: 'Invalid token' });
+  }
+});
+
+app.get('/api/verify', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token
 
   if (!token) {
