@@ -53,10 +53,9 @@ export function addFavourite(productId) {
     })
     .catch(error => console.error('Error adding favourite:', error));
 }
-
 export function removeFavourite(productId) {
     const authToken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId'); // Ensure the correct userId
 
     if (!authToken || !userId) {
         alert('You need to log in to remove favorites.');
@@ -77,7 +76,7 @@ export function removeFavourite(productId) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`
         },
-        body: JSON.stringify({ userId, productId }),
+        body: JSON.stringify({ userId, productId }), // Make sure userId is correct
     })
     .then(response => response.json())
     .then(data => {
