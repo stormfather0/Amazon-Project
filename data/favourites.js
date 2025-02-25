@@ -56,9 +56,9 @@ function getUserIdFromServer() {
         return null;
       });
 }
-
 export function addFavourite(productId) {
-    getUserIdFromServer().then(userId => {
+    getUserIdFromServer()
+    .then(userId => {
         console.log('User ID from server:', userId); // Debugging
 
         if (!userId) {
@@ -82,9 +82,13 @@ export function addFavourite(productId) {
             }
             return response.json();
         })
-        .then(data => console.log('Favourite added:', data))
+        .then(data => {
+            console.log('Favourite added:', data);
+            // Optionally, update the UI here if needed
+        })
         .catch(error => console.error('Error adding favourite:', error));
-    }).catch(error => {
+    })
+    .catch(error => {
         console.error("Error in getUserIdFromServer:", error);
     });
 }

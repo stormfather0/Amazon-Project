@@ -719,7 +719,7 @@ function isAuthenticated(req, res, next) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;  // Store user info in request object
 
-      console.log("Decoded token:", decoded); // Debugging statement to check the decoded token
+      console.log("Decoded token:", decoded); // Check decoded token
 
       next();  // Continue to the next middleware or route handler
   } catch (error) {
