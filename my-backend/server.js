@@ -669,23 +669,23 @@ const Favourite = mongoose.model('Favourite', new mongoose.Schema({
 
 // Route to add a favourite
 app.post('/api/favourites', async (req, res) => {
-  const { productId, userId } = req.body;
-
   try {
-    if (!productId || !userId) {
-      return res.status(400).json({ message: 'Product ID and User ID are required.' });
-    }
+      const { userId, productId } = req.body;
+      if (!userId || !productId) {
+          return res.status(400).json({ error: 'userId and productId are required' });
+      }
 
-    const favourite = new Favourite({
-      productId,
-      userId,
-    });
+      // Your logic to add to database, for example:
+      const favourite = new Favourite({
+          userId,
+          productId
+      });
 
-    await favourite.save();
-    return res.status(201).json({ message: 'Favourite added successfully!' });
+      await favourite.save();
+      res.status(201).json(favourite);
   } catch (error) {
-    console.error('Error adding favourite:', error);
-    return res.status(500).json({ message: 'Server error. Please try again later.' });
+      console.error('Error saving favourite:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

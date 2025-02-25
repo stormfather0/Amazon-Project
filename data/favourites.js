@@ -1,16 +1,6 @@
 import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from '../scripts/utils/money.js';
 
-// Fetch authToken from localStorage
-const authToken = localStorage.getItem('authToken');
-
-// Check if authToken exists before using it
-if (authToken) {
-    console.log('Auth Token:', authToken); // Verify the token
-} else {
-    console.error('Auth Token is missing!');
-}
-
 // The rest of your code...
 
 // Fetch products data from backend (Ensuring it's fully loaded before use)
@@ -18,17 +8,8 @@ let products = [];
 
 async function fetchProducts() {
     try {
-        const authToken = localStorage.getItem('authToken'); // Ensure authToken is retrieved first
-        if (!authToken) {
-            throw new Error('No authToken found');
-        }
-
-        const response = await fetch('https://amazon-project-sta4.onrender.com/api/products', {
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-
+        const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
+        
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -45,9 +26,8 @@ async function fetchProducts() {
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a favourite
-// Function to add a favourite
 export function addFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // You can still use localStorage to store user ID
+    const userId = localStorage.getItem('userId'); // Still using localStorage for user ID
 
     if (!userId) {
         alert('You need to log in to add favourites.');
@@ -60,7 +40,7 @@ export function addFavourite(productId) {
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
-    // Sending the POST request to the server
+    // Sending the POST request to the server (no authToken now)
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'POST',
         headers: {
@@ -82,10 +62,9 @@ export function addFavourite(productId) {
 
 // Function to remove a favourite
 export function removeFavourite(productId) {
-    const authToken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId'); // Still using localStorage for user ID
 
-    if (!authToken || !userId) {
+    if (!userId) {
         alert('You need to log in to remove favourites.');
         return;
     }
@@ -100,9 +79,8 @@ export function removeFavourite(productId) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
         },
-        body: JSON.stringify({ userId, productId }),
+        body: JSON.stringify({ userId, productId }), // Send userId and productId
     })
     .then(response => response.json())
     .then(data => {

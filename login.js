@@ -184,3 +184,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+const userId = localStorage.getItem('userId');
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing code for login popup and other UI logic
+    
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('You need to log in to add favourites.');
+        return;  // Exit from the function
+    }
+
+    console.log('User ID:', userId);
+    
+    // The rest of your code remains the same
+});
