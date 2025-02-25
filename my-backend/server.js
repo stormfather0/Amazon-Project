@@ -170,7 +170,7 @@ const userSchema = new mongoose.Schema({
       required: true
     },
     favorites: 
-    { type: [String], 
+    { type: String, 
       default: [] } 
 });
   const User = mongoose.model('User', userSchema);
@@ -657,72 +657,116 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-const authenticateUser = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Access Denied" });
 
-  try {
-      const verified = jwt.verify(token, JWT_SECRET);
-      req.user = verified; // Attach user info to request
-      next();
-  } catch (err) {
-      res.status(401).json({ message: "Invalid Token" });
-  }
-};
 
-app.get("/api/favorites", authenticateUser, async (req, res) => {
-  try {
-      const user = await User.findById(req.user.userId);
-      if (!user) return res.status(404).json({ message: "User not found" });
 
-      res.json({ favorites: user.favorites });
-  } catch (error) {
-      console.error("Error fetching favorites:", error);
-      res.status(500).json({ message: "Server error" });
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Favourite = mongoose.model('Favourite', favouriteSchema);
+
+// Route to get favorite products
+app.get('/api/favourites', authenticateToken, async (req, res) => {
+    try {
+        const favourites = await Favourite.find({ userId: req.user.id }).populate('productId');
+        res.json(favourites);
+    } catch (error) {
+        console.error('Error fetching favourites:', error);
+        res.status(500).json({ message: 'Error fetching favourites' });
+    }
 });
 
+// Route to add a product to favorites
+app.post('/api/favourites', authenticateToken, async (req, res) => {
+    const { userId, productId } = req.body;
 
-app.get("/api/favorites", authenticateUser, async (req, res) => {
-  try {
-      const user = await User.findById(req.user.userId);
-      if (!user) return res.status(404).json({ message: "User not found" });
+    if (!userId || !productId) {
+        return res.status(400).json({ message: 'User ID and Product ID are required' });
+    }
 
-      // Ensure favorites always exists
-      if (!user.favorites) {
-          user.favorites = [];
-          await user.save();
-      }
+    try {
+        // Check if product is already in the user's favorites
+        const existingFavourite = await Favourite.findOne({ userId, productId });
+        if (existingFavourite) {
+            return res.status(400).json({ message: 'Product is already in your favorites' });
+        }
 
-      res.json({ favorites: user.favorites });
-  } catch (error) {
-      console.error("Error fetching favorites:", error);
-      res.status(500).json({ message: "Server error" });
-  }
+        // Add new favorite
+        const newFavourite = new Favourite({ userId, productId });
+        await newFavourite.save();
+
+        res.status(201).json({ message: 'Favourite added successfully', favourite: newFavourite });
+    } catch (error) {
+        console.error('Error adding favourite:', error);
+        res.status(500).json({ message: 'Error adding favourite' });
+    }
 });
 
-app.delete("/api/favorites/:productId", authenticateUser, async (req, res) => {
-  const { productId } = req.params;
+// Route to remove a product from favorites
+app.delete('/api/favourites', authenticateToken, async (req, res) => {
+    const { userId, productId } = req.body;
 
-  try {
-      const user = await User.findById(req.user.userId);
-      if (!user) return res.status(404).json({ message: "User not found" });
+    if (!userId || !productId) {
+        return res.status(400).json({ message: 'User ID and Product ID are required' });
+    }
 
-      user.favorites = user.favorites.filter(id => id !== productId);
-      await user.save();
+    try {
+        const favourite = await Favourite.findOneAndDelete({ userId, productId });
 
-      res.json({ message: "Product removed from favorites", favorites: user.favorites });
-  } catch (error) {
-      console.error("Error removing favorite:", error);
-      res.status(500).json({ message: "Server error" });
-  }
+        if (!favourite) {
+            return res.status(404).json({ message: 'Favourite not found' });
+        }
+
+        res.status(200).json({ message: 'Favourite removed successfully' });
+    } catch (error) {
+        console.error('Error removing favourite:', error);
+        res.status(500).json({ message: 'Error removing favourite' });
+    }
 });
 
+// Middleware for authenticating JWT token
+function authenticateToken(req, res, next) {
+    const token = req.header('Authorization')?.split(' ')[1];
 
+    if (!token) {
+        return res.status(401).json({ message: 'Authentication required' });
+    }
 
+    // Verify token
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Forbidden' });
+        }
 
+        req.user = user;
+        next();
+    });
+}
 
-
+// Sample product route (replace with your actual product schema and logic)
+app.get('/api/products', async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Error fetching products' });
+    }
+});
 
 
 
