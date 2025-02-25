@@ -3,7 +3,6 @@ import cors from 'cors';
 // import bcrypt from 'bcrypt';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import jwt_decode from 'jwt-decode';
 import path from 'path'; 
 import { fileURLToPath } from 'url'; 
 import { dirname } from 'path'; 
@@ -583,8 +582,6 @@ app.put('/api/products/:id', (req, res) => {
 
 
 
-
-
 // 
 
 
@@ -662,28 +659,22 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-// Middleware to check if the user is authenticated
-function isAuthenticated(req, res, next) {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from "Bearer <token>"
+
+
+
+//Account 
+// Endpoint to fetch user account details
+app.get('/api/account', async (req, res) => {
+  const token = req.headers['authorization'];
+
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    return res.status(401).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, 'secret_key', (err, decoded) => {
-    if (err) {
-      console.error('Invalid token:', err); // Log for debugging
-      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-    }
-
-    req.user = decoded; // Store decoded information in the request object
-    next(); // Continue to the next middleware or route handler
-  });
-}
-
-// Account endpoint to fetch user account details
-app.get('/api/account', isAuthenticated, async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.user.email }); // Use decoded email from token
+    const decoded = jwt.verify(token, 'secret_key'); // Verify JWT token
+    const user = await User.findOne({ email: decoded.email });
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -698,7 +689,7 @@ app.get('/api/account', isAuthenticated, async (req, res) => {
   }
 });
 
-// Endpoint to fetch user details by email
+//
 app.get('/api/getUser', async (req, res) => {
   const { email } = req.query; // Get email from query parameters
 
@@ -718,12 +709,35 @@ app.get('/api/getUser', async (req, res) => {
   }
 });
 
-// Protect account route by ensuring the user is authenticated
+
+// Middleware to check if the user is authenticated
+function isAuthenticated(req, res, next) {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    try {
+        // Verify the token (assuming JWT is used)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;  // Store user info in request object
+        next();  // Continue to the next middleware or route handler
+    } catch (error) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+}
+
+
+
+
+// Protect account route
 app.get('/account', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'account.html'));
+    res.sendFile(path.join(__dirname, 'public', 'account.html'));
 });
 
-// Favourite schema and model
+
+
 const favouriteSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   productIds: { type: [String], default: [] }
@@ -731,10 +745,10 @@ const favouriteSchema = new mongoose.Schema({
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
-// Add a product to the user's favourites
+
+
 app.post('/api/favourites', isAuthenticated, async (req, res) => {
-  const { productId } = req.body;
-  const userId = req.user._id; // Use the decoded userId from the token
+  const { userId, productId } = req.body;
 
   try {
     let favourite = await Favourite.findOne({ userId });
@@ -755,10 +769,10 @@ app.post('/api/favourites', isAuthenticated, async (req, res) => {
   }
 });
 
-// Fetch all favourite products for a user
+// Fetch all favourite products
 app.get('/api/favourites', isAuthenticated, async (req, res) => {
-  const userId = req.user._id; // Get userId from decoded token
-
+  const { userId } = req.query;
+f
   try {
     const favourite = await Favourite.findOne({ userId });
     res.status(200).json(favourite ? favourite.productIds : []);
@@ -767,6 +781,38 @@ app.get('/api/favourites', isAuthenticated, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.get('/api/account', (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  // Verify the token
+  jwt.verify(token, 'yourSecretKey', (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Failed to authenticate token' });
+    }
+
+    // Fetch user from the database using decoded.userId from the token
+    User.findById(decoded.userId, (err, user) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error finding user' });
+      }
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Send user details (including userId)
+      res.json({ userId: user._id }); // Send the userId back to the frontend
+    });
+  });
+});
+
+
+
 
 
 
