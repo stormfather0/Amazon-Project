@@ -714,7 +714,35 @@ app.post('/api/favourites', async (req, res) => {
 
 
 
+// Add product to the user's favorites
+app.post('/api/add-to-favorites', async (req, res) => {
+  const { userId, productId } = req.body;
 
+  try {
+      // Check if the user exists
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Check if the product is already in the user's favorites
+      const existingFavorite = await Favourite.findOne({ userId, productId });
+      if (existingFavorite) {
+          return res.status(400).json({ message: 'Product already in favorites' });
+      }
+
+      // If the product is not already in the favorites, create a new Favorite entry
+      const favourite = new Favourite({ userId, productId });
+
+      // Save the favorite to the database
+      await favourite.save();
+
+      res.status(201).json({ message: 'Product added to favorites successfully' });
+  } catch (error) {
+      console.error('Error adding product to favorites:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 
