@@ -24,7 +24,7 @@ const MONGO_URI = process.env.MONGO_URI;
 // const AUTH_SECRET = process.env.AUTH_SECRET;
 const router = express.Router(); 
 
-const JWT_SECRET  = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9';
+const JWT_SECRET = process.env.JWT_SECRET;
 console.log('JWT_SECRET:', JWT_SECRET);  // Check if the JWT_SECRET value is correctly loaded
 
 
