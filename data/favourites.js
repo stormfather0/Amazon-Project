@@ -24,19 +24,15 @@ if (!userId) {
 }
 
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
-const token = localStorage.getItem('authToken');
-console.log("Received Token:", token);
-if (!token) {
-    console.error("No token found, user not authenticated.");
-    // You can handle this case by redirecting to login or showing a message
-}
-
 function getUserIdFromServer() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
+    console.log('Retrieved Token:', token);  
+
     if (!token) {
         console.error("No token found, user not authenticated.");
-        return;
+        return Promise.resolve(null);
     }
+
     return fetch('https://amazon-project-sta4.onrender.com/api/account', {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -56,15 +52,11 @@ function getUserIdFromServer() {
         return null;
     });
 }
-
-
 export function addFavourite(productId) {
-    getUserIdFromServer()
-    .then(userId => {
+    getUserIdFromServer().then(userId => {
         console.log('User ID from server:', userId); // Debugging
 
         if (!userId) {
-            alert("User not authenticated. Please log in to add favourites.");
             console.error("User ID is missing, can't add favourite.");
             return;
         }
@@ -74,7 +66,7 @@ export function addFavourite(productId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Send token
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // Send token
             },
             body: JSON.stringify({ userId, productId })
         })
@@ -84,23 +76,36 @@ export function addFavourite(productId) {
             }
             return response.json();
         })
-        .then(data => {
-            console.log('Favourite added:', data);
-            // Optionally, update the UI here if needed
-        })
+        .then(data => console.log('Favourite added:', data))
         .catch(error => console.error('Error adding favourite:', error));
-    })
-    .catch(error => {
+    }).catch(error => {
         console.error("Error in getUserIdFromServer:", error);
     });
 }
-
 export function removeFavourite(productId) {
   const index = favourite.indexOf(productId);
   if (index > -1) {
     favourite.splice(index, 1);
     localStorage.setItem('favourite', JSON.stringify(favourite));
   }
+  fetch('https://amazon-project-sta4.onrender.com/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+})
+.then(response => response.json())
+.then(data => {
+    console.log("Raw response:", data); // Debugging
+
+    if (data.token) {
+        localStorage.setItem('token', data.token); // ✅ Save token
+        console.log('🎉 Login successful:', data.email);
+        updateUI(data.email); // Update UI function
+    } else {
+        console.error('❌ No token received.');
+    }
+})
+.catch(error => console.error('Login error:', error));
 }
 
 export function isFavourite(productId) {
@@ -189,8 +194,9 @@ function favouritesListener() {
     });
   });
 }
-
-
-console.log("Received Token:", token);
-localStorage.setItem('authToken', token);
-console.log('Stored token:', token);
+// localStorage.setItem('token', response.token);
+const token = localStorage.getItem('authToken');
+if (!token) {
+    console.error("No token found, user not authenticated.");
+    // You can handle this case by redirecting to login or showing a message
+}

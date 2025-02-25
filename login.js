@@ -200,38 +200,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-async function isLoggedIn() {
-    try {
-      const response = await fetch('https://amazon-project-sta4.onrender.com/api/check-auth', { credentials: 'include' });
-      if (!response.ok) {
-        throw new Error('Not logged in');
-      }
-      const data = await response.json();
-      return data.loggedIn;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async function handleLogin() {
-    const response = await fetch('https://amazon-project-sta4.onrender.com/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: emailInput.value,
-        password: passwordInput.value
-      })
-    });
-    
-    const data = await response.json();
-    
-    if (response.ok) {
-      // Store the authToken in localStorage or sessionStorage
-      localStorage.setItem('authToken', data.token);
-      console.log('Login successful:', data.email);
-    } else {
-      console.error('Login failed:', data.message);
-    }
-  }
