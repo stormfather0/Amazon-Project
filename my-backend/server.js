@@ -168,7 +168,10 @@ const userSchema = new mongoose.Schema({
     password: {
       type: String,
       required: true
-    }
+    },
+    favorites: 
+    { type: [String], 
+      default: [] } 
 });
   const User = mongoose.model('User', userSchema);
   
@@ -650,6 +653,83 @@ app.post('/api/send-email', async (req, res) => {
         res.status(500).send('Failed to send email');
     }
 });
+
+
+
+
+const authenticateUser = (req, res, next) => {
+  const token = req.header("Authorization")?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access Denied" });
+
+  try {
+      const verified = jwt.verify(token, JWT_SECRET);
+      req.user = verified; // Attach user info to request
+      next();
+  } catch (err) {
+      res.status(401).json({ message: "Invalid Token" });
+  }
+};
+
+app.get("/api/favorites", authenticateUser, async (req, res) => {
+  try {
+      const user = await User.findById(req.user.userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      res.json({ favorites: user.favorites });
+  } catch (error) {
+      console.error("Error fetching favorites:", error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+app.post("/api/favorites", authenticateUser, async (req, res) => {
+  const { productId } = req.body;
+
+  try {
+      const user = await User.findById(req.user.userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      if (!user.favorites.includes(productId)) {
+          user.favorites.push(productId);
+          await user.save();
+      }
+
+      res.json({ message: "Product added to favorites", favorites: user.favorites });
+  } catch (error) {
+      console.error("Error adding favorite:", error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.delete("/api/favorites/:productId", authenticateUser, async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+      const user = await User.findById(req.user.userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      user.favorites = user.favorites.filter(id => id !== productId);
+      await user.save();
+
+      res.json({ message: "Product removed from favorites", favorites: user.favorites });
+  } catch (error) {
+      console.error("Error removing favorite:", error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

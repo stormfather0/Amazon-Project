@@ -13,65 +13,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const userEmail = document.querySelector('#userEmail');
     const logoutButton = document.querySelector('.logout-btn');
 
-    // Ensure essential elements exist
     if (!popup || !userInfoContainer || !loginContainer || !userEmail) {
         console.error('⚠️ Missing UI elements for login system.');
         return;
     }
 
-    // Function to update UI after login
     function updateUIAfterLogin(email) {
         console.log('✅ Updating UI for user:', email);
         userInfoContainer.classList.add('show');
         userEmail.textContent = email;
-        loginContainer.classList.add('hidden');  // Hide login container after login
+        loginContainer.classList.add('hidden'); // Hide login container
+        fetchAndStoreFavourites(); // Fetch favorites on login
     }
 
-    // Check if user is already logged in
-    const savedEmail = localStorage.getItem('userEmail');
-    if (savedEmail) {
-        updateUIAfterLogin(savedEmail);
-    }
-
-    // Handle logout
-    logoutButton?.addEventListener('click', () => {
+    function updateUIAfterLogout() {
         console.log('🚪 Logging out...');
         localStorage.removeItem('authToken');
         localStorage.removeItem('userEmail');
-    
-        // Reset UI
-        loginContainer.classList.remove('hidden'); // Show login container after logout
-        userInfoContainer.classList.remove('show'); // Hide user info container
-        userEmail.textContent = '';  // Clear email text
-    });
+        localStorage.removeItem('favourite'); // Clear stored favorites
+        loginContainer.classList.remove('hidden'); // Show login container
+        userInfoContainer.classList.remove('show'); // Hide user info
+        userEmail.textContent = ''; 
+    }
 
-    // Function to check login status
+    async function fetchAndStoreFavourites() {
+        const authToken = localStorage.getItem('authToken');
+        const userId = localStorage.getItem('userId');
+        
+        if (!authToken || !userId) return;
+        
+        try {
+            const response = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites?userId=${userId}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            
+            if (!response.ok) throw new Error('Failed to fetch favorites');
+
+            const data = await response.json();
+            localStorage.setItem('favourite', JSON.stringify(data.favourites));
+            console.log('⭐ Favourites updated:', data.favourites);
+        } catch (error) {
+            console.error('❌ Error fetching favourites:', error);
+        }
+    }
+
+    if (localStorage.getItem('userEmail')) {
+        updateUIAfterLogin(localStorage.getItem('userEmail'));
+    }
+
+    logoutButton?.addEventListener('click', updateUIAfterLogout);
+
     function isUserLoggedIn() {
         return !!localStorage.getItem('authToken');
     }
 
-    // Function to handle login popup visibility
     function openLoginPopup() {
         popup.classList.remove('hidden');
         loginForm.classList.remove('hidden');
         signupForm.classList.add('hidden');
     }
 
-    // Event listener for login button (just opens login popup)
     loginButton?.addEventListener('click', openLoginPopup);
 
-    // Event listener for account icon click (only `.account-icon-svg` triggers redirect)
     accountIconButton?.addEventListener('click', (event) => {
         if (event.target.classList.contains('account-icon-svg')) {
-            if (isUserLoggedIn()) {
-                window.location.href = 'account.html';
-            } else {
-                openLoginPopup();
-            }
+            isUserLoggedIn() ? window.location.href = 'account.html' : openLoginPopup();
         }
     });
 
-    // Event listeners for switching between login/signup
     createAccountLink?.addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.classList.add('hidden');
@@ -90,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.classList.remove('hidden');
     });
 
-    // Close popup when clicking outside
     popup?.addEventListener('click', (event) => {
         if (event.target === popup) {
             popup.classList.add('hidden');
@@ -101,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.classList.add('hidden');
     });
 
-    // Handle login form submission
     loginForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -130,18 +137,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = JSON.parse(text);
 
             if (response.ok) {
-                const { email, token } = data;
+                const { email, token, userId } = data;
                 console.log('🎉 Login successful:', email);
-                // Store login data
+                
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('userEmail', email);
+                localStorage.setItem('userId', userId);
 
-                // Update UI
                 updateUIAfterLogin(email);
-
-                // Hide login popup
                 popup.classList.add('hidden');
-            
             } else {
                 console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
                 alert('Login failed. Please try again.');
@@ -152,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle signup form submission
     signupForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -187,8 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 alert('🎉 Account created successfully!');
                 popup.classList.add('hidden');
-                // Optionally redirect to login page
-                // window.location.href = '/login.html';
             } else {
                 alert('❌ Signup failed: ' + (data.message || 'Unknown error'));
             }
@@ -198,5 +199,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
