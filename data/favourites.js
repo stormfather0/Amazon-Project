@@ -66,7 +66,7 @@ export function addFavourite(productId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, productId }),
+        body: JSON.stringify({ userId, productId }), // Ensure these variables are properly set
     })
     .then(response => {
         if (!response.ok) {
