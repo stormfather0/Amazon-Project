@@ -660,20 +660,28 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
-
-//Account 
-// Endpoint to fetch user account details
-app.get('/api/account', async (req, res) => {
-  const token = req.headers['authorization'];
-
+// Middleware to check if the user is authenticated
+function isAuthenticated(req, res, next) {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from "Bearer <token>"
   if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
 
+  jwt.verify(token, 'secret_key', (err, decoded) => { // Use consistent secret key
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+
+    req.user = decoded; // Store user info in the request
+    next(); // Continue to the next middleware or route handler
+  });
+}
+
+// Consolidated '/api/account' route for fetching user account details
+app.get('/api/account', isAuthenticated, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, 'secret_key'); // Verify JWT token
-    const user = await User.findOne({ email: decoded.email });
+    // The user info is stored in req.user after token verification
+    const user = await User.findById(req.user._id); // Use userId from the token
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -681,7 +689,7 @@ app.get('/api/account', async (req, res) => {
 
     res.json({
       email: user.email,
-      // Add other fields as necessary
+      userId: user._id // Send userId in the response
     });
   } catch (error) {
     console.error('Error fetching account:', error);
@@ -689,77 +697,22 @@ app.get('/api/account', async (req, res) => {
   }
 });
 
-//
-app.get('/api/getUser', async (req, res) => {
-  const { email } = req.query; // Get email from query parameters
-
-  try {
-      const user = await User.findOne({ email });
-      if (user) {
-          res.status(200).json({
-              firstName: user.firstName,
-              lastName: user.lastName,
-          });
-      } else {
-          res.status(404).json({ message: 'User not found' });
-      }
-  } catch (error) {
-      console.error('Error fetching user data:', error);
-      res.status(500).json({ message: 'Server error' });
-  }
-});
-
-
-// Middleware to check if the user is authenticated
-function isAuthenticated(req, res, next) {
-    const token = req.headers['authorization'];
-
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    }
-
-    try {
-        // Verify the token (assuming JWT is used)
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;  // Store user info in request object
-        next();  // Continue to the next middleware or route handler
-    } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-    }
-}
-
-
-
-
-// Protect account route
-app.get('/account', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'account.html'));
-});
-
-
-
-const favouriteSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  productIds: { type: [String], default: [] }
-});
-
-const Favourite = mongoose.model('Favourite', favouriteSchema);
-
-
-
+// Updated '/api/favourites' route for adding favourites
 app.post('/api/favourites', isAuthenticated, async (req, res) => {
   const { userId, productId } = req.body;
 
   try {
     let favourite = await Favourite.findOne({ userId });
 
+    // If no favourites exist for this user, create a new favourite entry
     if (!favourite) {
       favourite = new Favourite({ userId, productIds: [] });
     }
 
+    // Check if product is already in the favourites list
     if (!favourite.productIds.includes(productId)) {
-      favourite.productIds.push(productId);
-      await favourite.save();
+      favourite.productIds.push(productId); // Add the new favourite product ID
+      await favourite.save(); // Save the updated favourite list
     }
 
     res.status(200).json({ message: 'Favourite added successfully' });
@@ -769,64 +722,18 @@ app.post('/api/favourites', isAuthenticated, async (req, res) => {
   }
 });
 
-// Fetch all favourite products
+// Fetch all favourite products for a user
 app.get('/api/favourites', isAuthenticated, async (req, res) => {
-  const { userId } = req.query;
+  const { userId } = req.query; // Get userId from query parameters
 
   try {
     const favourite = await Favourite.findOne({ userId });
-    res.status(200).json(favourite ? favourite.productIds : []);
+    res.status(200).json(favourite ? favourite.productIds : []); // Return an empty array if no favourites exist
   } catch (error) {
     console.error('Error fetching favourites:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-app.get('/api/account', (req, res) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
-
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
-
-  // Verify the token
-  jwt.verify(token, 'yourSecretKey', (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Failed to authenticate token' });
-    }
-
-    // Fetch user from the database using decoded.userId from the token
-    User.findById(decoded.userId, (err, user) => {
-      if (err) {
-        return res.status(500).json({ message: 'Error finding user' });
-      }
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      // Send user details (including userId)
-      res.json({ userId: user._id }); // Send the userId back to the frontend
-    });
-  });
-});
-
-// Middleware to validate token and extract userId
-const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from "Bearer <token>"
-  if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-  }
-
-  jwt.verify(token, 'your-secret-key', (err, user) => {
-      if (err) {
-          return res.status(403).json({ message: 'Invalid token' });
-      }
-      req.userId = user.userId; // Attach userId to request
-      next();
-  });
-};
-
 
 
 
