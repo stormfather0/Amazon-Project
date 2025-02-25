@@ -3,6 +3,7 @@ import cors from 'cors';
 // import bcrypt from 'bcrypt';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 import path from 'path'; 
 import { fileURLToPath } from 'url'; 
 import { dirname } from 'path'; 
@@ -573,6 +574,25 @@ app.put('/api/products/:id', (req, res) => {
       });
     });
 });
+
+function getUserIdFromServer() {
+  const token = localStorage.getItem('authToken');
+  console.log('Retrieved Token:', token);
+
+  if (!token) {
+      console.error("No token found, user not authenticated.");
+      return Promise.resolve(null);
+  }
+
+  try {
+      const decoded = jwt_decode(token); // Decode JWT token
+      console.log('Decoded Token:', decoded);
+      return decoded.userId; // Extract userId from decoded token
+  } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+  }
+}
 
 
 
