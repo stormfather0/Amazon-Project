@@ -199,4 +199,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-console.log('Auth Token:', authToken);  // Check if token exists

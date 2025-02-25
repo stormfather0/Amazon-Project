@@ -692,32 +692,21 @@ function authenticateToken(req, res, next) {
   }
 
   // Verify token
-  function authenticateToken(req, res, next) {
-    const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
-  
-    if (!token) {
-        return res.status(401).json({ message: 'Authentication required' }); // Missing token
-    }
-  
-    // Verify token
-    jwt.verify(token, process.env.AUTH_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Forbidden' });  // Token verification failed
-        }
-  
-        console.log('Decoded user from token:', user); // Log user info
-        console.log('User ID in body:', req.body.userId); // Log userId from the request body
-  
-        req.user = user; // Attach the user object to the request
-  
-        // Ensure the userId in the token matches the userId in the body of the request
-        if (req.body.userId && req.body.userId !== user.id) {
-            return res.status(403).json({ message: 'Forbidden: User mismatch' });
-        }
-  
-        next();  // Proceed to the next middleware or route handler
-    });
-  }
+  jwt.verify(token, process.env.AUTH_SECRET, (err, user) => {
+      if (err) {
+          return res.status(403).json({ message: 'Forbidden' });  // Token verification failed
+      }
+
+      req.user = user; // Attach the user object to the request
+
+      // Ensure the userId in the token matches the userId in the body of the request
+      if (req.body.userId && req.body.userId !== user.id) {
+          return res.status(403).json({ message: 'Forbidden: User mismatch' });
+      }
+
+      next();  // Proceed to the next middleware or route handler
+  });
+}
 
 // Route to add a product to favorites
 app.post('/api/favourites', authenticateToken, async (req, res) => {
