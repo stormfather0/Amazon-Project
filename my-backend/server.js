@@ -666,7 +666,7 @@ app.get('/api/account', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify JWT token
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Verify JWT token
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
@@ -712,7 +712,7 @@ function isAuthenticated(req, res, next) {
 
   try {
       // Verify the token (assuming JWT is used)
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.AUTH_SECRET);
       req.user = decoded;  // Store user info in request object
 
       console.log("Decoded token:", decoded); // Check decoded token
@@ -768,7 +768,7 @@ app.get('/api/favourites', isAuthenticated, async (req, res) => {
 });
 
 
-
+console.log('JWT Secret:', process.env.AUTH_SECRET);
 
 
 
