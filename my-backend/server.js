@@ -672,7 +672,7 @@ router.get('/api/verify', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Verify token
+    const decoded = jwt.verify(token, AUTH_SECRET); // Verify token
     const user = await User.findById(decoded.userId); // Find user by ID from token
 
     if (!user) {
