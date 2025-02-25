@@ -9,13 +9,10 @@
             const authToken = localStorage.getItem('authToken');
 
             if (!authToken) {
-                // If no auth token is found, redirect to login page
-                alert('You must log in to access this page.');
-                window.location.href = 'login.html';  // Adjust to your login page URL
+                redirectToLogin('You must log in to access this page.');
                 return;
             }
 
-            // Optionally, check if the user is verified
             try {
                 const response = await fetch('https://amazon-project-sta4.onrender.com/api/verify', {
                     method: 'GET',
@@ -24,18 +21,27 @@
                     },
                 });
 
-                const data = await response.json();
-                if (!response.ok || !data.isVerified) {
-                    // If the user is not verified, redirect to login page
-                    alert('Your account is not verified. Please verify your account.');
-                    window.location.href = 'login.html';  // Redirect to login
+                if (!response.ok) {
+                    throw new Error('Failed to verify user');
+                }
+
+                const data = await response.json().catch(() => {
+                    throw new Error('Invalid response from server');
+                });
+
+                if (!data.isVerified) {
+                    redirectToLogin('Your account is not verified. Please verify your account.');
                 }
             } catch (error) {
-                console.error('Error checking verification status:', error);
-                alert('An error occurred while verifying your account. Please log in again.');
-                window.location.href = 'login.html';  // Redirect to login if error
+                console.error('Verification error:', error);
+                redirectToLogin('An error occurred while verifying your account. Please log in again.');
             }
         });
+
+        function redirectToLogin(message) {
+            alert(message);
+            window.location.href = 'login.html';
+        }
     </script>
 </head>
 <body>

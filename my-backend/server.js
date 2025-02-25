@@ -662,22 +662,6 @@ const transporter = nodemailer.createTransport({
 // });
 
 app.get('/api/verify', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
-  
-  if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-  }
-
-  try {
-      const decoded = jwt.verify(token, 'secret_key'); // Ensure 'secret_key' matches your login route
-      res.status(200).json({ message: 'Token is valid', user: decoded });
-  } catch (error) {
-      console.error('Token verification error:', error);
-      res.status(401).json({ message: 'Invalid token' });
-  }
-});
-
-app.get('/api/verify', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token
 
   if (!token) {
@@ -686,8 +670,8 @@ app.get('/api/verify', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, AUTH_SECRET); // Verify token
-    const user = await User.findById(decoded.userId); // Find user by ID from token
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Ensure the correct secret key
+    const user = await User.findById(decoded.userId); // Find user in DB
 
     if (!user) {
       console.error('❌ User not found');
@@ -696,18 +680,19 @@ app.get('/api/verify', async (req, res) => {
 
     console.log('✅ Auth successful for user:', user.email);
 
-    // Ensure user has a 'verified' field and provide a default value
-    if (user.verified === undefined || user.verified === false) {
+    if (!user.verified) { // Check if user is verified
       console.error('❌ User not verified');
-      return res.status(403).json({ message: 'User is not verified' });
+      return res.status(403).json({ message: 'User is not verified', isVerified: false });
     }
 
-    res.json({ isVerified: user.verified });
+    res.json({ isVerified: true });
   } catch (error) {
     console.error('❌ Error verifying token:', error);
+    
     if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired. Please log in again.' });
+      return res.status(401).json({ message: 'Token expired. Please log in again.', isVerified: false });
     }
+
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
