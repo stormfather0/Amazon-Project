@@ -13,13 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const userEmail = document.querySelector('#userEmail');
     const logoutButton = document.querySelector('.logout-btn');
    
-    // Ensure essential elements exist
     if (!popup || !userInfoContainer || !loginContainer || !userEmail) {
         console.error('⚠️ Missing UI elements for login system.');
         return;
     }
 
-    // Function to update UI after login
     function updateUIAfterLogin(email) {
         console.log('✅ Updating UI for user:', email);
         userInfoContainer.classList.add('show');
@@ -27,40 +25,32 @@ document.addEventListener('DOMContentLoaded', () => {
         loginContainer.classList.add('hidden');  // Hide login container after login
     }
 
-    // Check if user is already logged in
     const savedEmail = localStorage.getItem('userEmail');
     if (savedEmail) {
         updateUIAfterLogin(savedEmail);
     }
 
-    // Handle logout
     logoutButton?.addEventListener('click', () => {
         console.log('🚪 Logging out...');
         localStorage.removeItem('authToken');
         localStorage.removeItem('userEmail');
-    
-        // Reset UI
-        loginContainer.classList.remove('hidden'); // Show login container after logout
-        userInfoContainer.classList.remove('show'); // Hide user info container
-        userEmail.textContent = '';  // Clear email text
+        loginContainer.classList.remove('hidden');
+        userInfoContainer.classList.remove('show');
+        userEmail.textContent = '';
     });
 
-    // Function to check login status
     function isUserLoggedIn() {
         return !!localStorage.getItem('authToken');
     }
 
-    // Function to handle login popup visibility
     function openLoginPopup() {
         popup.classList.remove('hidden');
         loginForm.classList.remove('hidden');
         signupForm.classList.add('hidden');
     }
 
-    // Event listener for login button (just opens login popup)
     loginButton?.addEventListener('click', openLoginPopup);
 
-    // Event listener for account icon click (only `.account-icon-svg` triggers redirect)
     accountIconButton?.addEventListener('click', (event) => {
         if (event.target.classList.contains('account-icon-svg')) {
             if (isUserLoggedIn()) {
@@ -71,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event listeners for switching between login/signup
     createAccountLink?.addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.classList.add('hidden');
@@ -90,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.classList.remove('hidden');
     });
 
-    // Close popup when clicking outside
     popup?.addEventListener('click', (event) => {
         if (event.target === popup) {
             popup.classList.add('hidden');
@@ -101,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.classList.add('hidden');
     });
 
-    // Handle login form submission
     loginForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -135,21 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (response.ok) {
+            if (response.ok && data.email && data.token) {
                 const { email, token } = data;
                 console.log('🎉 Login successful:', email);
-                // Store login data
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('userEmail', email);
 
-                // Update UI
                 updateUIAfterLogin(email);
-
-                // Hide login popup
                 popup.classList.add('hidden');
             
             } else {
-                console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
+                console.error('❌ Login failed:', data.message || 'Unknown error');
                 alert('Login failed. Please try again.');
             }
         } catch (error) {
@@ -158,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle signup form submission
     signupForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -193,8 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 alert('🎉 Account created successfully!');
                 popup.classList.add('hidden');
-                // Optionally redirect to login page
-                // window.location.href = '/login.html';
             } else {
                 alert('❌ Signup failed: ' + (data.message || 'Unknown error'));
             }
@@ -204,4 +184,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
