@@ -212,3 +212,26 @@ async function isLoggedIn() {
       return false;
     }
   }
+
+  async function handleLogin() {
+    const response = await fetch('https://amazon-project-sta4.onrender.com/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: emailInput.value,
+        password: passwordInput.value
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      // Store the authToken in localStorage or sessionStorage
+      localStorage.setItem('authToken', data.token);
+      console.log('Login successful:', data.email);
+    } else {
+      console.error('Login failed:', data.message);
+    }
+  }

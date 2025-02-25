@@ -191,3 +191,5 @@ function favouritesListener() {
 
 
 console.log("Received Token:", token);
+localStorage.setItem('authToken', token);
+console.log('Stored token:', token);

@@ -655,9 +655,6 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
-
-
 app.get('/api/account', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
@@ -666,7 +663,7 @@ app.get('/api/account', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'secret_key'); // Verify JWT token
+    const decoded = jwt.verify(token, JWT_SECRET); // Verify JWT token with secret from env
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
@@ -682,6 +679,7 @@ app.get('/api/account', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 // Fetch user details by email
 app.get('/api/getUser', async (req, res) => {
   const { email } = req.query; // Get email from query parameters
@@ -707,19 +705,19 @@ function isAuthenticated(req, res, next) {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
   if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
 
   try {
-      // Verify the token (assuming JWT is used)
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;  // Store user info in request object
+    // Verify the token using the JWT_SECRET from env
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;  // Store user info in request object
 
-      console.log("Decoded token:", decoded); // Check decoded token
+    console.log("Decoded token:", decoded); // Log decoded token
 
-      next();  // Continue to the next middleware or route handler
+    next();  // Continue to the next middleware or route handler
   } catch (error) {
-      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    return res.status(401).json({ message: 'Unauthorized: Invalid token' });
   }
 }
 
@@ -766,8 +764,6 @@ app.get('/api/favourites', isAuthenticated, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-
 
 
 
