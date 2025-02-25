@@ -660,6 +660,149 @@ const transporter = nodemailer.createTransport({
 // });
 
 
+// Delete a product
+app.delete('/api/products/:id', (req, res) => {
+  const productId = req.params.id;
+
+  fs.readFile(productsFilePath, 'utf8', (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to read products file' });
+      }
+
+      let products = JSON.parse(data);
+      const productIndex = products.findIndex(product => product.id === productId);
+
+      if (productIndex === -1) {
+          return res.status(404).json({ error: 'Product not found' });
+      }
+
+      products.splice(productIndex, 1); // Remove the product from the array
+
+      fs.writeFile(productsFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
+          if (err) {
+              return res.status(500).json({ error: 'Failed to save updated product' });
+          }
+          res.status(200).json({ message: 'Product deleted successfully' });
+      });
+  });
+});
+
+// Update product
+app.put('/api/products/:id', (req, res) => {
+  const productId = req.params.id;
+  const updatedProduct = req.body;
+
+  fs.readFile(productsFilePath, 'utf8', (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to read products file' });
+      }
+
+      let products = JSON.parse(data);
+      const productIndex = products.findIndex(product => product.id === productId);
+
+      if (productIndex === -1) {
+          return res.status(404).json({ error: 'Product not found' });
+      }
+
+      products[productIndex] = { ...products[productIndex], ...updatedProduct };
+
+      fs.writeFile(productsFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
+          if (err) {
+              return res.status(500).json({ error: 'Failed to save updated product' });
+          }
+          res.status(200).json({ message: 'Product updated successfully', product: products[productIndex] });
+      });
+  });
+});
+
+// Fetch order by ID route
+app.get('/api/orders/:id', async (req, res) => {
+  const orderId = req.params.id;
+  try {
+      const order = await db.collection('orders').findOne({ _id: new ObjectId(orderId) });
+
+      if (order) {
+          res.json(order);
+      } else {
+          res.status(404).json({ message: 'Order not found' });
+      }
+  } catch (error) {
+      console.error('Error fetching order:', error);
+      res.status(500).json({ message: 'Error fetching order' });
+  }
+});
+
+// Fetch products by category (if available)
+app.get('/api/products/category/:category', (req, res) => {
+  const category = req.params.category;
+
+  fs.readFile(productsFilePath, 'utf8', (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to read products file' });
+      }
+
+      const products = JSON.parse(data);
+      const filteredProducts = products.filter(product => product.category === category);
+
+      if (filteredProducts.length > 0) {
+          res.json(filteredProducts);
+      } else {
+          res.status(404).json({ error: 'No products found for this category' });
+      }
+  });
+});
+
+// Update order status (to handle updates like delivery status, payment status, etc.)
+app.put('/api/orders/:id/status', async (req, res) => {
+  const orderId = req.params.id;
+  const { status } = req.body;
+
+  try {
+      const result = await db.collection('orders').updateOne(
+          { _id: new ObjectId(orderId) },
+          { $set: { status } }
+      );
+
+      if (result.modifiedCount > 0) {
+          res.status(200).json({ message: 'Order status updated successfully' });
+      } else {
+          res.status(404).json({ message: 'Order not found' });
+      }
+  } catch (error) {
+      console.error('Error updating order status:', error);
+      res.status(500).json({ message: 'Error updating order status' });
+  }
+});
+
+// Product search (search by name or category)
+app.get('/api/search/products', (req, res) => {
+  const { query } = req.query;
+
+  fs.readFile(productsFilePath, 'utf8', (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to read products file' });
+      }
+
+      const products = JSON.parse(data);
+      const results = products.filter(product => 
+          product.name.toLowerCase().includes(query.toLowerCase()) || 
+          product.category.toLowerCase().includes(query.toLowerCase())
+      );
+
+      res.json(results);
+  });
+});
+
+// Fetch all products (previously existing route)
+app.get('/api/products', (req, res) => {
+  fs.readFile(productsFilePath, 'utf8', (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to read products file' });
+      }
+      res.json(JSON.parse(data)); // Send products to frontend
+  });
+});
+
 
 
 // Start the server
