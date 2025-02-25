@@ -655,13 +655,9 @@ const transporter = nodemailer.createTransport({
 // });
 
 
-const payload = {
-  userId: user._id,  // Use the user ID or any other data you want to store in the token
-  email: user.email  // Example: you can also include email or other data
-};
 
 const secretKey = process.env.AUTH_SECRET;
-const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+const token = jwt.sign( secretKey, { expiresIn: '1h' });
 
 jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
   if (err) {
