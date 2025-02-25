@@ -62,6 +62,7 @@ export function addFavourite(productId) {
         console.log('User ID from server:', userId); // Debugging
 
         if (!userId) {
+            alert("User not authenticated. Please log in to add favourites.");
             console.error("User ID is missing, can't add favourite.");
             return;
         }
@@ -183,3 +184,5 @@ function favouritesListener() {
   });
 }
 
+
+console.log("Received Token:", token);
