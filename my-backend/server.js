@@ -739,41 +739,46 @@ app.get('/account', isAuthenticated, (req, res) => {
 
 
 const favouriteSchema = new mongoose.Schema({
-  userId: { type: String, required: true, unique: true }, // Ensure each user has one document
-  productIds: { type: [String], default: [] } // Store multiple favourites in an array
+  userId: { type: String, required: true },
+  productIds: { type: [String], default: [] }
 });
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
-app.post('/api/favourites', async (req, res) => {
+
+
+app.post('/api/favourites', isAuthenticated, async (req, res) => {
+  const { userId, productId } = req.body;
+
   try {
-    const { userId, productId } = req.body;
     let favourite = await Favourite.findOne({ userId });
 
     if (!favourite) {
-      // If no favourites document for the user, create one
-      favourite = new Favourite({ userId, productIds: [productId] });
-    } else {
-      // Add productId to existing favourites if not already there
-      if (!favourite.productIds.includes(productId)) {
-        favourite.productIds.push(productId);
-      }
+      favourite = new Favourite({ userId, productIds: [] });
     }
 
-    await favourite.save();
-    res.status(201).json({ message: 'Favourite added successfully' });
+    if (!favourite.productIds.includes(productId)) {
+      favourite.productIds.push(productId);
+      await favourite.save();
+    }
+
+    res.status(200).json({ message: 'Favourite added successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to add favourite' });
+    console.error('Error adding favourite:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
 // Fetch all favourite products
-app.get('/api/favourites', async (req, res) => {
+app.get('/api/favourites', isAuthenticated, async (req, res) => {
+  const { userId } = req.query;
+
   try {
-    const favourites = await Favourite.find();
-    res.json(favourites);
+    const favourite = await Favourite.findOne({ userId });
+    res.status(200).json(favourite ? favourite.productIds : []);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch favourites' });
+    console.error('Error fetching favourites:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

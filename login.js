@@ -101,85 +101,57 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.classList.add('hidden');
     });
 
-   // Handle login form submission
-loginForm?.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    // Handle login form submission
+    loginForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const emailField = document.querySelector('#login-email');
-    const passwordField = document.querySelector('#login-password');
+        const emailField = document.querySelector('#login-email');
+        const passwordField = document.querySelector('#login-password');
 
-    if (!emailField || !passwordField) {
-        console.error('⚠️ Missing login fields.');
-        return;
-    }
-
-    const loginData = {
-        email: emailField.value.trim(),
-        password: passwordField.value.trim(),
-    };
-
-    try {
-        const response = await fetch('https://amazon-project-sta4.onrender.com/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginData),
-        });
-
-        const text = await response.text();
-        console.log('📩 Raw response:', text);
-        const data = JSON.parse(text);
-
-        if (response.ok) {
-            const { email, token } = data;
-            console.log('🎉 Login successful:', email);
-
-            // Store login data
-            localStorage.setItem('authToken', token);
-            localStorage.setItem('userEmail', email);
-
-            // Fetch User ID
-            fetch('https://amazon-project-sta4.onrender.com/api/account', {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                }
-              })
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(userResponse => {
-                console.log("✅ User data:", userResponse);
-              })
-              .catch(error => {
-                console.error('❌ Error fetching account:', error);
-              });
-
-            const userData = await userResponse.json();
-            if (userResponse.ok) {
-                console.log('🆔 User ID:', userData.userId); // Display User ID in console
-            } else {
-                console.error('❌ Failed to fetch User ID:', userData.message);
-            }
-
-            // Update UI
-            updateUIAfterLogin(email);
-
-            // Hide login popup
-            popup.classList.add('hidden');
-        
-        } else {
-            console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
-            alert('Login failed. Please try again.');
+        if (!emailField || !passwordField) {
+            console.error('⚠️ Missing login fields.');
+            return;
         }
-    } catch (error) {
-        console.error('❌ Error logging in:', error);
-        alert('An error occurred. Please try again.');
-    }
-});
+
+        const loginData = {
+            email: emailField.value.trim(),
+            password: passwordField.value.trim(),
+        };
+
+        try {
+            const response = await fetch('https://amazon-project-sta4.onrender.com/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData),
+            });
+
+            const text = await response.text();
+            console.log('📩 Raw response:', text);
+            const data = JSON.parse(text);
+
+            if (response.ok) {
+                const { email, token } = data;
+                console.log('🎉 Login successful:', email);
+                // Store login data
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('userEmail', email);
+
+                // Update UI
+                updateUIAfterLogin(email);
+
+                // Hide login popup
+                popup.classList.add('hidden');
+            
+            } else {
+                console.error('❌ Login failed: ' + (data.message || 'Unknown error'));
+                alert('Login failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('❌ Error logging in:', error);
+            alert('An error occurred. Please try again.');
+        }
+    });
+
     // Handle signup form submission
     signupForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
