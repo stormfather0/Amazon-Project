@@ -133,22 +133,6 @@ const users = [
     }
 ];
 
-// // Login route
-// app.post('/api/login', async (req, res) => {
-//     const { email, password } = req.body;
-//     const user = users.find(user => user.email === email);
-//     if (!user) {
-//         return res.status(401).json({ message: 'Invalid email or password' });
-//     }
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//         return res.status(401).json({ message: 'Invalid email or password' });
-//     }
-
-//     const token = jwt.sign({ email: user.email }, 'your_jwt_secret_key', { expiresIn: '1h' });
-//     res.json({ message: 'Login successful', token });
-// });
 
 
 
