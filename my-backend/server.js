@@ -666,7 +666,7 @@ app.get('/api/account', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'secret_key'); // Verify JWT token
+    const decoded = jwt.verify(token, JWT_SECRET); // Verify JWT token
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
