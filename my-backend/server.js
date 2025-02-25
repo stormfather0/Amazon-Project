@@ -19,7 +19,7 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
-const AUTH_SECRET = process.env.AUTH_SECRET;
+
 
 
 
@@ -673,7 +673,7 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
+const AUTH_SECRET = process.env.AUTH_SECRET;
 
 const favouriteSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -682,6 +682,7 @@ const favouriteSchema = new mongoose.Schema({
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
+// Middleware for authenticating JWT token
 // Middleware for authenticating JWT token
 function authenticateToken(req, res, next) {
   const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
@@ -697,6 +698,12 @@ function authenticateToken(req, res, next) {
       }
 
       req.user = user; // Attach the user object to the request
+
+      // Ensure the userId in the token matches the userId in the body of the request
+      if (req.body.userId && req.body.userId !== user.id) {
+          return res.status(403).json({ message: 'Forbidden: User mismatch' });
+      }
+
       next();  // Proceed to the next middleware or route handler
   });
 }
