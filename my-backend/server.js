@@ -19,7 +19,7 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
-const AUTH_SECRET = process.env.AUTH_SECRET;
+// const AUTH_SECRET = process.env.AUTH_SECRET;
 
 
 
