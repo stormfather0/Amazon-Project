@@ -30,7 +30,7 @@ const JWT_SECRET  = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f72377243
 
 
 
-console.log(process.env.JWT_SECRET); // Should output the JWT secret from your .env file
+console.log(JWT_SECRET); // Should output the JWT secret from your .env file
 
 import bodyParser from 'body-parser';
 import nodemailer from 'nodemailer';
@@ -201,7 +201,7 @@ app.post('/api/login', async (req, res) => {
       }
 
       // Generate a JWT token
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
       // ✅ Include the user's email in the response
       res.json({ message: 'Login successful', token, email: user.email,userId: user._id  });
@@ -673,7 +673,7 @@ const verifyUser = async (req, res, next) => {
   }
 
   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, JWT_SECRET);
       console.log('Decoded token:', decoded);  // Log the decoded token
 
       const user = await User.findOne({ email: decoded.email });  // Use email to find user, not ID
