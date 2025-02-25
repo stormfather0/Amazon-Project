@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path'; 
 import { MongoClient, ObjectId } from 'mongodb';
 import fs from 'fs';
-// import { API_BASE_URL } from "./backend-config.js";
+const router = express.Router();
 
 import session from 'express-session';
 // import User from './models/User.js';
@@ -688,11 +688,11 @@ router.post('/api/favourites', async (req, res) => {
   }
 
   try {
-      // Find the user in the favourites collection
+      // Find the user's favourites record
       let userFavourites = await Favourite.findOne({ userId });
 
       if (userFavourites) {
-          // Check if productId is already in the favourites array
+          // If user already has favourites, we add the new productId, ensuring it's unique
           if (!userFavourites.products.includes(productId)) {
               userFavourites.products.push(productId);
               await userFavourites.save();
@@ -701,7 +701,7 @@ router.post('/api/favourites', async (req, res) => {
               return res.status(400).json({ error: 'Product already in favourites' });
           }
       } else {
-          // If no favourites exist for the user, create a new entry
+          // If no favourites exist for the user, create a new entry with the product
           const newFavourite = new Favourite({
               userId,
               products: [productId],
@@ -715,6 +715,7 @@ router.post('/api/favourites', async (req, res) => {
   }
 });
 
+module.exports = router;
 
 
 
