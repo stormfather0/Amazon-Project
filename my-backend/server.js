@@ -661,9 +661,7 @@ const transporter = nodemailer.createTransport({
 //     }
 // });
 
-
-// Backend route for verifying the user's status
-router.get('/api/verify', async (req, res) => {
+app.get('/api/verify', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token
 
   if (!token) {
@@ -682,8 +680,8 @@ router.get('/api/verify', async (req, res) => {
 
     console.log('✅ Auth successful for user:', user.email);
 
-    // Assuming there is a 'verified' field in the user model
-    if (!user.verified) {
+    // Ensure user has a 'verified' field and provide a default value
+    if (user.verified === undefined || user.verified === false) {
       console.error('❌ User not verified');
       return res.status(403).json({ message: 'User is not verified' });
     }
@@ -694,7 +692,7 @@ router.get('/api/verify', async (req, res) => {
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Token expired. Please log in again.' });
     }
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
 
