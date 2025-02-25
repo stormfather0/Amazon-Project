@@ -11,6 +11,8 @@ import fs from 'fs';
 // import { API_BASE_URL } from "./backend-config.js";
 
 
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
 import session from 'express-session';
 // import User from './models/User.js';
@@ -25,7 +27,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const router = express.Router(); 
 
 const JWT_SECRET = process.env.JWT_SECRET;
-console.log('JWT_SECRET:', JWT_SECRET);  // Check if the JWT_SECRET value is correctly loaded
+console.log('JWT_SECRET:', JWT_SECRET);  //// Check if the JWT_SECRET value is correctly loaded
 
 
 
