@@ -665,6 +665,19 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
+const favouriteSchema = new mongoose.Schema({
+  userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+  },
+  productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+  },
+});
+
+const Favourite = mongoose.model('Favourite', favouriteSchema);
+module.exports = Favourite;
 
 
 

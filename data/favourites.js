@@ -68,7 +68,12 @@ export function addFavourite(productId) {
         },
         body: JSON.stringify({ userId, productId }),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Favourite added:', data);
     })
