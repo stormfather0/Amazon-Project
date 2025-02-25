@@ -12,7 +12,6 @@ import fs from 'fs';
 
 
 
-
 import session from 'express-session';
 // import User from './models/User.js';
 import mongoose from 'mongoose';
@@ -22,24 +21,14 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 // const JWT_SECRET = process.env.JWT_SECRET;
-// const AUTH_SECRET = process.env.AUTH_SECRET;
+const AUTH_SECRET = process.env.AUTH_SECRET;
 const router = express.Router(); 
 
-const JWT_SECRET = process.env.JWT_SECRET;
-console.log('JWT_SECRET:', JWT_SECRET);  //// Check if the JWT_SECRET value is correctly loaded
+const JWT_SECRET  = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9';
 
 
 
 
-const secretKey = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9'; // Make sure this is the same as used in verify()
-
-const token = jwt.sign(
-    { email: 'MarkTest@example.com' },
-    secretKey,
-    { expiresIn: '1h' } // Optional expiration time
-);
-const decoded = JSON.parse(atob(token.split('.')[1])); // Decodes the payload part of the token
-console.log(decoded);
 
 console.log(JWT_SECRET); // Should output the JWT secret from your .env file
 
@@ -195,15 +184,24 @@ app.post('/api/login', async (req, res) => {
           return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      // Generate a JWT token
-      const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+      // Generate a JWT token with userId in the payload
+      const token = jwt.sign(
+          { userId: user._id, email: user.email }, // Payload now includes userId
+          JWT_SECRET,
+          { expiresIn: '1h' }
+      );
 
-      // ✅ Include the user's email in the response
-      res.json({ message: 'Login successful', token, email: user.email,userId: user._id  });
+      // ✅ Send token and user details
+      return res.json({
+          message: 'Login successful',
+          token,
+          userId: user._id,
+          email: user.email
+      });
 
   } catch (error) {
-      console.error('Error during login:', error);
-      res.status(500).json({ message: 'Server error' });
+      console.error('❌ Error during login:', error);
+      return res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -653,20 +651,7 @@ const transporter = nodemailer.createTransport({
 // });
 
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1];  // Assumes format 'Bearer token'
-  if (!token) return res.status(403).json({ message: 'Token required' });
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) return res.status(401).json({ message: 'Invalid token' });
-      req.user = decoded;  // Attach user data to request object
-      next();  // Proceed to the next middleware or route handler
-  });
-};
-
-app.use('/api/protected-route', verifyToken, (req, res) => {
-  res.json({ message: 'Protected route accessed', user: req.user });
-});
 
 
 

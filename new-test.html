@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+    testtesttesttest
+</body>
+
+<script>
+    const authToken = localStorage.getItem('authToken');
+
+if (!authToken) {
+    alert("You must be logged in to view this page.");
+    window.location.href = '/login.html';  // Redirect to the login page or show login popup
+} else {
+    // Proceed to fetch or display the age
+    const age = fetchAgeFromServer(authToken);
+    console.log('User age:', age);
+}
+
+async function fetchAgeFromServer(token) {
+    try {
+        const response = await fetch('https://your-api-endpoint.com/age', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        return data.age;
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while fetching your age.');
+    }
+}
+</script>
+</html>
