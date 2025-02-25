@@ -667,37 +667,36 @@ router.get('/api/verify', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token
 
   if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' });
+    console.error('❌ Token missing');
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
   try {
-      const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Verify token
-      const user = await User.findById(decoded.userId); // Find user by ID from token
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Verify token
+    const user = await User.findById(decoded.userId); // Find user by ID from token
 
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+    if (!user) {
+      console.error('❌ User not found');
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      // Log user info if auth is successful
-      console.log('✅ Auth successful for user:', user.email);
+    console.log('✅ Auth successful for user:', user.email);
 
-      // Assuming there is a 'verified' field in the user model
-      if (!user.verified) {
-        return res.status(403).json({ message: 'User is not verified' }); // Handle unverified user case
-      }
+    // Assuming there is a 'verified' field in the user model
+    if (!user.verified) {
+      console.error('❌ User not verified');
+      return res.status(403).json({ message: 'User is not verified' });
+    }
 
-      res.json({ isVerified: user.verified });
+    res.json({ isVerified: user.verified });
   } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        return res.status(401).json({ message: 'Token expired. Please log in again.' });
-      }
-      console.error('Error verifying token:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+    console.error('❌ Error verifying token:', error);
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Token expired. Please log in again.' });
+    }
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-// Use the router in the app
-app.use(router);
 
 
 
