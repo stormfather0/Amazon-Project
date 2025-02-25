@@ -669,7 +669,7 @@ app.get('/api/verify', async (req, res) => {
     console.error('❌ Token missing');
     return res.status(401).json({ message: 'Unauthorized' });
   }
-
+// 
   try {
     const secretKey = process.env.AUTH_SECRET; // Ensure we use the same key here
     const decoded = jwt.verify(token, secretKey); // Verify the token
