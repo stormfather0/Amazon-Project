@@ -11,8 +11,7 @@ import fs from 'fs';
 // import { API_BASE_URL } from "./backend-config.js";
 
 
-res.setHeader('Access-Control-Allow-Origin', '*');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
 
 import session from 'express-session';
 // import User from './models/User.js';
