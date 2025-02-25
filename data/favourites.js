@@ -26,49 +26,63 @@ if (!userId) {
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 function getUserIdFromServer() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    console.error("No token found, user not authenticated.");
-    return Promise.resolve(null);
-  }
-  return fetch('https://amazon-project-sta4.onrender.com/api/account', {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
+    const token = localStorage.getItem('authToken');
+    console.log('Retrieved Token:', token);  
+
+    if (!token) {
+        console.error("No token found, user not authenticated.");
+        return Promise.resolve(null);
     }
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to get user ID');
-      }
-      return response.json();
+
+    return fetch('https://amazon-project-sta4.onrender.com/api/account', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
     })
-    .then(data => data.userId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to get user ID');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Fetched User ID:', data.userId);
+        return data.userId;
+    })
     .catch(error => {
-      console.error('Error fetching user ID:', error);
-      return null;
+        console.error('Error fetching user ID:', error);
+        return null;
     });
 }
 
 export function addFavourite(productId) {
-  getUserIdFromServer().then(userId => {
-    if (!userId) {
-      console.error("User ID is missing, can't add favourite.");
-      return;
-    }
-    if (!favourite.includes(productId)) {
-      favourite.push(productId);
-      localStorage.setItem('favourite', JSON.stringify(favourite));
-      fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, productId }),
-      })
-        .then(response => response.json())
+    getUserIdFromServer().then(userId => {
+        console.log('User ID from server:', userId); // Debugging
+
+        if (!userId) {
+            console.error("User ID is missing, can't add favourite.");
+            return;
+        }
+
+        // Send request to backend to save favourite
+        fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // Send token
+            },
+            body: JSON.stringify({ userId, productId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add favourite');
+            }
+            return response.json();
+        })
         .then(data => console.log('Favourite added:', data))
         .catch(error => console.error('Error adding favourite:', error));
-    }
-  });
+    }).catch(error => {
+        console.error("Error in getUserIdFromServer:", error);
+    });
 }
 
 export function removeFavourite(productId) {
@@ -77,14 +91,6 @@ export function removeFavourite(productId) {
     favourite.splice(index, 1);
     localStorage.setItem('favourite', JSON.stringify(favourite));
   }
-  fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, productId }),
-  })
-    .then(response => response.json())
-    .then(data => console.log('Favourite removed:', data))
-    .catch(error => console.error('Error removing favourite:', error));
 }
 
 export function isFavourite(productId) {
@@ -172,4 +178,10 @@ function favouritesListener() {
       }
     });
   });
+}
+
+const token = localStorage.getItem('authToken');
+if (!token) {
+    console.error("No token found, user not authenticated.");
+    // You can handle this case by redirecting to login or showing a message
 }
