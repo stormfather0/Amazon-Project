@@ -663,27 +663,26 @@ const transporter = nodemailer.createTransport({
 const verifyUser = async (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
+  console.log('Token received:', token);  // Log the received token
+
   if (!token) {
-      return res.status(401).json({ error: 'Authentication token is required.' });
+      return res.status(400).json({ error: 'Authentication token is required.' });
   }
 
   try {
-      // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      
-      // Find the user by ID
-      const user = await User.findById(decoded.userId);
+      console.log('Decoded token:', decoded);  // Log the decoded token
+
+      const user = await User.findOne({ email: decoded.email });  // Use email to find user, not ID
 
       if (!user) {
           return res.status(404).json({ error: 'User not found.' });
       }
 
-      // Check if user is verified
       if (!user.isVerified) {
           return res.status(403).json({ isVerified: false, message: 'User is not verified.' });
       }
 
-      // Attach user to request object for further use
       req.user = user;
       next();
   } catch (error) {
