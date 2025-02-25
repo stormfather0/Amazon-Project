@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    const authToken = localStorage.getItem('authToken');
+
+
+
     function updateUIAfterLogin(email) {
         console.log('✅ Updating UI for user:', email);
         userInfoContainer.classList.add('show');
