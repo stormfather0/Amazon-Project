@@ -653,6 +653,21 @@ const transporter = nodemailer.createTransport({
 //         res.status(500).send('Failed to send email');
 //     }
 // });
+
+
+
+
+const secretKey = process.env.AUTH_SECRET;
+const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+
+jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
+  if (err) {
+      console.error('Error verifying token:', err);
+      return res.status(401).json({ message: 'Invalid token' });
+  }
+  // Proceed with the decoded token
+});
+
 app.get('/api/verify', async (req, res) => {
   console.log('🟢 /api/verify route hit');  // Debug log
 
@@ -689,6 +704,7 @@ app.get('/api/verify', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
+console.log('Authorization Header:', req.headers.authorization);
 
 
 
