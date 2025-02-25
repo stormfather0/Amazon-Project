@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path'; 
 import { MongoClient, ObjectId } from 'mongodb';
 import fs from 'fs';
-const router = express.Router();
+// import { API_BASE_URL } from "./backend-config.js";
 
 import session from 'express-session';
 // import User from './models/User.js';
@@ -679,43 +679,39 @@ const Favourite = mongoose.model('Favourite', new mongoose.Schema({
 }));
 
 // Route to add a favourite
-
-router.post('/api/favourites', async (req, res) => {
-  const { userId, productId } = req.body;
-
-  if (!userId || !productId) {
-      return res.status(400).json({ error: 'userId and productId are required' });
-  }
-
+app.post('/api/favourites', async (req, res) => {
   try {
-      // Find the user's favourites record
-      let userFavourites = await Favourite.findOne({ userId });
+      const { userId, productId } = req.body;
 
-      if (userFavourites) {
-          // If user already has favourites, we add the new productId, ensuring it's unique
-          if (!userFavourites.products.includes(productId)) {
-              userFavourites.products.push(productId);
-              await userFavourites.save();
-              return res.status(200).json({ message: 'Favourite added successfully' });
-          } else {
-              return res.status(400).json({ error: 'Product already in favourites' });
-          }
-      } else {
-          // If no favourites exist for the user, create a new entry with the product
-          const newFavourite = new Favourite({
-              userId,
-              products: [productId],
-          });
-          await newFavourite.save();
-          return res.status(200).json({ message: 'Favourite added successfully' });
+      // Validate input
+      if (!userId || !productId) {
+          return res.status(400).json({ error: 'userId and productId are required' });
       }
+
+      // Add to the database
+      const favourite = new Favourite({
+          userId,
+          productId
+      });
+
+      // Save to MongoDB
+      await favourite.save();
+
+      // Return success
+      res.status(201).json(favourite);
   } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal Server Error', message: error.message });
+      console.error('Error saving favourite:', error.message);  // Log the error message
+      console.error(error.stack);  // Log the stack trace for more detail
+
+      // Send detailed error response
+      res.status(500).json({
+          error: 'Internal Server Error',
+          message: error.message,
+      });
   }
 });
 
-module.exports = router;
+
 
 
 
