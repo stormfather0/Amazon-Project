@@ -675,7 +675,10 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
+const favouriteSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }
+}, { timestamps: true });
 
 
 
