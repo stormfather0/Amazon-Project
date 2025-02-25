@@ -19,6 +19,8 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
+const AUTH_SECRET = process.env.AUTH_SECRET;
+
 
 
 
@@ -747,7 +749,7 @@ function authenticateToken(req, res, next) {
     }
 
     // Verify token
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.AUTH_SECRET, (err, user) => {
         if (err) {
             return res.status(403).json({ message: 'Forbidden' });
         }
