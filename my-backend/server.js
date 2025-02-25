@@ -660,6 +660,53 @@ const transporter = nodemailer.createTransport({
 // });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Route to create or update the user's favourites
+app.put('/api/user/favourites', async (req, res) => {
+  const { userId, favourites } = req.body;
+
+  try {
+    // Find the user by ID
+    let user = await User.findById(userId);
+
+    if (user) {
+      // If user exists, update the favourites
+      user.favourites = favourites;
+      await user.save();
+      return res.status(200).json({ message: 'Favourites updated successfully' });
+    } else {
+      // If user doesn't exist, create a new user or handle as necessary
+      user = new User({ _id: userId, favourites });
+      await user.save();
+      return res.status(201).json({ message: 'Favourites created successfully' });
+    }
+  } catch (error) {
+    console.error('Error updating favourites:', error);
+    res.status(500).json({ message: 'Error updating favourites' });
+  }
+});
+
+
+
 // Delete a product
 app.delete('/api/products/:id', (req, res) => {
   const productId = req.params.id;
