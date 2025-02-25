@@ -661,73 +661,31 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
+// Favourite model
+const Favourite = mongoose.model('Favourite', new mongoose.Schema({
+  productId: { type: String, required: true },
+  userId: { type: String, required: true },
+}));
 
-
-
-
-const favouriteSchema = new mongoose.Schema({
-  userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
-  },
-  productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
-  },
-});
-
-const Favourite = mongoose.model('Favourite', favouriteSchema);
-
-
-
-
-// Route to add a product to favorites (No Authentication required)
+// Route to add a favourite
 app.post('/api/favourites', async (req, res) => {
-  const { userId, productId } = req.body;
-
-  if (!userId || !productId) {
-      return res.status(400).json({ message: 'User ID and Product ID are required' });
-  }
+  const { productId, userId } = req.body;
 
   try {
-      // Check if the product is already in the user's favorites
-      const existingFavourite = await Favourite.findOne({ userId, productId });
-      if (existingFavourite) {
-          return res.status(400).json({ message: 'Product is already in your favorites' });
-      }
+    if (!productId || !userId) {
+      return res.status(400).json({ message: 'Product ID and User ID are required.' });
+    }
 
-      // Add new favorite
-      const newFavourite = new Favourite({ userId, productId });
-      await newFavourite.save();  // Save the new favorite to the database
+    const favourite = new Favourite({
+      productId,
+      userId,
+    });
 
-      res.status(201).json({ message: 'Favourite added successfully', favourite: newFavourite });
+    await favourite.save();
+    return res.status(201).json({ message: 'Favourite added successfully!' });
   } catch (error) {
-      console.error('Error adding favourite:', error);
-      res.status(500).json({ message: 'Error adding favourite' });
-  }
-});
-
-// Route to remove a product from favorites (No Authentication required)
-app.post('/api/favourites', async (req, res) => {
-  const { userId, productId } = req.body;
-  console.log('Received request:', req.body);  // Log the request body for debugging
-
-  if (!userId || !productId) {
-      return res.status(400).json({ message: 'User ID and Product ID are required' });
-  }
-
-  try {
-      const existingFavourite = await Favourite.findOne({ userId, productId });
-      if (existingFavourite) {
-          return res.status(400).json({ message: 'Product is already in your favorites' });
-      }
-
-      const newFavourite = new Favourite({ userId, productId });
-      await newFavourite.save();
-      res.status(201).json({ message: 'Favourite added successfully', favourite: newFavourite });
-  } catch (error) {
-      console.error('Error adding favourite:', error);  // Log the error for better debugging
-      res.status(500).json({ message: 'Error adding favourite' });
+    console.error('Error adding favourite:', error);
+    return res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
 
