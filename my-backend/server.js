@@ -575,24 +575,7 @@ app.put('/api/products/:id', (req, res) => {
     });
 });
 
-function getUserIdFromServer() {
-  const token = localStorage.getItem('authToken');
-  console.log('Retrieved Token:', token);
 
-  if (!token) {
-      console.error("No token found, user not authenticated.");
-      return Promise.resolve(null);
-  }
-
-  try {
-      const decoded = jwt_decode(token); // Decode JWT token
-      console.log('Decoded Token:', decoded);
-      return decoded.userId; // Extract userId from decoded token
-  } catch (error) {
-      console.error("Error decoding token:", error);
-      return null;
-  }
-}
 
 
 
@@ -742,8 +725,8 @@ function isAuthenticated(req, res, next) {
       console.error('Invalid token:', err); // Log for debugging
       return res.status(401).json({ message: 'Unauthorized: Invalid token' });
     }
-
-    req.user = decoded; // Store user info in the request
+  
+    req.user = decoded; // Store decoded information in the request object
     next(); // Continue to the next middleware or route handler
   });
 }
