@@ -1,6 +1,8 @@
 import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from '../scripts/utils/money.js';
 
+// The rest of your code...
+
 // Fetch products data from backend (Ensuring it's fully loaded before use)
 let products = [];
 
@@ -23,26 +25,18 @@ const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a favourite
 export function addFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // Ensure userId is available
-
-    if (!userId) {
-        alert('You need to log in to add favourites.');
-        return;
-    }
-
-    console.log('User ID:', userId);
-
     if (!favourite.includes(productId)) {
         favourite.push(productId);
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
+    // Send the favourite to the backend and MongoDB
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, productId }), // Send userId and productId as required
+        body: JSON.stringify({ productId }),
     })
     .then(response => response.json())
     .then(data => {
@@ -53,25 +47,19 @@ export function addFavourite(productId) {
 
 // Function to remove a favourite
 export function removeFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // Ensure userId is available
-
-    if (!userId) {
-        alert('You need to log in to remove favourites.');
-        return;
-    }
-
     const index = favourite.indexOf(productId);
     if (index !== -1) {
         favourite.splice(index, 1);
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
+    // Remove the favourite from the backend and MongoDB
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, productId }), // Send userId and productId as required
+        body: JSON.stringify({ productId }),
     })
     .then(response => response.json())
     .then(data => {

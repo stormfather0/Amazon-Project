@@ -73,7 +73,7 @@ const PORT = 3000;
 
 // MongoDB connection URI 
 
-// const uri = 'mongodb+srv://Madison:Madison123@cluster0.lbkfd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = 'mongodb+srv://Madison:Madison123@cluster0.lbkfd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const client = new MongoClient(uri);
 
 let db; 
@@ -658,83 +658,6 @@ const transporter = nodemailer.createTransport({
 //         res.status(500).send('Failed to send email');
 //     }
 // });
-
-
-
-
-
-
-
-
-
-
-// Define schema
-const favouriteSchema = new mongoose.Schema({
-  productId: { type: String, required: true },
-  userId: { type: String, required: true },
-});
-
-// Create a compound index to ensure unique combination of userId and productId
-favouriteSchema.index({ userId: 1, productId: 1 }, { unique: true });
-
-// Create model
-const Favourite = mongoose.model('Favourite', favouriteSchema);
-// Example of checking and updating if the favorite already exists
-app.post('/api/favourites', async (req, res) => {
-  const { userId, productId } = req.body;
-
-  try {
-    // Check if the favorite already exists for the user
-    const existingFav = await Favourite.findOne({ userId });
-    if (existingFav) {
-      // Add the new product to the list of favorites
-      if (!existingFav.products.includes(productId)) {
-        existingFav.products.push(productId);
-        await existingFav.save();
-        return res.status(200).json({ message: 'Favorite updated successfully', favourite: existingFav });
-      }
-      return res.status(400).json({ message: 'Product already in favorites' });
-    }
-
-    // If no existing favorites, create a new one
-    const newFavourite = new Favourite({
-      userId,
-      products: [productId],  // add the first product
-    });
-
-    await newFavourite.save();
-    res.status(201).json({ message: 'Favorite added successfully', favourite: newFavourite });
-
-  } catch (error) {
-    console.error('Error adding favorite:', error);
-    res.status(500).json({ error: 'Internal Server Error', message: error.message });
-  }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
