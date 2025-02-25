@@ -658,9 +658,6 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
-
-// Endpoint to fetch user account details
 app.get('/api/account', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
@@ -677,15 +674,14 @@ app.get('/api/account', async (req, res) => {
     }
 
     res.json({
+      userId: user._id, // Include userId
       email: user.email,
-      // Add other fields as necessary
     });
   } catch (error) {
     console.error('Error fetching account:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 // Fetch user details by email
 app.get('/api/getUser', async (req, res) => {
   const { email } = req.query; // Get email from query parameters

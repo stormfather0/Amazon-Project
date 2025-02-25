@@ -30,32 +30,33 @@ if (!token) {
     // You can handle this case by redirecting to login or showing a message
 }
 
-
 function getUserIdFromServer() {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      console.error("No token found, user not authenticated.");
-      return;
+        console.error("No token found, user not authenticated.");
+        return;
     }
     return fetch('https://amazon-project-sta4.onrender.com/api/account', {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` }
-      })
-      .then(response => {
+    })
+    .then(response => {
         if (!response.ok) {
-          throw new Error('Failed to get user ID');
+            throw new Error('Failed to get user ID');
         }
         return response.json();
-      })
-      .then(data => {
+    })
+    .then(data => {
         console.log('Fetched User ID:', data.userId);
         return data.userId;
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error fetching user ID:', error);
         return null;
-      });
+    });
 }
+
+
 export function addFavourite(productId) {
     getUserIdFromServer()
     .then(userId => {
