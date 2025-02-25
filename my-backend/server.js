@@ -656,8 +656,9 @@ const transporter = nodemailer.createTransport({
 
 
 // Token verification route
+// Token verification route
 app.get('/api/verify', async (req, res) => {
-  console.log('🟢 /api/verify route hit'); // Debug log
+  console.log('🟢 /api/verify route hit');  // Debug log
 
   const token = req.headers.authorization?.split(' ')[1]; // Extract token
 
@@ -667,7 +668,7 @@ app.get('/api/verify', async (req, res) => {
   }
 
   try {
-    const secretKey = process.env.AUTH_SECRET;
+    const secretKey = process.env.AUTH_SECRET; // Ensure we use the same key here
     const decoded = jwt.verify(token, secretKey); // Verify the token
 
     console.log('🟢 Token decoded:', decoded);
@@ -691,9 +692,11 @@ app.get('/api/verify', async (req, res) => {
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Token expired. Please log in again.' });
     }
+    // Add a catch-all error handler
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
+
 
 
 
