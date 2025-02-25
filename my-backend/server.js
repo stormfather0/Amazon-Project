@@ -666,21 +666,19 @@ app.get('/api/account', async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.AUTH_SECRET); // Verify JWT token
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET);
     const user = await User.findOne({ email: decoded.email });
-
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'User not found' });
     }
-
     res.json({
-      userId: user._id, // Include userId
-      email: user.email,
+        userId: user._id,
+        email: user.email,
     });
-  } catch (error) {
-    console.error('Error fetching account:', error);
+} catch (error) {
+    console.error('Error verifying token:', error);
     res.status(500).json({ message: 'Server error' });
-  }
+}
 });
 // Fetch user details by email
 app.get('/api/getUser', async (req, res) => {
@@ -770,7 +768,7 @@ app.get('/api/favourites', isAuthenticated, async (req, res) => {
 
 console.log('JWT Secret:', process.env.AUTH_SECRET);
 
-
+console.log('Authorization Header:', req.headers['authorization']);
 
 
 

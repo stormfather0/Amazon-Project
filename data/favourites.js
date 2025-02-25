@@ -25,6 +25,7 @@ if (!userId) {
 
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 const token = localStorage.getItem('authToken');
+console.log("Received Token:", token);
 if (!token) {
     console.error("No token found, user not authenticated.");
     // You can handle this case by redirecting to login or showing a message
