@@ -660,12 +660,9 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
-
-//Account 
 // Endpoint to fetch user account details
 app.get('/api/account', async (req, res) => {
-  const token = req.headers['authorization'];
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
@@ -689,55 +686,45 @@ app.get('/api/account', async (req, res) => {
   }
 });
 
-//
+// Fetch user details by email
 app.get('/api/getUser', async (req, res) => {
   const { email } = req.query; // Get email from query parameters
 
   try {
-      const user = await User.findOne({ email });
-      if (user) {
-          res.status(200).json({
-              firstName: user.firstName,
-              lastName: user.lastName,
-          });
-      } else {
-          res.status(404).json({ message: 'User not found' });
-      }
+    const user = await User.findOne({ email });
+    if (user) {
+      res.status(200).json({
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
   } catch (error) {
-      console.error('Error fetching user data:', error);
-      res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-
 // Middleware to check if the user is authenticated
 function isAuthenticated(req, res, next) {
-    const token = req.headers['authorization'];
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    }
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
 
-    try {
-        // Verify the token (assuming JWT is used)
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;  // Store user info in request object
-        next();  // Continue to the next middleware or route handler
-    } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-    }
+  try {
+    // Verify the token (assuming JWT is used)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;  // Store user info in request object
+    next();  // Continue to the next middleware or route handler
+  } catch (error) {
+    return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+  }
 }
 
-
-
-
-// Protect account route
-app.get('/account', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'account.html'));
-});
-
-
-
+// Favourite Schema
 const favouriteSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   productIds: { type: [String], default: [] }
@@ -745,8 +732,7 @@ const favouriteSchema = new mongoose.Schema({
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 
-
-
+// Add product to favourites
 app.post('/api/favourites', isAuthenticated, async (req, res) => {
   const { userId, productId } = req.body;
 
@@ -772,7 +758,7 @@ app.post('/api/favourites', isAuthenticated, async (req, res) => {
 // Fetch all favourite products
 app.get('/api/favourites', isAuthenticated, async (req, res) => {
   const { userId } = req.query;
-f
+
   try {
     const favourite = await Favourite.findOne({ userId });
     res.status(200).json(favourite ? favourite.productIds : []);
@@ -781,36 +767,6 @@ f
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-app.get('/api/account', (req, res) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
-
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
-
-  // Verify the token
-  jwt.verify(token, 'yourSecretKey', (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Failed to authenticate token' });
-    }
-
-    // Fetch user from the database using decoded.userId from the token
-    User.findById(decoded.userId, (err, user) => {
-      if (err) {
-        return res.status(500).json({ message: 'Error finding user' });
-      }
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      // Send user details (including userId)
-      res.json({ userId: user._id }); // Send the userId back to the frontend
-    });
-  });
-});
-
 
 
 
