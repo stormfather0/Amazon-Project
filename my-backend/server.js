@@ -679,38 +679,41 @@ const Favourite = mongoose.model('Favourite', new mongoose.Schema({
 }));
 
 // Route to add a favourite
-app.post('/api/favourites', async (req, res) => {
+
+router.post('/api/favourites', async (req, res) => {
+  const { userId, productId } = req.body;
+
+  if (!userId || !productId) {
+      return res.status(400).json({ error: 'userId and productId are required' });
+  }
+
   try {
-      const { userId, productId } = req.body;
+      // Find the user in the favourites collection
+      let userFavourites = await Favourite.findOne({ userId });
 
-      // Validate input
-      if (!userId || !productId) {
-          return res.status(400).json({ error: 'userId and productId are required' });
+      if (userFavourites) {
+          // Check if productId is already in the favourites array
+          if (!userFavourites.products.includes(productId)) {
+              userFavourites.products.push(productId);
+              await userFavourites.save();
+              return res.status(200).json({ message: 'Favourite added successfully' });
+          } else {
+              return res.status(400).json({ error: 'Product already in favourites' });
+          }
+      } else {
+          // If no favourites exist for the user, create a new entry
+          const newFavourite = new Favourite({
+              userId,
+              products: [productId],
+          });
+          await newFavourite.save();
+          return res.status(200).json({ message: 'Favourite added successfully' });
       }
-
-      // Add to the database
-      const favourite = new Favourite({
-          userId,
-          productId
-      });
-
-      // Save to MongoDB
-      await favourite.save();
-
-      // Return success
-      res.status(201).json(favourite);
   } catch (error) {
-      console.error('Error saving favourite:', error.message);  // Log the error message
-      console.error(error.stack);  // Log the stack trace for more detail
-
-      // Send detailed error response
-      res.status(500).json({
-          error: 'Internal Server Error',
-          message: error.message,
-      });
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error', message: error.message });
   }
 });
-
 
 
 

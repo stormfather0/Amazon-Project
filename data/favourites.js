@@ -7,11 +7,9 @@ let products = [];
 async function fetchProducts() {
     try {
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
-
         products = await response.json();
         return products; // Ensure the function returns the products
     } catch (error) {
@@ -25,48 +23,37 @@ const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a favourite
 export function addFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // You can still use localStorage to store user ID
+    const userId = localStorage.getItem('userId'); // Ensure userId is available
 
     if (!userId) {
         alert('You need to log in to add favourites.');
         return;
     }
 
-    // Adding the product to localStorage for the front-end
+    console.log('User ID:', userId);
+
     if (!favourite.includes(productId)) {
         favourite.push(productId);
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
-    // Sending the POST request to the server
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, productId }), // Ensure these variables are properly set
+        body: JSON.stringify({ userId, productId }), // Send userId and productId as required
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(errorText => {
-                throw new Error(`Error: ${response.statusText} - ${errorText}`);
-            });
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         console.log('Favourite added:', data);
-        alert('Product added to favourites!');
     })
-    .catch(error => {
-        console.error('Error adding favourite:', error);
-        alert('Failed to add product to favourites. Please try again.');
-    });
+    .catch(error => console.error('Error adding favourite:', error));
 }
 
 // Function to remove a favourite
 export function removeFavourite(productId) {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId'); // Ensure userId is available
 
     if (!userId) {
         alert('You need to log in to remove favourites.');
@@ -82,19 +69,19 @@ export function removeFavourite(productId) {
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, productId }),
+        body: JSON.stringify({ userId, productId }), // Send userId and productId as required
     })
     .then(response => response.json())
     .then(data => {
         console.log('Favourite removed:', data);
-        alert('Product removed from favourites.');
     })
-    .catch(error => {
-        console.error('Error removing favourite:', error);
-        alert('Failed to remove product from favourites. Please try again.');
-    });
+    .catch(error => console.error('Error removing favourite:', error));
+}
+
+export function isFavourite(productId) {
+    return favourite.includes(productId);
 }
 
 // Event Listener for Favourite Icons
@@ -114,6 +101,10 @@ function favouritesListener() {
                 addFavourite(productId);
             } else {
                 removeFavourite(productId);
+                const productContainer = icon.closest('.product-container');
+                if (productContainer) {
+                    productContainer.remove();
+                }
             }
 
             const remainingProducts = document.querySelectorAll('.product-container');
@@ -127,7 +118,6 @@ function favouritesListener() {
                         <a href="amazon.html">Shop Now</a>
                     </button>`;
             }
-
             localStorage.setItem('favourite', JSON.stringify(favourite));
         });
     });
