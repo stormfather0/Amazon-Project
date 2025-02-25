@@ -45,27 +45,26 @@ async function fetchProducts() {
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a favourite
+// Function to add a favourite
 export function addFavourite(productId) {
-    const authToken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId'); // You can still use localStorage to store user ID
 
-    if (!authToken || !userId) {
+    if (!userId) {
         alert('You need to log in to add favourites.');
         return;
     }
 
-    console.log('Auth Token:', authToken);
-
+    // Adding the product to localStorage for the front-end
     if (!favourite.includes(productId)) {
         favourite.push(productId);
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
+    // Sending the POST request to the server
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify({ userId, productId }),
     })

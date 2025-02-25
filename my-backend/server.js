@@ -668,6 +668,59 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
+// Route to add a product to favorites (No Authentication required)
+app.post('/api/favourites', async (req, res) => {
+  const { userId, productId } = req.body;
+
+  if (!userId || !productId) {
+      return res.status(400).json({ message: 'User ID and Product ID are required' });
+  }
+
+  try {
+      // Check if the product is already in the user's favorites
+      const existingFavourite = await Favourite.findOne({ userId, productId });
+      if (existingFavourite) {
+          return res.status(400).json({ message: 'Product is already in your favorites' });
+      }
+
+      // Add new favorite
+      const newFavourite = new Favourite({ userId, productId });
+      await newFavourite.save();  // Save the new favorite to the database
+
+      res.status(201).json({ message: 'Favourite added successfully', favourite: newFavourite });
+  } catch (error) {
+      console.error('Error adding favourite:', error);
+      res.status(500).json({ message: 'Error adding favourite' });
+  }
+});
+
+// Route to remove a product from favorites (No Authentication required)
+app.delete('/api/favourites', async (req, res) => {
+  const { userId, productId } = req.body;
+
+  if (!userId || !productId) {
+      return res.status(400).json({ message: 'User ID and Product ID are required' });
+  }
+
+  try {
+      const favourite = await Favourite.findOneAndDelete({ userId, productId });
+
+      if (!favourite) {
+          return res.status(404).json({ message: 'Favourite not found' });
+      }
+
+      res.status(200).json({ message: 'Favourite removed successfully' });
+  } catch (error) {
+      console.error('Error removing favourite:', error);
+      res.status(500).json({ message: 'Error removing favourite' });
+  }
+});
+
+
+
+
+
+
 
 
 
