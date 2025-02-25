@@ -27,7 +27,9 @@ const router = express.Router();
 const JWT_SECRET  = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9';
 
 
+require('dotenv').config();
 
+console.log(process.env.JWT_SECRET); // Should output the JWT secret from your .env file
 
 import bodyParser from 'body-parser';
 import nodemailer from 'nodemailer';
