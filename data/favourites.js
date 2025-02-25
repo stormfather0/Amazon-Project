@@ -24,6 +24,12 @@ if (!userId) {
 }
 
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
+const token = localStorage.getItem('authToken');
+if (!token) {
+    console.error("No token found, user not authenticated.");
+    // You can handle this case by redirecting to login or showing a message
+}
+
 
 function getUserIdFromServer() {
     const token = localStorage.getItem('authToken');
@@ -68,7 +74,7 @@ export function addFavourite(productId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}` // Send token
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Send token
             },
             body: JSON.stringify({ userId, productId })
         })
@@ -180,8 +186,3 @@ function favouritesListener() {
   });
 }
 
-const token = localStorage.getItem('authToken');
-if (!token) {
-    console.error("No token found, user not authenticated.");
-    // You can handle this case by redirecting to login or showing a message
-}

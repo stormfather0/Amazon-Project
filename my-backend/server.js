@@ -712,20 +712,20 @@ app.get('/api/getUser', async (req, res) => {
 
 // Middleware to check if the user is authenticated
 function isAuthenticated(req, res, next) {
-    const token = req.headers['authorization'];
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from "Bearer <token>"
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
 
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  jwt.verify(token, 'secret_key', (err, decoded) => {
+    if (err) {
+      console.error('Invalid token:', err); // Log for debugging
+      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
     }
 
-    try {
-        // Verify the token (assuming JWT is used)
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;  // Store user info in request object
-        next();  // Continue to the next middleware or route handler
-    } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-    }
+    req.user = decoded; // Store user info in the request
+    next(); // Continue to the next middleware or route handler
+  });
 }
 
 
