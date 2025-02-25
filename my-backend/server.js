@@ -21,11 +21,11 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 // const JWT_SECRET = process.env.JWT_SECRET;
-const AUTH_SECRET = process.env.AUTH_SECRET;
+// const AUTH_SECRET = process.env.AUTH_SECRET;
 const router = express.Router(); 
 
 const JWT_SECRET  = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9';
-
+console.log('JWT_SECRET:', JWT_SECRET);  // Check if the JWT_SECRET value is correctly loaded
 
 
 
@@ -642,7 +642,20 @@ const transporter = nodemailer.createTransport({
 // });
 
 
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization']?.split(' ')[1];  // Assumes format 'Bearer token'
+  if (!token) return res.status(403).json({ message: 'Token required' });
 
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) return res.status(401).json({ message: 'Invalid token' });
+      req.user = decoded;  // Attach user data to request object
+      next();  // Proceed to the next middleware or route handler
+  });
+};
+
+app.use('/api/protected-route', verifyToken, (req, res) => {
+  res.json({ message: 'Protected route accessed', user: req.user });
+});
 
 
 
