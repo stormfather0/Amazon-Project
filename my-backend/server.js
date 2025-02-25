@@ -655,10 +655,10 @@ const transporter = nodemailer.createTransport({
 // });
 
 
-// Token verification route
-// Token verification route
 
-const token = jwt.sign({ email: user.email }, 'sb5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9', { expiresIn: '1h' });
+
+
+
 
 app.get('/api/verify', async (req, res) => {
   console.log('🟢 /api/verify route hit');  // Debug log
@@ -669,11 +669,9 @@ app.get('/api/verify', async (req, res) => {
     console.error('❌ Token missing');
     return res.status(401).json({ message: 'Unauthorized' });
   }
-// 
-  try {
-    const secretKey = process.env.AUTH_SECRET; // Ensure we use the same key here
-    const decoded = jwt.verify(token, secretKey); // Verify the token
 
+  try {
+    const decoded = jwt.verify(token, AUTH_SECRET); // Verify token
     console.log('🟢 Token decoded:', decoded);
 
     const user = await User.findById(decoded.userId); // Find user by ID from token
@@ -695,19 +693,11 @@ app.get('/api/verify', async (req, res) => {
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Token expired. Please log in again.' });
     }
-    // Add a catch-all error handler
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
 
-fs.readFile(productsFilePath, 'utf8', (err, data) => {
-  if (err) {
-      console.error('Error reading file:', err); // Log the error for more details
-      return res.status(500).json({ error: 'Failed to read products file' });
-  }
-  console.log('File read successfully:', data); // Log the contents
-  res.json(JSON.parse(data)); // Send products to frontend
-});
+
 
 
 // Start the server
