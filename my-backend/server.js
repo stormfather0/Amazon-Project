@@ -19,6 +19,8 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
+const AUTH_SECRET = "b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9"
+
 
 
 
@@ -91,6 +93,7 @@ async function connectToDatabase() {
 }
 
 connectToDatabase();
+
 
 const corsOptions = {
   origin: ['https://stormfather0.github.io', 'https://amazon-project-sta4.onrender.com', "http://127.0.0.1:5500", "http://localhost:5500"],
@@ -668,46 +671,6 @@ app.post('/api/send-email', async (req, res) => {
 
 
 
-
-
-
-
-
-const AUTH_SECRET = process.env.AUTH_SECRET;
-
-const favouriteSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }
-}, { timestamps: true });
-
-const Favourite = mongoose.model('Favourite', favouriteSchema);
-
-// Middleware for authenticating JWT token
-// Middleware for authenticating JWT token
-function authenticateToken(req, res, next) {
-  const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
-
-  if (!token) {
-      return res.status(401).json({ message: 'Authentication required' }); // Missing token
-  }
-
-  // Verify token
-  jwt.verify(token, process.env.AUTH_SECRET, (err, user) => {
-      if (err) {
-          return res.status(403).json({ message: 'Forbidden' });  // Token verification failed
-      }
-
-      req.user = user; // Attach the user object to the request
-
-      // Ensure the userId in the token matches the userId in the body of the request
-      if (req.body.userId && req.body.userId !== user.id) {
-          return res.status(403).json({ message: 'Forbidden: User mismatch' });
-      }
-
-      next();  // Proceed to the next middleware or route handler
-  });
-}
-
 // Route to add a product to favorites
 app.post('/api/favourites', authenticateToken, async (req, res) => {
   const { userId, productId } = req.body;
@@ -717,7 +680,7 @@ app.post('/api/favourites', authenticateToken, async (req, res) => {
   }
 
   try {
-      // Check if product is already in the user's favorites
+      // Check if the product is already in the user's favorites
       const existingFavourite = await Favourite.findOne({ userId, productId });
       if (existingFavourite) {
           return res.status(400).json({ message: 'Product is already in your favorites' });
@@ -725,7 +688,7 @@ app.post('/api/favourites', authenticateToken, async (req, res) => {
 
       // Add new favorite
       const newFavourite = new Favourite({ userId, productId });
-      await newFavourite.save();
+      await newFavourite.save();  // Save the new favorite to the database
 
       res.status(201).json({ message: 'Favourite added successfully', favourite: newFavourite });
   } catch (error) {
@@ -734,38 +697,11 @@ app.post('/api/favourites', authenticateToken, async (req, res) => {
   }
 });
 
-// Route to remove a product from favorites
-app.delete('/api/favourites', authenticateToken, async (req, res) => {
-  const { userId, productId } = req.body;
 
-  if (!userId || !productId) {
-      return res.status(400).json({ message: 'User ID and Product ID are required' });
-  }
 
-  try {
-      const favourite = await Favourite.findOneAndDelete({ userId, productId });
 
-      if (!favourite) {
-          return res.status(404).json({ message: 'Favourite not found' });
-      }
 
-      res.status(200).json({ message: 'Favourite removed successfully' });
-  } catch (error) {
-      console.error('Error removing favourite:', error);
-      res.status(500).json({ message: 'Error removing favourite' });
-  }
-});
 
-// Sample product route (replace with your actual product schema and logic)
-app.get('/api/products', async (req, res) => {
-  try {
-      const products = await Product.find();
-      res.json(products);
-  } catch (error) {
-      console.error('Error fetching products:', error);
-      res.status(500).json({ message: 'Error fetching products' });
-  }
-});
 
 
 

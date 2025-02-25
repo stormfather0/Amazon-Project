@@ -1,12 +1,28 @@
 import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from '../scripts/utils/money.js';
 
+// Fetch authToken from localStorage
+const authToken = localStorage.getItem('authToken');
+
+// Check if authToken exists before using it
+if (authToken) {
+    console.log('Auth Token:', authToken); // Verify the token
+} else {
+    console.error('Auth Token is missing!');
+}
+
+// The rest of your code...
+
 // Fetch products data from backend (Ensuring it's fully loaded before use)
 let products = [];
 
 async function fetchProducts() {
     try {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('authToken'); // Ensure authToken is retrieved first
+        if (!authToken) {
+            throw new Error('No authToken found');
+        }
+
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/products', {
             headers: {
                 'Authorization': `Bearer ${authToken}`
@@ -18,10 +34,10 @@ async function fetchProducts() {
         }
 
         products = await response.json();
-        return products; // ✅ Ensure the function returns the products
+        return products; // Ensure the function returns the products
     } catch (error) {
         console.error('Error fetching products:', error);
-        return []; // ✅ Return an empty array in case of failure
+        return []; // Return an empty array in case of failure
     }
 }
 

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginContainer = document.querySelector('.log-in-container');
     const userEmail = document.querySelector('#userEmail');
     const logoutButton = document.querySelector('.logout-btn');
-
+   
     // Ensure essential elements exist
     if (!popup || !userInfoContainer || !loginContainer || !userEmail) {
         console.error('⚠️ Missing UI elements for login system.');
@@ -126,8 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const text = await response.text();
-            console.log('📩 Raw response:', text);
-            const data = JSON.parse(text);
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Failed to parse JSON response:', e);
+                alert('An error occurred. Please try again.');
+                return;
+            }
 
             if (response.ok) {
                 const { email, token } = data;
