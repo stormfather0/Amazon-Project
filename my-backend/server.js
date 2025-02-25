@@ -630,34 +630,45 @@ const transporter = nodemailer.createTransport({
 // Function to send email
 
 // Route to handle email sending
-app.post('/api/send-email', async (req, res) => {
-    const { to, subject, text } = req.body;
+// app.post('/api/send-email', async (req, res) => {
+//     const { to, subject, text } = req.body;
 
-    // Verify incoming request data
-    if (!to || !subject || !text) {
-        return res.status(400).send('Invalid email data');
-    }
+//     // Verify incoming request data
+//     if (!to || !subject || !text) {
+//         return res.status(400).send('Invalid email data');
+//     }
 
-    // Email options
-    const mailOptions = {
-        from: 'sweetloveofmine95@gmail.com', // Sender's email
-        to: to,
-        subject: subject,
-        text: text
-    };
+//     // Email options
+//     const mailOptions = {
+//         from: 'sweetloveofmine95@gmail.com', // Sender's email
+//         to: to,
+//         subject: subject,
+//         text: text
+//     };
 
-    try {
-        // Send email
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.response);
+//     try {
+//         // Send email
+//         const info = await transporter.sendMail(mailOptions);
+//         console.log('Email sent:', info.response);
 
-        // Send response back to frontend
-        res.status(200).send('Email sent successfully');
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).send('Failed to send email');
-    }
-});
+//         // Send response back to frontend
+//         res.status(200).send('Email sent successfully');
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//         res.status(500).send('Failed to send email');
+//     }
+// });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -671,24 +682,34 @@ const Favourite = mongoose.model('Favourite', new mongoose.Schema({
 app.post('/api/favourites', async (req, res) => {
   try {
       const { userId, productId } = req.body;
+
+      // Validate input
       if (!userId || !productId) {
           return res.status(400).json({ error: 'userId and productId are required' });
       }
 
-      // Your logic to add to database, for example:
+      // Add to the database
       const favourite = new Favourite({
           userId,
           productId
       });
 
+      // Save to MongoDB
       await favourite.save();
+
+      // Return success
       res.status(201).json(favourite);
   } catch (error) {
-      console.error('Error saving favourite:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error saving favourite:', error.message);  // Log the error message
+      console.error(error.stack);  // Log the stack trace for more detail
+
+      // Send detailed error response
+      res.status(500).json({
+          error: 'Internal Server Error',
+          message: error.message,
+      });
   }
 });
-
 
 
 

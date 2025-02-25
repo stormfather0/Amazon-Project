@@ -1,15 +1,13 @@
 import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from '../scripts/utils/money.js';
 
-// The rest of your code...
-
 // Fetch products data from backend (Ensuring it's fully loaded before use)
 let products = [];
 
 async function fetchProducts() {
     try {
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/products');
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -27,7 +25,7 @@ const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a favourite
 export function addFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // Still using localStorage for user ID
+    const userId = localStorage.getItem('userId'); // You can still use localStorage to store user ID
 
     if (!userId) {
         alert('You need to log in to add favourites.');
@@ -40,7 +38,7 @@ export function addFavourite(productId) {
         localStorage.setItem('favourite', JSON.stringify(favourite));
     }
 
-    // Sending the POST request to the server (no authToken now)
+    // Sending the POST request to the server
     fetch('https://amazon-project-sta4.onrender.com/api/favourites', {
         method: 'POST',
         headers: {
@@ -50,19 +48,25 @@ export function addFavourite(productId) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
+            return response.text().then(errorText => {
+                throw new Error(`Error: ${response.statusText} - ${errorText}`);
+            });
         }
         return response.json();
     })
     .then(data => {
         console.log('Favourite added:', data);
+        alert('Product added to favourites!');
     })
-    .catch(error => console.error('Error adding favourite:', error));
+    .catch(error => {
+        console.error('Error adding favourite:', error);
+        alert('Failed to add product to favourites. Please try again.');
+    });
 }
 
 // Function to remove a favourite
 export function removeFavourite(productId) {
-    const userId = localStorage.getItem('userId'); // Still using localStorage for user ID
+    const userId = localStorage.getItem('userId');
 
     if (!userId) {
         alert('You need to log in to remove favourites.');
@@ -80,17 +84,17 @@ export function removeFavourite(productId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, productId }), // Send userId and productId
+        body: JSON.stringify({ userId, productId }),
     })
     .then(response => response.json())
     .then(data => {
         console.log('Favourite removed:', data);
+        alert('Product removed from favourites.');
     })
-    .catch(error => console.error('Error removing favourite:', error));
-}
-
-export function isFavourite(productId) {
-    return favourite.includes(productId);
+    .catch(error => {
+        console.error('Error removing favourite:', error);
+        alert('Failed to remove product from favourites. Please try again.');
+    });
 }
 
 // Event Listener for Favourite Icons
@@ -110,10 +114,6 @@ function favouritesListener() {
                 addFavourite(productId);
             } else {
                 removeFavourite(productId);
-                const productContainer = icon.closest('.product-container');
-                if (productContainer) {
-                    productContainer.remove();
-                }
             }
 
             const remainingProducts = document.querySelectorAll('.product-container');
@@ -127,6 +127,7 @@ function favouritesListener() {
                         <a href="amazon.html">Shop Now</a>
                     </button>`;
             }
+
             localStorage.setItem('favourite', JSON.stringify(favourite));
         });
     });
