@@ -15,25 +15,27 @@ async function fetchProducts() {
 }
 
 // Fetch user favourites from backend
-async function fetchUserFavourites() {
-    const authToken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId');
-
-    if (!authToken || !userId) {
-        console.warn('User not logged in. Redirecting to login.');
-        window.location.href = 'login.html';
-        return [];
-    }
-
+async function fetchAndStoreFavourites() {
     try {
-        const response = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites/${userId}`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("❌ No token found. User might not be logged in.");
+            return;
+        }
+
+        const response = await fetch("https://amazon-project-sta4.onrender.com/api/favorites", {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
         });
-        if (!response.ok) throw new Error('Failed to fetch favourites');
-        return await response.json();
+
+        if (!response.ok) throw new Error("Failed to fetch favorites");
+
+        const data = await response.json();
+        console.log("✅ Fetched favorites:", data.favorites);
+
+        localStorage.setItem("favorites", JSON.stringify(data.favorites));
     } catch (error) {
-        console.error('Error fetching favourites:', error);
-        return [];
+        console.error("❌ Error fetching favourites:", error);
     }
 }
 

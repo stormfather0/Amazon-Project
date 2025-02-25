@@ -199,3 +199,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+async function loginUser(email, password) {
+    try {
+        const response = await fetch("https://amazon-project-sta4.onrender.com/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Login failed");
+
+        // Store token & userId in localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId); 
+
+        console.log("✅ Login successful!");
+        return data;
+    } catch (error) {
+        console.error("❌ Login failed:", error.message);
+        throw error;
+    }
+}

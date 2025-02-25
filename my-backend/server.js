@@ -683,21 +683,20 @@ app.get("/api/favorites", authenticateUser, async (req, res) => {
 });
 
 
-app.post("/api/favorites", authenticateUser, async (req, res) => {
-  const { productId } = req.body;
-
+app.get("/api/favorites", authenticateUser, async (req, res) => {
   try {
       const user = await User.findById(req.user.userId);
       if (!user) return res.status(404).json({ message: "User not found" });
 
-      if (!user.favorites.includes(productId)) {
-          user.favorites.push(productId);
+      // Ensure favorites always exists
+      if (!user.favorites) {
+          user.favorites = [];
           await user.save();
       }
 
-      res.json({ message: "Product added to favorites", favorites: user.favorites });
+      res.json({ favorites: user.favorites });
   } catch (error) {
-      console.error("Error adding favorite:", error);
+      console.error("Error fetching favorites:", error);
       res.status(500).json({ message: "Server error" });
   }
 });
