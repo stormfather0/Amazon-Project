@@ -696,7 +696,7 @@ app.get('/api/verify', async (req, res) => {
   }
 });
 
-
+const token = jwt.sign({ userId: user._id }, AUTH_SECRET, { expiresIn: '1h' });
 
 
 // Start the server
