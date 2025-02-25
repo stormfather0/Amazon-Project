@@ -30,7 +30,7 @@ console.log('JWT_SECRET:', JWT_SECRET);  //// Check if the JWT_SECRET value is c
 
 
 
-const jwt = require('jsonwebtoken');
+
 const secretKey = 'b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9'; // Make sure this is the same as used in verify()
 
 const token = jwt.sign(
