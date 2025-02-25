@@ -676,6 +676,11 @@ const transporter = nodemailer.createTransport({
 const Favourite = mongoose.model('Favourite', new mongoose.Schema({
   productId: { type: String, required: true },
   userId: { type: String, required: true },
+}, {
+  indexes: [{ 
+    unique: true, 
+    fields: ['userId', 'productId'] 
+  }]
 }));
 
 // Route to add a favourite
