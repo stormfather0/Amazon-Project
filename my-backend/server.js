@@ -677,7 +677,7 @@ const favouriteSchema = new mongoose.Schema({
 });
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
-module.exports = Favourite;
+
 
 
 
