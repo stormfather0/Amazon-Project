@@ -198,7 +198,7 @@ app.post('/api/login', async (req, res) => {
       const token = jwt.sign({ email: user.email }, 'secret_key', { expiresIn: '1h' });
 
       // ✅ Include the user's email in the response
-      res.json({ message: 'Login successful', token, email: user.email });
+      res.json({ message: 'Login successful', token, email: user.email,userId: user._id  });
 
   } catch (error) {
       console.error('Error during login:', error);
