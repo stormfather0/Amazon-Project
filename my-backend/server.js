@@ -19,7 +19,7 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
-const AUTH_SECRET = "b5d4c974803809b4d3edc41b0db5fadc056208cbde2b336362f723772436a9b9"
+const AUTH_SECRET = process.env.AUTH_SECRET;
 
 
 
@@ -671,7 +671,7 @@ router.get('/api/verify', async (req, res) => {
   }
 
   try {
-      const decoded = jwt.verify(token, 'your_secret_key'); // Verify token
+      const decoded = jwt.verify(token, AUTH_SECRET); // Verify token
       const user = await User.findById(decoded.userId); // Find user by ID from token
 
       if (!user) {
