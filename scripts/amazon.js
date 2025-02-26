@@ -4,6 +4,7 @@ import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
 import { API_BASE_URL } from "../config.js";
+import { openLoginPopup, isUserLoggedIn, getAuthToken } from '../login.js';
 
 
 
@@ -215,67 +216,84 @@ navigateButton.addEventListener('click', () => {
 
 
 
-
-
-
-
 export async function favouritesListener() {
-  try {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-          console.error('❌ No authToken found!');
-          return;
-      }
+  document.querySelectorAll('.favourites-style').forEach((icon) => {
+      icon.addEventListener('click', async (event) => {
+          event.preventDefault(); // Prevent default action
 
-      // Fetch user favorites
-      const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
-          headers: { 'Authorization': token }
-      });
+          const token = getAuthToken();
+          if (!token) {
+              console.warn('⚠️ No authToken found! Opening login popup...');
+              openLoginPopup(); // Open login popup only when clicking the favorites icon
+              return;
+          }
 
-      if (!response.ok) {
-          throw new Error('❌ Failed to fetch user favorites');
-      }
+          try {
+              // Verify user authentication
+              const userResponse = await fetch('https://amazon-project-sta4.onrender.com/api/user', {
+                  headers: { 'Authorization': token }
+              });
 
-      const data = await response.json();
-      console.log('📝 API Response:', data); // Debugging
-
-      const favoritesArray = Array.isArray(data.favorites) ? data.favorites : []; // Ensure it's an array
-      const userFavorites = new Set(favoritesArray.map(String));
-
-      console.log('✅ User favorites:', userFavorites);
-
-      setTimeout(() => {
-          document.querySelectorAll('.favourites-style').forEach((icon) => {
-              const productId = String(icon.dataset.favouritesId);
-              if (userFavorites.has(productId)) {
-                  icon.classList.add('favourite-active');
-              } else {
-                  icon.classList.remove('favourite-active');
+              if (userResponse.status === 401 || userResponse.status === 403) {
+                  console.warn('🚫 User not authenticated! Opening login popup...');
+                  openLoginPopup();
+                  return;
               }
 
-              icon.replaceWith(icon.cloneNode(true));
-              const newIcon = document.querySelector(`.favourites-style[data-favourites-id="${productId}"]`);
+              if (!userResponse.ok) {
+                  throw new Error('❌ Failed to verify user.');
+              }
 
-              newIcon.addEventListener('click', async () => {
-                  newIcon.classList.toggle('favourite-active');
-
-                  try {
-                      if (newIcon.classList.contains('favourite-active')) {
-                          await addFavourite(productId);
-                      } else {
-                          await removeFavourite(productId);
-                      }
-                  } catch (error) {
-                      console.error('❌ Error updating favorite:', error);
-                  }
+              // Fetch user favorites
+              const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+                  headers: { 'Authorization': token }
               });
-          });
-      }, 300); 
-  } catch (error) {
-      console.error('❌ Error loading favorites:', error);
-  }
-}
 
+              if (!response.ok) {
+                  throw new Error('❌ Failed to fetch user favorites');
+              }
+
+              const data = await response.json();
+              console.log('📝 API Response:', data); // Debugging
+
+              const favoritesArray = Array.isArray(data.favorites) ? data.favorites : [];
+              const userFavorites = new Set(favoritesArray.map(String));
+
+              console.log('✅ User favorites:', userFavorites);
+
+              setTimeout(() => {
+                  document.querySelectorAll('.favourites-style').forEach((icon) => {
+                      const productId = String(icon.dataset.favouritesId);
+                      if (userFavorites.has(productId)) {
+                          icon.classList.add('favourite-active');
+                      } else {
+                          icon.classList.remove('favourite-active');
+                      }
+
+                      icon.replaceWith(icon.cloneNode(true));
+                      const newIcon = document.querySelector(`.favourites-style[data-favourites-id="${productId}"]`);
+
+                      newIcon.addEventListener('click', async () => {
+                          newIcon.classList.toggle('favourite-active');
+
+                          try {
+                              if (newIcon.classList.contains('favourite-active')) {
+                                  await addFavourite(productId);
+                              } else {
+                                  await removeFavourite(productId);
+                              }
+                          } catch (error) {
+                              console.error('❌ Error updating favorite:', error);
+                          }
+                      });
+                  });
+              }, 300);
+          } catch (error) {
+              console.error('❌ Error loading favorites:', error);
+          }
+      });
+  });
+}
 // Update Cart Quantity
 // Update Cart Quantity
 export function updateCartQuantity() {
