@@ -267,7 +267,7 @@ export function logoutUser() {
 document.addEventListener('DOMContentLoaded', () => {
     const popup = document.querySelector('.login-popup');
     const loginButton = document.querySelector('.log-in-btn');
-    const accountIconButton = document.querySelector('.account-icon');
+    // const accountIconButton = document.querySelector('.account-icon');
     const createAccountLink = document.querySelector('.open-signup');
     const closeButton = document.querySelector('.close-popup-btn');
     const loginForm = popup?.querySelector('.login-form');
@@ -283,11 +283,11 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutButton?.addEventListener('click', logoutUser);
     loginButton?.addEventListener('click', openLoginPopup);
 
-    accountIconButton?.addEventListener('click', (event) => {
-        if (event.target.classList.contains('account-icon-svg')) {
-            isUserLoggedIn() ? (window.location.href = 'account.html') : openLoginPopup();
-        }
-    });
+    // accountIconButton?.addEventListener('click', (event) => {
+    //     if (event.target.classList.contains('account-icon-svg')) {
+    //         isUserLoggedIn() ? (window.location.href = 'account.html') : openLoginPopup();
+    //     }
+    // });
 
     createAccountLink?.addEventListener('click', (e) => {
         e.preventDefault();
