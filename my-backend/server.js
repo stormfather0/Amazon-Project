@@ -708,6 +708,8 @@ const authenticateToken = (req, res, next) => {
 // Fetch user details
 app.get('/api/user', authenticateToken, async (req, res) => {
   try {
+      console.log('Decoded User:', req.user); // Debugging
+
       const user = await User.findById(req.user.userId).select('-password'); // Exclude password
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
@@ -716,7 +718,6 @@ app.get('/api/user', authenticateToken, async (req, res) => {
       return res.json({ firstName: user.firstName, lastName: user.lastName });
   } catch (error) {
       console.error('❌ Error fetching user:', error);
-      console.log('Decoded User:', req.user);
       return res.status(500).json({ message: 'Server error' });
   }
 });
