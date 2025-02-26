@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 updateUIAfterLogin(email);
                 popup.classList.add('hidden');
+                window.location.reload();
             
             } else {
                 console.error('❌ Login failed:', data.message || 'Unknown error');

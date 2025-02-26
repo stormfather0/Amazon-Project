@@ -285,7 +285,7 @@ function displayFavoriteProducts(favouriteProducts) {
     const favouriteProductsContainer = document.getElementById('favourite-products-container');
 
     if (!favouriteProductsContainer) {
-        console.error('❌ favourite-products-container element not found!');
+        console.warn('❌ favourite-products-container element not found!');
         return;
     }
 

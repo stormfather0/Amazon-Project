@@ -219,8 +219,6 @@ navigateButton.addEventListener('click', () => {
 
 
 
-
-// Favourites Icon Listener
 export async function favouritesListener() {
   try {
       const token = localStorage.getItem('authToken');
@@ -239,21 +237,22 @@ export async function favouritesListener() {
       }
 
       const data = await response.json();
-      const userFavorites = new Set(data.favorites.map(String)); // Convert all to strings for consistency
+      console.log('📝 API Response:', data); // Debugging
+
+      const favoritesArray = Array.isArray(data.favorites) ? data.favorites : []; // Ensure it's an array
+      const userFavorites = new Set(favoritesArray.map(String));
 
       console.log('✅ User favorites:', userFavorites);
 
-      // ✅ Ensure favorites are applied after elements are fully rendered
       setTimeout(() => {
           document.querySelectorAll('.favourites-style').forEach((icon) => {
-              const productId = String(icon.dataset.favouritesId); // Convert to string for consistency
+              const productId = String(icon.dataset.favouritesId);
               if (userFavorites.has(productId)) {
                   icon.classList.add('favourite-active');
               } else {
                   icon.classList.remove('favourite-active');
               }
 
-              // Ensure event listeners are attached only once
               icon.replaceWith(icon.cloneNode(true));
               const newIcon = document.querySelector(`.favourites-style[data-favourites-id="${productId}"]`);
 
@@ -271,7 +270,7 @@ export async function favouritesListener() {
                   }
               });
           });
-      }, 300); // ✅ Small delay ensures elements are fully rendered before applying favorites
+      }, 300); 
   } catch (error) {
       console.error('❌ Error loading favorites:', error);
   }
