@@ -147,39 +147,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     signupForm?.addEventListener('submit', async (event) => {
         event.preventDefault();
-
+    
         const firstNameField = document.querySelector('#first-name');
         const lastNameField = document.querySelector('#last-name');
         const emailField = document.querySelector('#signup-email');
         const passwordField = document.querySelector('#signup-password');
-
+    
         if (!firstNameField || !lastNameField || !emailField || !passwordField) {
             console.error('⚠️ Missing signup fields.');
             return;
         }
-
+    
         const userData = {
             firstName: firstNameField.value.trim(),
             lastName: lastNameField.value.trim(),
             email: emailField.value.trim(),
             password: passwordField.value.trim(),
         };
-
+    
         try {
             const response = await fetch('https://amazon-project-sta4.onrender.com/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
             });
-
+    
             const text = await response.text();
             console.log('📩 Raw response:', text);
-            const data = JSON.parse(text);
-
-            if (response.ok) {
-                alert('🎉 Account created successfully!');
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('❌ JSON Parse Error:', text);
+                alert('Server error. Please try again.');
+                return;
+            }
+    
+            if (response.ok && data.userId) {
+                console.log('🎉 Signup successful:', data.userId);
+                localStorage.setItem('userId', data.userId); // Store user ID
+                alert('🎉 Account created successfully! You can now log in.');
                 popup.classList.add('hidden');
+            } else if (data.message === "User already exists") {
+                alert('❌ This email is already registered. Try logging in instead.');
             } else {
+                console.error('❌ Signup failed:', data.message || 'Unknown error');
                 alert('❌ Signup failed: ' + (data.message || 'Unknown error'));
             }
         } catch (error) {
