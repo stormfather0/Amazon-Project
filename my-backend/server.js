@@ -183,9 +183,10 @@ app.post('/api/login', async (req, res) => {
           return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ id: user._id }, 'your_secret_key', { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-      console.log('User found:', user); // Check what the backend sends
+      console.log('✅ User logged in:', user.email, 'ID:', user._id); // Log the correct user
+
       res.json({ 
           token, 
           email: user.email, 
@@ -193,7 +194,7 @@ app.post('/api/login', async (req, res) => {
           lastName: user.lastName 
       });
   } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('❌ Error logging in:', error);
       res.status(500).json({ message: 'Server error' });
   }
 });
