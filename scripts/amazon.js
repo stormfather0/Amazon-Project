@@ -166,23 +166,28 @@ for (let i = 1; i <= totalPages; i++) {
   pageButton.classList.add('page-button');
   pageButton.classList.toggle('active', i === currentPage); // Highlight the active page
 
-  pageButton.addEventListener('click', function () {
+  pageButton.addEventListener('click', async function () {
     currentPage = i;
     productsDisplayed = (i - 1) * productsPerPage; // Update the products to display based on selected page
     displayProducts(); // Reload the products with the updated count
 
     // Update the URL with the new page number
     const url = new URL(window.location.href);
-    url.searchParams.set('page', i); // Set the new page number in the URL
-    window.history.pushState({}, '', url); // Update the browser's address bar without reloading the page
+    url.searchParams.set('page', i);
+    window.history.pushState({}, '', url);
 
-    // Scroll to where .main starts, but 20px above it
+    // Scroll to where .main starts
     const mainElement = document.querySelector('.main');
     if (mainElement) {
-      const rect = mainElement.getBoundingClientRect(); // Get position of the element
-      window.scrollTo({ top: rect.top + window.scrollY - 100, behavior: 'smooth' }); // Scroll to the position with offset
+      const rect = mainElement.getBoundingClientRect();
+      window.scrollTo({ top: rect.top + window.scrollY - 100, behavior: 'smooth' });
     }
-  });
+
+    // ✅ Ensure favouritesListener() runs only after new products are loaded
+    setTimeout(async () => {
+        await favouritesListener();
+    }, 300); // Small delay to ensure all products are in the DOM
+});
 
   paginationContainer.appendChild(pageButton);
 }
@@ -216,34 +221,60 @@ navigateButton.addEventListener('click', () => {
 
 
 // Favourites Icon Listener
-
-export function favouritesListener() {
-  const favouriteIcons = document.querySelectorAll('.favourites-style');
-
-  favouriteIcons.forEach((icon) => {
-    const productId = icon.dataset.favouritesId;
-
-    // Check if the product is already in the favourites list from localStorage
-    if (isFavourite(productId)) {
-      icon.classList.add('favourite-active');
-    }
-
-    icon.addEventListener('click', () => {
-      // Toggle 'favourite-active' class
-      icon.classList.toggle('favourite-active');
-
-      // Add or remove product from favourites based on the state of the icon
-      if (icon.classList.contains('favourite-active')) {
-        addFavourite(productId); // Add product to favourites
-      } else {
-        removeFavourite(productId); // Remove product from favourites
+export async function favouritesListener() {
+  try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+          console.error('❌ No authToken found!');
+          return;
       }
 
-      // Log the result (optional)
-      console.log(`Favourite clicked for Product ID: ${productId}`);
-      console.log('Favourites:', JSON.parse(localStorage.getItem('favourite')));
-    });
-  });
+      // Fetch user favorites
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+          headers: { 'Authorization': token }
+      });
+
+      if (!response.ok) {
+          throw new Error('❌ Failed to fetch user favorites');
+      }
+
+      const data = await response.json();
+      const userFavorites = new Set(data.favorites.map(String)); // Convert all to strings for consistency
+
+      console.log('✅ User favorites:', userFavorites);
+
+      // ✅ Ensure favorites are applied after elements are fully rendered
+      setTimeout(() => {
+          document.querySelectorAll('.favourites-style').forEach((icon) => {
+              const productId = String(icon.dataset.favouritesId); // Convert to string for consistency
+              if (userFavorites.has(productId)) {
+                  icon.classList.add('favourite-active');
+              } else {
+                  icon.classList.remove('favourite-active');
+              }
+
+              // Ensure event listeners are attached only once
+              icon.replaceWith(icon.cloneNode(true));
+              const newIcon = document.querySelector(`.favourites-style[data-favourites-id="${productId}"]`);
+
+              newIcon.addEventListener('click', async () => {
+                  newIcon.classList.toggle('favourite-active');
+
+                  try {
+                      if (newIcon.classList.contains('favourite-active')) {
+                          await addFavourite(productId);
+                      } else {
+                          await removeFavourite(productId);
+                      }
+                  } catch (error) {
+                      console.error('❌ Error updating favorite:', error);
+                  }
+              });
+          });
+      }, 300); // ✅ Small delay ensures elements are fully rendered before applying favorites
+  } catch (error) {
+      console.error('❌ Error loading favorites:', error);
+  }
 }
 
 // Update Cart Quantity

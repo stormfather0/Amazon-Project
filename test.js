@@ -222,3 +222,35 @@ async function removeFavourite(productId) {
 
 // ✅ Ensure this function runs when the page loads
 window.onload = loadFavoritesAndDisplay;
+
+
+
+//===========NEXT
+
+export async function isFavourite(productId) {
+    try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('❌ No authToken found!');
+            return false;
+        }
+
+        const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+            headers: { 'Authorization': token }
+           
+            
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch favorites');
+        }
+
+        const data = await response.json();
+
+        // Check if the product ID exists in the user's favorites
+        return data.favorites.includes(productId);
+    } catch (error) {
+        console.error('❌ Error checking favorite:', error);
+        return false;
+    }
+}
