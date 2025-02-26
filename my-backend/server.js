@@ -730,25 +730,29 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 
 //Favourites
-app.get('/api/user/favourites', authenticateToken, async (req, res) => {
+app.get('/api/favorites', authenticateToken, async (req, res) => {
   try {
       console.log('Decoded User:', req.user); // Debugging
 
       // Fetch user from database using the authenticated user's ID
-      const user = await User.findById(req.user.id).select('favourites'); // Selecting only `favourites`
+      const user = await User.findById(req.user.id).select('favourites');
 
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
       }
 
+      // Check if favorites array is empty
+      if (!user.favourites || user.favourites.length === 0) {
+          return res.json({ id: user._id, message: "You don't have favourites" });
+      }
+
       // Return user ID and favourites
       return res.json({ id: user._id, favourites: user.favourites });
   } catch (error) {
-      console.error('❌ Error fetching user favourites:', error);
+      console.error('❌ Error fetching favorites:', error);
       return res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 
 

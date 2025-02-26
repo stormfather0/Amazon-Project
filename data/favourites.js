@@ -60,6 +60,7 @@ export function isFavourite(productId) {
 
 
 
+
 window.onload = async function () {
     if (document.location.pathname.includes('favourites.html')) {
         const favouriteProductsContainer = document.getElementById('favourite-products-container');
@@ -69,43 +70,20 @@ window.onload = async function () {
         }
 
         // Fetch products first
-        let products = [];
         try {
             const response = await fetch('https://amazon-project-sta4.onrender.com/api/products'); // Replace with your API endpoint
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
-            products = await response.json();
+            products = await response.json(); // Assign fetched data to products
             console.log('Products fetched successfully:', products);
         } catch (error) {
             console.error('Error fetching products:', error);
             return;
         }
 
-        // Fetch favorite product IDs from backend
-        let favouriteIds = [];
-        try {
-            const userId = localStorage.getItem('userId'); // Ensure userId is available
-            if (!userId) {
-                console.error('User ID not found in localStorage');
-                return;
-            }
-
-            const favResponse = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites/${userId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-
-            if (!favResponse.ok) {
-                throw new Error('Failed to fetch favourite product IDs');
-            }
-
-            const favData = await favResponse.json();
-            favouriteIds = favData.favourites || []; // Assuming API returns { favourites: [id1, id2] }
-            console.log('Favourite product IDs fetched from backend:', favouriteIds);
-        } catch (error) {
-            console.error('Error fetching favourite product IDs:', error);
-            return;
-        }
+        // Get favourite product IDs from localStorage
+        const favouriteIds = JSON.parse(localStorage.getItem('favourite')) || [];
 
         // Filter the products that are marked as favourites
         const favouriteProducts = products.filter(product => favouriteIds.includes(product.id));
@@ -177,12 +155,6 @@ window.onload = async function () {
         favouritesListener();
     }
 };
-
-const favResponse = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites/${Id}`, {
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-});
-console.log('Token from localStorage:', localStorage.getItem('token'));
-
 function favouritesListener() {
 
     const favouriteIcons = document.querySelectorAll('.favourites-style');
