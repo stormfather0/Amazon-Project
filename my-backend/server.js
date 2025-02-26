@@ -185,7 +185,7 @@ app.post('/api/login', async (req, res) => {
           return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ id: user._id, email: user.email }, 'your_secret_key', { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
       console.log('✅ Logging in user:', email, '| User ID:', user._id); // Debugging
 
@@ -723,7 +723,28 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 
 
-
+// Middleware function to authenticate token
+function authenticateToken(req, res, next) {
+  // Get auth header value
+  const authHeader = req.header('Authorization');
+  // Check if auth header is present
+  if (!authHeader) {
+    return res.status(401).send('Access denied. No token provided.');
+  }
+  // Extract token from auth header
+  const token = authHeader.split(' ')[1];
+  console.log('Token:', token);
+  // Verify token
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    console.log('Error:', err);
+    console.log('User:', user);
+    if (err) {
+      return res.status(403).send('Access denied. Invalid token.');
+    }
+    req.user = user;
+    next();
+  });
+}
 
 
 
