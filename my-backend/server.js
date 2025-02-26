@@ -158,6 +158,9 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    favorites: 
+    { type: [String],
+       default: [] } 
 
 });
   const User = mongoose.model('User', userSchema);
@@ -217,15 +220,15 @@ app.post('/api/register', async (req, res) => {
           firstName,
           lastName,
           email,
-          password: hashedPassword
+          password: hashedPassword,
+          favorites: [] // Initialize an empty favorites array
       });
 
-      // Save the new user and get the result
       const savedUser = await newUser.save();
 
       res.status(201).json({ 
           message: 'User registered successfully',
-          userId: savedUser._id  // Send the MongoDB-generated _id as the user ID
+          userId: savedUser._id
       });
   } catch (error) {
       console.error('Error during registration:', error);
