@@ -251,6 +251,7 @@ export function logoutUser() {
     console.log('🚪 Logging out...');
     localStorage.removeItem('authToken');
     localStorage.removeItem('userEmail');
+    window.location.reload(); 
 
     const loginContainer = document.querySelector('.log-in-container');
     const userInfoContainer = document.querySelector('.userInfo');
