@@ -730,23 +730,22 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 
 //Favourites
-
-// Get user's favourite product IDs
-app.get('/api/favourites/:id', authenticateToken, async (req, res) => {
+app.get('/api/user/favourites', authenticateToken, async (req, res) => {
   try {
-      const { id } = req.params;
+      console.log('Decoded User:', req.user); // Debugging
 
-      // Fetch user from database using _id
-      const user = await User.findById(id);
+      // Fetch user from database using the authenticated user's ID
+      const user = await User.findById(req.user.id).select('favourites'); // Selecting only `favourites`
 
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
       }
 
-      res.json({ favourites: user.favourites }); // Return favourite product IDs
+      // Return user ID and favourites
+      return res.json({ id: user._id, favourites: user.favourites });
   } catch (error) {
-      console.error('Error fetching favourites:', error);
-      res.status(500).json({ message: 'Server error' });
+      console.error('❌ Error fetching user favourites:', error);
+      return res.status(500).json({ message: 'Server error' });
   }
 });
 

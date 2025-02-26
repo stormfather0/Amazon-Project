@@ -177,6 +177,12 @@ window.onload = async function () {
         favouritesListener();
     }
 };
+
+const favResponse = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites/${Id}`, {
+    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+});
+console.log('Token from localStorage:', localStorage.getItem('token'));
+
 function favouritesListener() {
 
     const favouriteIcons = document.querySelectorAll('.favourites-style');
