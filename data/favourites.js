@@ -9,6 +9,8 @@ import {formatCurrency} from '../scripts/utils/money.js';
 
 // Fetch products data from backend==================================================================
 let products = [];
+
+
 fetch('https://amazon-project-sta4.onrender.com/api/products') 
   .then(response => {
     if (!response.ok) {
@@ -29,51 +31,32 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a product to the favourite array
-async function addFavourite(productId) {
-    await fetch('/api/user/favourites', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('token')
-      },
-      body: JSON.stringify({ productId })
-    });
+export function addFavourite(productId) {
+  // Add product ID to the array if not already in the list
+  if (!favourite.includes(productId)) {
+    favourite.push(productId);
+    // Save updated array to localStorage
+    localStorage.setItem('favourite', JSON.stringify(favourite));
   }
-  
-  async function removeFavourite(productId) {
-    await fetch('/api/user/favourites', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('token')
-      },
-      body: JSON.stringify({ productId })
-    });
+}
+
+// Function to remove a product from the favourite array
+export function removeFavourite(productId) {
+  const index = favourite.indexOf(productId);
+  if (index > -1) {
+    favourite.splice(index, 1);
+    // Save updated array to localStorage
+    localStorage.setItem('favourite', JSON.stringify(favourite));
   }
+}
 
 // Function to check if a product is in the favourite array
-export async function isFavourite(productId) {
-    try {
-      const response = await fetch('/api/user/favourites', {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      });
-  
-      if (!response.ok) throw new Error('Failed to fetch favourites');
-  
-      const userFavourites = await response.json();
-  
-      return userFavourites.includes(productId); // Check if product is in the favourites
-    } catch (error) {
-      console.error('Error checking favourite status:', error);
-      return false; // Default to false if there's an error
-    }
-  }
+export function isFavourite(productId) {
+  return favourite.includes(productId);
+}
 
 // Export functions for use in other files
 // export { addFavourite, removeFavourite, isFavourite, favourite };
-
 
 
 
@@ -86,20 +69,43 @@ window.onload = async function () {
         }
 
         // Fetch products first
+        let products = [];
         try {
             const response = await fetch('https://amazon-project-sta4.onrender.com/api/products'); // Replace with your API endpoint
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
-            products = await response.json(); // Assign fetched data to products
+            products = await response.json();
             console.log('Products fetched successfully:', products);
         } catch (error) {
             console.error('Error fetching products:', error);
             return;
         }
 
-        // Get favourite product IDs from localStorage
-        const favouriteIds = JSON.parse(localStorage.getItem('favourite')) || [];
+        // Fetch favorite product IDs from backend
+        let favouriteIds = [];
+        try {
+            const userId = localStorage.getItem('userId'); // Ensure userId is available
+            if (!userId) {
+                console.error('User ID not found in localStorage');
+                return;
+            }
+
+            const favResponse = await fetch(`https://amazon-project-sta4.onrender.com/api/favourites/${userId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            });
+
+            if (!favResponse.ok) {
+                throw new Error('Failed to fetch favourite product IDs');
+            }
+
+            const favData = await favResponse.json();
+            favouriteIds = favData.favourites || []; // Assuming API returns { favourites: [id1, id2] }
+            console.log('Favourite product IDs fetched from backend:', favouriteIds);
+        } catch (error) {
+            console.error('Error fetching favourite product IDs:', error);
+            return;
+        }
 
         // Filter the products that are marked as favourites
         const favouriteProducts = products.filter(product => favouriteIds.includes(product.id));
