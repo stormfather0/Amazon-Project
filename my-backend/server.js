@@ -759,25 +759,7 @@ app.get('/api/favorites', authenticateToken, async (req, res) => {
 //=============================
 
 // ✅ Add Favorite
-app.post('/api/favorites/add', verifyToken, async (req, res) => {
-  try {
-      const { productId } = req.body;
-      if (!productId) return res.status(400).json({ error: 'Product ID is required' });
 
-      const user = await User.findById(req.user.id);
-      if (!user) return res.status(404).json({ error: 'User not found' });
-
-      if (!user.favorites.includes(productId)) {
-          user.favorites.push(productId);
-          await user.save();
-      }
-
-      res.json({ message: 'Product added to favorites', favorites: user.favorites });
-  } catch (error) {
-      console.error('❌ Error adding favorite:', error);
-      res.status(500).json({ error: 'Server error' });
-  }
-});
 
 // ✅ Remove Favorite
 app.delete('/api/favorites/remove', verifyToken, async (req, res) => {
