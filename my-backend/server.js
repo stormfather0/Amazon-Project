@@ -175,17 +175,19 @@ app.post('/api/login', async (req, res) => {
       const user = await User.findOne({ email });
 
       if (!user) {
+          console.log('❌ User not found:', email);
           return res.status(400).json({ message: 'Invalid email or password' });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
+          console.log('❌ Incorrect password for:', email);
           return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id, email: user.email }, 'your_secret_key', { expiresIn: '1h' });
 
-      console.log('✅ User logged in:', user.email, 'ID:', user._id); // Log the correct user
+      console.log('✅ Logging in user:', email, '| User ID:', user._id); // Debugging
 
       res.json({ 
           token, 
@@ -198,7 +200,6 @@ app.post('/api/login', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
-
 // Register route
 // Register route
 app.post('/api/register', async (req, res) => {
