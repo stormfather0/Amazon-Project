@@ -221,42 +221,51 @@ navigateButton.addEventListener('click', () => {
 export async function favouritesListener() {
   try {
       const token = localStorage.getItem('authToken');
-      if (!token) {
-          console.warn('⚠️ No authToken found! Opening login popup...');
-          openLoginPopup(); // Show login popup if user is not logged in
-          return;
+
+      // Fetch user favorites only if logged in
+      let userFavorites = new Set();
+      if (token) {
+          const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+              headers: { 'Authorization': token }
+          });
+
+          if (response.ok) {
+              const data = await response.json();
+              console.log('📝 API Response:', data);
+
+              const favoritesArray = Array.isArray(data.favorites) ? data.favorites : []; 
+              userFavorites = new Set(favoritesArray.map(String));
+          } else {
+              throw new Error('❌ Failed to fetch user favorites');
+          }
       }
-
-      // Fetch user favorites
-      const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
-          headers: { 'Authorization': token }
-      });
-
-      if (!response.ok) {
-          throw new Error('❌ Failed to fetch user favorites');
-      }
-
-      const data = await response.json();
-      console.log('📝 API Response:', data); // Debugging
-
-      const favoritesArray = Array.isArray(data.favorites) ? data.favorites : []; // Ensure it's an array
-      const userFavorites = new Set(favoritesArray.map(String));
 
       console.log('✅ User favorites:', userFavorites);
 
       setTimeout(() => {
           document.querySelectorAll('.favourites-style').forEach((icon) => {
               const productId = String(icon.dataset.favouritesId);
+
+              // Apply favorite-active class
               if (userFavorites.has(productId)) {
                   icon.classList.add('favourite-active');
               } else {
                   icon.classList.remove('favourite-active');
               }
 
-              icon.replaceWith(icon.cloneNode(true));
-              const newIcon = document.querySelector(`.favourites-style[data-favourites-id="${productId}"]`);
+              // Clone and replace to remove previous event listeners
+              const newIcon = icon.cloneNode(true);
+              icon.replaceWith(newIcon);
 
               newIcon.addEventListener('click', async () => {
+                  const token = localStorage.getItem('authToken'); // Re-check auth on click
+
+                  if (!token) {
+                      console.warn('⚠️ No authToken found! Opening login popup...');
+                      openLoginPopup(); 
+                      return;
+                  }
+
                   newIcon.classList.toggle('favourite-active');
 
                   try {
@@ -270,7 +279,7 @@ export async function favouritesListener() {
                   }
               });
           });
-      }, 300); 
+      }, 300);
   } catch (error) {
       console.error('❌ Error loading favorites:', error);
   }
