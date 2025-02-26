@@ -217,33 +217,40 @@ navigateButton.addEventListener('click', () => {
 
 // Favourites Icon Listener
 
-export function favouritesListener() {
+export async function favouritesListener() {
   const favouriteIcons = document.querySelectorAll('.favourites-style');
 
-  favouriteIcons.forEach((icon) => {
-    const productId = icon.dataset.favouritesId;
+  try {
+    // Fetch user favourites from MongoDB
+    const response = await fetch('/api/user/favourites', {
+      headers: { Authorization: localStorage.getItem('token') } // Send the auth token
+    });
 
-    // Check if the product is already in the favourites list from localStorage
-    if (isFavourite(productId)) {
-      icon.classList.add('favourite-active');
-    }
+    if (!response.ok) throw new Error('Failed to fetch favourites');
 
-    icon.addEventListener('click', () => {
-      // Toggle 'favourite-active' class
-      icon.classList.toggle('favourite-active');
+    const userFavourites = await response.json();
 
-      // Add or remove product from favourites based on the state of the icon
-      if (icon.classList.contains('favourite-active')) {
-        addFavourite(productId); // Add product to favourites
-      } else {
-        removeFavourite(productId); // Remove product from favourites
+    favouriteIcons.forEach((icon) => {
+      const productId = icon.dataset.favouritesId;
+
+      // Check if the product is in the user's favourites
+      if (userFavourites.includes(productId)) {
+        icon.classList.add('favourite-active');
       }
 
-      // Log the result (optional)
-      console.log(`Favourite clicked for Product ID: ${productId}`);
-      console.log('Favourites:', JSON.parse(localStorage.getItem('favourite')));
+      icon.addEventListener('click', async () => {
+        icon.classList.toggle('favourite-active');
+
+        if (icon.classList.contains('favourite-active')) {
+          await addFavourite(productId); // Add to DB
+        } else {
+          await removeFavourite(productId); // Remove from DB
+        }
+      });
     });
-  });
+  } catch (error) {
+    console.error('Error loading favourites:', error);
+  }
 }
 
 // Update Cart Quantity

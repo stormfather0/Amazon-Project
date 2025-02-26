@@ -729,6 +729,62 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 
 
+//Favourites
+
+app.get('/api/user/favourites', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('favorites'); // Get only the favorites array
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user.favorites);
+  } catch (error) {
+    console.error('Error fetching favourites:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.post('/api/user/favourites', authenticateToken, async (req, res) => {
+  const { productId } = req.body;
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Only add if it's not already in favourites
+    if (!user.favorites.includes(productId)) {
+      user.favorites.push(productId);
+      await user.save();
+    }
+
+    res.json({ message: 'Added to favourites', favorites: user.favorites });
+  } catch (error) {
+    console.error('Error adding favourite:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.delete('/api/user/favourites', authenticateToken, async (req, res) => {
+  const { productId } = req.body;
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Remove the item from the favourites array
+    user.favorites = user.favorites.filter(id => id !== productId);
+    await user.save();
+
+    res.json({ message: 'Removed from favourites', favorites: user.favorites });
+  } catch (error) {
+    console.error('Error removing favourite:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
 
 
 

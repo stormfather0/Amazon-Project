@@ -29,29 +29,47 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
 const favourite = JSON.parse(localStorage.getItem('favourite')) || [];
 
 // Function to add a product to the favourite array
-export function addFavourite(productId) {
-  // Add product ID to the array if not already in the list
-  if (!favourite.includes(productId)) {
-    favourite.push(productId);
-    // Save updated array to localStorage
-    localStorage.setItem('favourite', JSON.stringify(favourite));
+async function addFavourite(productId) {
+    await fetch('/api/user/favourites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+      body: JSON.stringify({ productId })
+    });
   }
-}
-
-// Function to remove a product from the favourite array
-export function removeFavourite(productId) {
-  const index = favourite.indexOf(productId);
-  if (index > -1) {
-    favourite.splice(index, 1);
-    // Save updated array to localStorage
-    localStorage.setItem('favourite', JSON.stringify(favourite));
+  
+  async function removeFavourite(productId) {
+    await fetch('/api/user/favourites', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+      body: JSON.stringify({ productId })
+    });
   }
-}
 
 // Function to check if a product is in the favourite array
-export function isFavourite(productId) {
-  return favourite.includes(productId);
-}
+export async function isFavourite(productId) {
+    try {
+      const response = await fetch('/api/user/favourites', {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      });
+  
+      if (!response.ok) throw new Error('Failed to fetch favourites');
+  
+      const userFavourites = await response.json();
+  
+      return userFavourites.includes(productId); // Check if product is in the favourites
+    } catch (error) {
+      console.error('Error checking favourite status:', error);
+      return false; // Default to false if there's an error
+    }
+  }
 
 // Export functions for use in other files
 // export { addFavourite, removeFavourite, isFavourite, favourite };
