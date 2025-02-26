@@ -762,7 +762,7 @@ app.get('/api/favorites', authenticateToken, async (req, res) => {
 
 
 // ✅ Remove Favorite
-app.delete('/api/favorites/remove', verifyToken, async (req, res) => {
+app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
   try {
       const { productId } = req.body;
       if (!productId) return res.status(400).json({ error: 'Product ID is required' });
