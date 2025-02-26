@@ -78,7 +78,7 @@ const PORT = 3000;
 
 // MongoDB connection URI 
 
-const uri = 'mongodb+srv://Madison:Madison123@cluster0.lbkfd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.MONGO_URI
 const client = new MongoClient(uri);
 
 let db; 
