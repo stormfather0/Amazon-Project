@@ -172,36 +172,29 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-      // Find the user in the database
       const user = await User.findOne({ email });
+
       if (!user) {
-          return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      // Compare provided password with stored hashed password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-          return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      // Generate a JWT token with userId in the payload
-      const token = jwt.sign(
-          { userId: user._id, email: user.email }, // Payload now includes userId
-          JWT_SECRET,
-          { expiresIn: '1h' }
-      );
+      const token = jwt.sign({ id: user._id }, 'your_secret_key', { expiresIn: '1h' });
 
-      // ✅ Send token and user details
-      return res.json({
-          message: 'Login successful',
-          token,
-          userId: user._id,
-          email: user.email
+      console.log('User found:', user); // Check what the backend sends
+      res.json({ 
+          token, 
+          email: user.email, 
+          firstName: user.firstName, 
+          lastName: user.lastName 
       });
-
   } catch (error) {
-      console.error('❌ Error during login:', error);
-      return res.status(500).json({ message: 'Server error' });
+      console.error('Error logging in:', error);
+      res.status(500).json({ message: 'Server error' });
   }
 });
 
