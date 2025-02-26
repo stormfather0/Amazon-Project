@@ -62,10 +62,13 @@ function displayFavoriteProducts(favouriteProducts) {
 
     if (favouriteProducts.length === 0) {
         favouriteProductsContainer.innerHTML = `
-            <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"> 
-            <button class="button-primary shop-now-button">
-                <a href="amazon.html">Shop Now</a>
-            </button>`;
+           <div class="empty-cart-container">
+    <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"> 
+    <button class="shop-now-button">
+        <a href="amazon.html">Shop Now</a>
+    </button>
+</div>
+`;
         return;
     }
 
