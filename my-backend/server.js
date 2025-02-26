@@ -710,7 +710,7 @@ app.get('/api/user', authenticateToken, async (req, res) => {
   try {
       console.log('Decoded User:', req.user); // Debugging
 
-      const user = await User.findById(req.user.userId).select('-password'); // Exclude password
+      const user = await User.findById(req.user.id).select('-password'); // ✅ Use `req.user.id`
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
       }
@@ -721,7 +721,6 @@ app.get('/api/user', authenticateToken, async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 
 
