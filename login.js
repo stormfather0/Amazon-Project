@@ -247,6 +247,8 @@ export function updateUIAfterLogin(email) {
     }
 }
 
+
+
 export function logoutUser() {
     console.log('🚪 Logging out...');
     localStorage.removeItem('authToken');
@@ -276,6 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchToLoginLink = popup?.querySelector('.switch-to-login');
     const logoutButton = document.querySelector('.logout-btn');
 
+
+    
     if (getUserEmail()) {
         updateUIAfterLogin(getUserEmail());
     }
@@ -283,11 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutButton?.addEventListener('click', logoutUser);
     loginButton?.addEventListener('click', openLoginPopup);
 
-    // accountIconButton?.addEventListener('click', (event) => {
-    //     if (event.target.classList.contains('account-icon-svg')) {
-    //         isUserLoggedIn() ? (window.location.href = 'account.html') : openLoginPopup();
-    //     }
-    // });
 
     createAccountLink?.addEventListener('click', (e) => {
         e.preventDefault();
@@ -353,11 +352,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userEmail', data.email);
                 updateUIAfterLogin(data.email);
-                popup.classList.add('hidden');
-                window.location.reload();
-            } else {
-                console.error('❌ Login failed:', data.message || 'Unknown error');
-                alert('Login failed. Please try again.');
+            
+                // Hide the login popup
+                popup.classList.add('hidden');  
+                document.body.classList.remove('popup-open'); 
+            
+                // Check if we have a stored page to redirect to
+                const redirectPage = localStorage.getItem('redirectAfterLogin');
+                if (redirectPage) {
+                    localStorage.removeItem('redirectAfterLogin'); // Clean up after redirect
+                    window.location.href = redirectPage; // Redirect user back to the intended page
+                } else {
+                    window.location.href = 'index.html'; // Default redirect (home page)
+                }
             }
         } catch (error) {
             console.error('❌ Error logging in:', error);

@@ -322,6 +322,7 @@ text-align: center;
 
 /* Main category item styles */
 .category {
+  
   position: relative;
   margin: 0;
   padding: 5px 10px;
@@ -356,7 +357,11 @@ text-align: center;
   
 } */
 
-
+.subcategory-link {
+  display: flex;              /* Enable flexbox for the link */
+  align-items: center;        /* Center content vertically */
+  gap: 8px;                   /* Add space between the image and text */
+}
 
 /* .subcategory-list {
   display: none;
@@ -403,6 +408,7 @@ text-align: center;
   font-size: 14px;
   padding-left: 25px;
 }
+
 
 a {
  

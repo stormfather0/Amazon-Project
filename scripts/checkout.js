@@ -1,7 +1,6 @@
 import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
-// import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
-
+import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail, updateUIAfterLogin } from '../login.js'
 
 
 let totalPriceCents = 0; 
@@ -16,6 +15,10 @@ const fiveDays  = dayjs().add(5, 'day');
 function formateDate1(date) {
   return date.format('dddd, MMMM D');
 }
+
+
+
+//==================================================================================================
 // Fetch products data from backend
 fetch('https://amazon-project-sta4.onrender.com/api/products') 
   .then(response => {
@@ -38,6 +41,8 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
   });
 
 // Function to initialize the cart summary
+
+
 
 function initializeCartSummary() {
   let cartSummaryHTML = '';
@@ -108,80 +113,6 @@ function initializeCartSummary() {
   // Insert the cart summary into the page
   document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 }
-
-
-
-
-
-// // Generate the cart summary HTML==============================================================
-
-// let cartSummaryHTML = '';
-// cart.forEach((cartItem) => {
-//   const productId = cartItem.productId;
-
-//   let matchingProduct = products.find(product => product.id === productId);
-//   if (!matchingProduct) return;
-
-//   // Calculate the total price based on the quantity
-//   const totalPrice = (matchingProduct.priceCents * cartItem.quantity) / 100; // Convert cents to dollars
-
-//   cartSummaryHTML += `
-//     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
-//       <div class="delivery-date">
-//         Delivery date: ${formateDate1(fiveDays)} <!-- Default delivery date -->
-//       </div>
-
-//       <div class="cart-item-details-grid">
-//         <img class="product-image" src="${matchingProduct.image}">
-
-//         <div class="cart-item-details">
-//           <div class="product-name">${matchingProduct.name}</div>
-//           <div class="product-price js-product-price data-product-id="${matchingProduct.id}">$${formatCurrency(totalPrice * 100)}</div> <!-- Show total price in cents -->
-//           <div class="product-quantity">
-//             <span>Quantity: <span class="quantity-label">${cartItem.quantity}</span></span>
-//             <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">Update</span>
-            
-//             <input class="quantity-input" style="display:none;" type="number" min="1" value="${cartItem.quantity}"> 
-//             <span class="save-quantity-link link-primary js-save-quantity" style="display:none;">Save</span>
-
-//             <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">Delete</span>
-//           </div>
-//         </div>
-
-//         <div class="delivery-options">
-//           <div class="delivery-options-title">Choose a delivery option:</div>
-//           <div class="delivery-option">
-//             <input type="radio" checked class="delivery-option-input delivery-option-one" name="delivery-option-${matchingProduct.id}">
-//             <div>
-//               <div class="delivery-option-date">${formateDate1(fiveDays)} </div>
-//               <div class="delivery-option-price">FREE Shipping</div>
-//             </div>
-//           </div>
-//           <div class="delivery-option">
-//             <input type="radio" class="delivery-option-input delivery-option-two" name="delivery-option-${matchingProduct.id}">
-//             <div>
-//               <div class="delivery-option-date">${formateDate1(threeDays)}</div>
-//               <div class="delivery-option-price">$4.99 - Shipping</div>
-//             </div> 
-//           </div>
-//           <div class="delivery-option">
-//             <input type="radio" class="delivery-option-input delivery-option-three" name="delivery-option-${matchingProduct.id}">
-//             <div>
-//               <div class="delivery-option-date">${formateDate1(tomorrow)} </div>
-//               <div class="delivery-option-price">$9.99 - Shipping</div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-
-    
-//   `;
-
-
-  
-// });
-
 
 
 // Select the payment summary container in the HTML
@@ -576,6 +507,25 @@ function calculateTotalDeliveryCost() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 document.querySelector('.place-order-button').addEventListener('click', async () => {
   // Prepare order data
   const orderData = {
@@ -607,6 +557,8 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       };
     }),
   };
+
+
 
   // Send the order data to the server ////////////
   try {
@@ -667,66 +619,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-//NOT TO DELETE IT 
 
 
-// document.addEventListener('DOMContentLoaded', async () => {
-//   try {
-//       // Fetch products data from the backend
-//       const response = await fetch('http://localhost:3000/api/products');
-//       if (!response.ok) {
-//           throw new Error('Failed to fetch products');
-//       }
 
-//       const products = await response.json();
-//       displayProducts(products); 
 
-//   } catch (error) {
-//       console.error('Error loading products:', error);
-//   }
+
+
+
+
+//
+// Function to check if user is verified
+   // Function to check if user is logged in
+
+//    document.addEventListener('DOMContentLoaded', () => {
+//     checkVerificationStatus();
 // });
 
-// // Function to display products in the container
-// function displayProducts(products) {
-//   const productsContainer = document.querySelector('.products-container');
-//   productsContainer.innerHTML = ''; // Clear the container
+// function checkVerificationStatus() {
+//     try {
+//         const token = getAuthToken();
+//         console.log(`Checking verification status. Token: ${token}`);
 
-//   products.forEach(product => {
-//       // Create the HTML for each product
-//       const productElement = document.createElement('div');
-//       productElement.classList.add('product');
-
-//       productElement.innerHTML = `
-//           <h3>${product.name}</h3>
-//           <img src="${product.image}" alt="${product.name}" /> <!-- Product Image -->
-//           <p>Price: $${(product.priceCents / 100).toFixed(2)}</p>
-//           <p>Rating: ${product.rating.stars} stars (${product.rating.count} reviews)</p>
-//           <p>Product ID: ${product.id}</p>
-//       `;
-
-//       // Append the product element to the products container
-//       productsContainer.appendChild(productElement);
-//   });
+//         if (!token) {
+//             console.error('🚫 User is not logged in. No authToken found!');
+//             openLoginPopup(); // ✅ Show login popup if user isn't logged in
+//         } else {
+//             console.log('✅ User is logged in! Hiding login popup...');
+//             closeLoginPopup(); // ✅ Hide login popup if user is logged in
+//         }
+//     } catch (error) {
+//         console.error('❌ Error checking verification status:', error);
+//     }
 // }
 
-
-//  ===============================================================================
-
-// function calculatePrice() {
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     // checkVerificationStatus();
 

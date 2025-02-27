@@ -1,0 +1,117 @@
+
+/* LOGIN  POPUP */
+
+
+.log-in-btn:hover {
+    background-color: #e68a00;
+  }
+  
+  /* Pop-up container */
+  .hidden {
+    display: none;
+  }
+  
+  .login-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Pop-up content */
+  .login-popup-content {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 360px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .login-popup-content h2 {
+    font-size: 24px;
+    color: #111;
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: 500;
+  }
+  
+  /* Close button */
+  .close-popup-btn {
+    position: absolute;
+    right: 5%;
+    top: 4%;
+    padding: 5px 10px;
+    transition: 0.3s ease-in-out;
+    border: 1px solid #ff9900;
+  }
+  
+  .close-popup-btn:hover {
+    cursor: pointer;
+    background-color: #ff9900;
+  
+  
+  }
+  
+  /* Input fields */
+  form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  form input {
+    width: 94%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  form input:focus {
+    border-color: #ff9900;
+    outline: none;
+    box-shadow: 0 0 3px rgba(255, 153, 0, 0.5);
+  }
+  
+  /* Submit button */
+  .submit-btn {
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* transition: background-color 0.3s ease; */
+  }
+  
+  .submit-btn:hover {
+    background-color: #e68a00;
+  }
+  
+  /* Footer text */
+  .popup-footer {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .popup-footer a {
+    color: #0066c0;
+    text-decoration: none;
+  }
+  
+  .popup-footer a:hover {
+    text-decoration: underline;
+  }
