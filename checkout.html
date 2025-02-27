@@ -8,9 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/shared/general.css">
-  <link rel="stylesheet" href="./styles/login.css">
+  <!-- <link rel="stylesheet" href="./styles/login.css"> -->
   <link rel="stylesheet" href="styles/pages/checkout/checkout-header.css">
   <link rel="stylesheet" href="styles/pages/checkout/checkout.css">
+  <!-- <link rel="stylesheet" href="styles/login.css"> -->
+ 
   <style>
     /* Pop-up modal styles */
     .modal {
@@ -47,6 +49,48 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+
+    .login-container {
+    width: 100%;
+    border: 1px #dbdbdb solid;
+    border-radius: 10px;
+}
+
+.login-info {
+    position: relative;
+    display: flex
+;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 20px;
+    border: 1px solid rgb(216, 214, 214);
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.logout-btn {
+    width: 140px;
+    height: 30px;
+    /* margin-top: 20px; */
+    background-color: rgb(254, 189, 105);
+}
+
+.hidden {
+  display: none;
+}
+
+.verified {
+    width: 40px;
+    height: 30px;
+    position: absolute;
+    left: -15px;
+    top: -6px;
+}
+
   </style>
 </head>
 <body>
@@ -71,30 +115,18 @@
 
 
   <div class="main">
-    <div class="page-title">Review your order</div>
-  
-    <div class="checkout-grid">
-      <div class="order-summary js-order-summary"></div>
-      <div class="payment-summary">
-        <div class="payment-summary-title">Order Summary</div>
-        <button class="place-order-button button-primary">
-          Place your order
-        </button>
-      </div>
-    </div>
-  
-  </div>
 
 
 
+    <div class="login-container">
     <!-- Pop-up container for Login & Signup -->
-    <div class="login-popup hidden">
+    <div class="login-popup">
       <div class="login-popup-content">
         <span class="close-popup-btn">&times;</span>
 
-    
+        <!-- Login Form -->
         <div class="login-form">
-          <h2>Sign-In</h2>
+          <h2>Please log in to place your order</h2>
           <form id="login-form">
             <label for="login-email">Email</label>
             <input type="email" id="login-email" placeholder="Enter your email" required>
@@ -107,7 +139,7 @@
           <p><a href="#" class="switch-to-signup"></a></p>
         </div>
 
-  
+        <!-- Signup Form (Initially Hidden) -->
         <div class="signup-form hidden">
           <h2>Create Account</h2>
           <form id="signup-form">
@@ -128,7 +160,7 @@
           <p><a href="#" class="switch-to-login">Already have an account? Login</a></p>
         </div>
 
-    
+        <!-- Link to open the login/signup form -->
         <p class="open-signup-link">New to Amazon? <a href="#" class="open-signup">Create your Amazon account</a></p>
 
         <div class="popup-footer">
@@ -137,13 +169,62 @@
         </div>
       </div>
     </div>
+  </div>
 
 
 
+  <div class="login-info hidden">
+    <p><img class="verified" src="images/verified.svg" alt=""> Email:</p>
+    <button class="button-primary logout-btn">Logout</button>
+  </div>
+
+
+  <h1 class="welcome">Welcome, <span id="user-name">Loading...</span></h1>
+  <h1 class="welcome">Email <span id="user-email">Loading...</span></h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="page-title">Review your order</div>
+  
+    <div class="checkout-grid">
+      <div class="order-summary js-order-summary"></div>
+      <div class="payment-summary">
+        <div class="payment-summary-title">Order Summary</div>
+        <button class="place-order-button button-primary">
+          Place your order
+        </button>
+      </div>
+    </div>
+  
+  </div>
+
+
+
+
+
+  <!-- <script src="login.js" type="module"></script> -->
 
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-  <script src="login.js" type="module"></script>
+
   <!-- <script src="./styles/login.css" type="module"></script> -->
   <script type="module" src="scripts/checkout.js"></script>
+
+
 </body>
 </html>

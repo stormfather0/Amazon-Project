@@ -1,6 +1,38 @@
 import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
-import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail, updateUIAfterLogin } from '../login.js'
+import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail,  } from '../login.js'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 let totalPriceCents = 0; 
@@ -654,3 +686,112 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //     // checkVerificationStatus();
 
+
+
+//LOGIN CHECKOUT
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const authToken = localStorage.getItem('authToken');
+  const loginContainer = document.querySelector('.login-container');
+  const loginInfo = document.querySelector('.login-info');
+
+  console.log('Auth Token:', authToken); // Debugging
+
+  if (authToken) {
+      console.log('✅ User is logged in.');
+
+      // Hide the login container
+      if (loginContainer) {
+          loginContainer.classList.add('hidden');
+          console.log('✅ .login-container is now hidden.');
+      } else {
+          console.error('❌ .login-container not found.');
+      }
+
+      // Show the login-info div
+      if (loginInfo) {
+          loginInfo.classList.remove('hidden');
+          console.log('✅ .login-info is now visible.');
+      } else {
+          console.warn('⚠️ .login-info element not found.');
+      }
+  } else {
+      console.warn('⚠️ No Auth Token found. User is not logged in.');
+  }
+});
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log("✅ DOM fully loaded");
+
+  const userNameElement = document.getElementById('user-name');
+  const userEmailElement = document.getElementById('user-email'); // ✅ Get email element
+  console.log("🔍 Checking user-name element:", userNameElement);
+  console.log("🔍 Checking user-email element:", userEmailElement);
+
+  if (!userNameElement || !userEmailElement) {
+      console.error("❌ Required elements not found!");
+      return;
+  }
+
+  const authToken = localStorage.getItem('authToken');
+  console.log("🔑 Auth Token:", authToken);
+
+  if (!authToken) {
+      localStorage.setItem('redirectAfterLogin', window.location.pathname);
+      window.location.href = 'login-test.html';
+      return;
+  }
+
+  try {
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/user', {
+          method: 'GET',
+          headers: { 'Authorization':  authToken } // ✅ Fixed missing "Bearer "
+      });
+
+      console.log("📡 Response status:", response.status);
+
+      if (!response.ok) {
+          const errorText = await response.text();
+          console.error("❌ Fetch failed:", errorText);
+          throw new Error(errorText);
+      }
+
+      const data = await response.json(); // ✅ Properly parse JSON
+      console.log("👤 User data:", data);
+
+      userNameElement.textContent = `${data.firstName} ${data.lastName}`;
+      userEmailElement.textContent = data.email; // ✅ Set user email
+
+  } catch (error) {
+      console.error('❌ Error fetching user data:', error);
+      userNameElement.textContent = 'Guest';
+      userEmailElement.textContent = 'No email found';
+  }
+});

@@ -278,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchToLoginLink = popup?.querySelector('.switch-to-login');
     const logoutButton = document.querySelector('.logout-btn');
 
+    const loginInfo = document.querySelector('.login-info');
 
     
     if (getUserEmail()) {
@@ -352,18 +353,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userEmail', data.email);
                 updateUIAfterLogin(data.email);
+                
             
                 // Hide the login popup
                 popup.classList.add('hidden');  
                 document.body.classList.remove('popup-open'); 
-            
+                displayCheckoutUser()
                 // Check if we have a stored page to redirect to
                 const redirectPage = localStorage.getItem('redirectAfterLogin');
                 if (redirectPage) {
                     localStorage.removeItem('redirectAfterLogin'); // Clean up after redirect
                     window.location.href = redirectPage; // Redirect user back to the intended page
                 } else {
-                    window.location.href = 'index.html'; // Default redirect (home page)
+                    window.reload // Default redirect (home page)
+                    //HERE
                 }
             }
         } catch (error) {
@@ -412,6 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('userId', data.userId);
                 alert('🎉 Account created successfully! You can now log in.');
                 popup.classList.add('hidden');
+        
             } else if (data.message === 'User already exists') {
                 alert('❌ This email is already registered. Try logging in instead.');
             } else {
@@ -424,6 +428,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+
+//
+
+
+
+
+
+
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     // Get the current page URL
+//     const currentPage = window.location.pathname.split('/').pop(); // Gets last part of URL
+  
+//     // Select the login-info element
+//     const loginInfo = document.querySelector('.login-info');
+  
+//     if (currentPage === 'checkout.html') {
+//       if (loginInfo) {
+       
+//         console.log('✅ Background color changed to yellow.');
+//       } else {
+//         console.error('❌ .login-info element not found.');
+//       }
+//     } else {
+//       return
+//     }
+//   });
+
+ function displayCheckoutUser() {
+    const loginInfo = document.querySelector('.login-info');
+  
+    // Get the current page
+    const currentPage = window.location.pathname.split('/').pop(); // Extracts last part of the URL
+  
+    if (currentPage === 'checkout.html') {
+      if (loginInfo) {
+        loginInfo.classList.remove('hidden'); // Remove the hidden class
+        console.log('✅ login-info is now visible.');
+      } else {
+        console.error('❌ .login-info element not found.');
+      }
+    } else {
+      console.log('Hi');
+    }
+  }
+  
+  // Call function when the page loads
+//   document.addEventListener("DOMContentLoaded", displayCheckoutUser);
+
+    
+  
+
 
 
 
