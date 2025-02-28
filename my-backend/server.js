@@ -319,9 +319,9 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
   console.log('Order details:', { items, total, deliveryOptions });
 
   const newOrder = {
-      userId: id,         // Store user ID
+      userId: id,         
       // userName: userName, // Store user name
-      email: email,       // Store user email
+      email: email,     
       items,
       total,
       deliveryOptions,

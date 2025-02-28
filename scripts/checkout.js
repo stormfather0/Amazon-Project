@@ -620,8 +620,11 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       const createdOrder = await response.json();
       console.log('Order placed successfully:', createdOrder);
 
-      localStorage.clear();
-      location.reload();
+     // Instead of localStorage.clear(), remove only cart-related data
+localStorage.removeItem('cart'); // Remove cart data only
+localStorage.removeItem('totalPrice'); // Remove total price if stored
+
+location.reload(); // Reload the page without logging out the user
     } else {
       const errorData = await response.json();
       console.error('Failed to place order:', errorData.message || response.statusText);
@@ -798,9 +801,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.log("📡 Response status:", response.status);
 
       if (!response.ok) {
-          const errorText = await response.text();
-          console.error("❌ Fetch failed:", errorText);
-          throw new Error(errorText);
+        console.log('👤 User is not verifeid')
+
+          // const errorText = await response.text();
+          // console.error("❌ Fetch failed:", errorText);
+          // throw new Error(errorText);
+      
       }
 
       const data = await response.json(); // ✅ Properly parse JSON
