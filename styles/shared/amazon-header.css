@@ -49,6 +49,9 @@
 
 
 
+
+
+
 /* .ad-banner {
   width: 100%;
   height: 50px;
@@ -272,6 +275,7 @@
 }
 
 .account-icon {
+  position: relative;
   display: inline-block;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -289,3 +293,4 @@ justify-content: bottom;
   border-right: 1px solid rgb(242, 242, 242);
 
 }
+

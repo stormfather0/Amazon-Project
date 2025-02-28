@@ -554,33 +554,52 @@ function calculateTotalDeliveryCost() {
 
 
 
-
-
-
-
 document.querySelector('.place-order-button').addEventListener('click', async () => {
+
+  const authToken = localStorage.getItem('authToken');
+ 
+
+  console.log('Auth Token:', authToken); // Debugging
+ 
+  const user = {
+    userName: localStorage.getItem('userName'), 
+    userSurname: localStorage.getItem('userSurname'), 
+    email: localStorage.getItem('userEmail'), 
+    id: localStorage.getItem('userId')
+  };
+
+ 
+
+  if (!authToken) {
+    console.error('No token found. User might not be authenticated.');
+    return; // Stop execution if no token
+  }
+
   // Prepare order data
   const orderData = {
     items: cart.map(item => {
-      // Find the matching product from products.js by productId
       const product = products.find(p => p.id === item.productId);
       return {
         productId: item.productId,
         name: product.name,
-        image: product.image, // Include product image
+        image: product.image,
         priceCents: product.priceCents,
         quantity: item.quantity,
+        userName: user.userName,
+        userSurname: user.userSurname,
+        email: user.email,
+        id: user.id
       };
     }),
-    total: totalPriceCents, // Total price in cents
+    total: totalPriceCents,
     deliveryOptions: [...document.querySelectorAll('.delivery-option-input:checked')].map(option => {
       let deliveryDate;
       if (option.classList.contains('delivery-option-one')) {
-        deliveryDate = formateDate1(fiveDays); // 5-day delivery
+        deliveryDate = formateDate1(fiveDays);
       } else if (option.classList.contains('delivery-option-two')) {
-        deliveryDate = formateDate1(threeDays); // 3-day delivery
+        deliveryDate = formateDate1(threeDays);
       } else if (option.classList.contains('delivery-option-three')) {
-        deliveryDate = formateDate1(tomorrow); // 1-day delivery
+        deliveryDate = formateDate1(tomorrow);
       }
 
       return {
@@ -590,14 +609,13 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
     }),
   };
 
-
-
-  // Send the order data to the server ////////////
+  // Send the order data to the server with JWT token
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/place-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer${authToken}` // Attach JWT token
       },
       body: JSON.stringify(orderData),
     });
@@ -607,15 +625,25 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       console.log('Order placed successfully:', createdOrder);
 
       localStorage.clear();
-      location.reload(); 
-
+      location.reload();
     } else {
-      console.error('Failed to place order:', response.statusText);
+      const errorData = await response.json();
+      console.error('Failed to place order:', errorData.message || response.statusText);
     }
   } catch (error) {
     console.error('Error placing order:', error);
   }
 });
+
+
+
+
+
+
+
+
+
+
 
 
 // Display message when cart is empty 
@@ -705,6 +733,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Hide the login container
       if (loginContainer) {
           loginContainer.classList.add('hidden');
+          
           console.log('✅ .login-container is now hidden.');
       } else {
           console.error('❌ .login-container not found.');
@@ -713,6 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show the login-info div
       if (loginInfo) {
           loginInfo.classList.remove('hidden');
+          
           console.log('✅ .login-info is now visible.');
       } else {
           console.warn('⚠️ .login-info element not found.');
@@ -763,11 +793,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const authToken = localStorage.getItem('authToken');
   console.log("🔑 Auth Token:", authToken);
 
-  if (!authToken) {
-      localStorage.setItem('redirectAfterLogin', window.location.pathname);
-      window.location.href = 'login-test.html';
-      return;
-  }
 
   try {
       const response = await fetch('https://amazon-project-sta4.onrender.com/api/user', {

@@ -482,3 +482,11 @@ form input:focus {
   text-decoration: underline;
 }
 
+/*  */
+.welcome {
+  /* max-width: 500px; */
+  width: 100%; /* Ensures responsiveness */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

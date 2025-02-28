@@ -549,23 +549,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const adBanner = document.getElementById("promotion-banner");
   const closeAdBtn = document.getElementById("close-promotion");
   const adDisplayDelay = 10 * 1000; // 10 seconds
-  const hideDuration = 30 * 60 * 1000; // 30 minutes in milliseconds
 
-  // Check if the banner was closed within the last 30 minutes
-  const lastClosedTime = localStorage.getItem("adBannerLastClosed");
-  const now = new Date().getTime();
+  if (!adBanner || !closeAdBtn) return; // Prevent errors if elements are missing
 
-  if (!lastClosedTime || now - lastClosedTime > hideDuration) {
-    // Show the banner after 10 seconds
+  const isAdClosed = localStorage.getItem("adBannerClosed");
+
+  if (!isAdClosed) {
     setTimeout(() => {
       adBanner.classList.remove("hidden");
     }, adDisplayDelay);
+  } else {
+    adBanner.classList.add("hidden"); // Keep it hidden permanently
   }
 
-  // Handle closing the ad
   closeAdBtn.addEventListener("click", () => {
     adBanner.classList.add("hidden");
-    localStorage.setItem("adBannerLastClosed", new Date().getTime());
+    localStorage.setItem("adBannerClosed", "true"); // Store the permanent flag
   });
 });
 

@@ -59,8 +59,8 @@
 
 .login-info {
     position: relative;
-    display: flex
-;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
@@ -70,7 +70,13 @@
     border-radius: 8px;
     max-width: 700px;
     margin: 0 auto;
+
 }
+
+#user-email {
+  padding: 0 20px;
+}
+
 
 .logout-btn {
     width: 140px;
@@ -91,6 +97,9 @@
     top: -6px;
 }
 
+.welcome {
+  font-size: 1.3rem;
+}
   </style>
 </head>
 <body>
@@ -172,15 +181,16 @@
   </div>
 
 
-
+  <h1 class="welcome">Welcome, <span id="user-name">Loading...</span>!</h1>
   <div class="login-info hidden">
-    <p><img class="verified" src="images/verified.svg" alt=""> Email:</p>
+    <p><img class="verified" src="images/verified.svg" alt=""><span id="user-email">Loading...</span></p>
     <button class="button-primary logout-btn">Logout</button>
   </div>
 
 
-  <h1 class="welcome">Welcome, <span id="user-name">Loading...</span></h1>
-  <h1 class="welcome">Email <span id="user-email">Loading...</span></h1>
+
+
+ 
 
 
 

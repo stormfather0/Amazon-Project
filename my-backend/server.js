@@ -286,34 +286,40 @@ app.options('/api/place-order', cors(corsOptions));
 
 
 // Place order route
-app.post('/api/place-order', cors(corsOptions), async (req, res) => {
-    const { items, total, deliveryOptions } = req.body;
-    
+// Place order route
+app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, res) => {
+  const { items, total, deliveryOptions } = req.body;
 
-    console.log('Received order:', { items, total, deliveryOptions });
+  // Get user data from the authenticated token
+  const { id, userName, email } = req.user;
 
-    const newOrder = {
-        items,
-        total,
-        deliveryOptions,
-        createdAt: new Date()
-    };
+  console.log('Received order from:', { id, userName, email });
+  console.log('Order details:', { items, total, deliveryOptions });
 
-    try {
-        const ordersCollection = db.collection('orders');
-        const result = await ordersCollection.insertOne(newOrder);
+  const newOrder = {
+      userId: id,         // Store user ID
+      userName: userName, // Store user name
+      email: email,       // Store user email
+      items,
+      total,
+      deliveryOptions,
+      createdAt: new Date()
+  };
 
-        ordersCache.push({ _id: result.insertedId, ...newOrder });
+  try {
+      const ordersCollection = db.collection('orders');
+      const result = await ordersCollection.insertOne(newOrder);
 
-        res.status(201).json({
-            message: 'Order placed successfully',
-            order: { _id: result.insertedId, ...newOrder },
-        });
-    } catch (error) {
-        console.error('Error placing order:', error);
-        res.status(500).json({ message: 'Error placing order' });
-    }
+      ordersCache.push({ _id: result.insertedId, ...newOrder });
 
+      res.status(201).json({
+          message: 'Order placed successfully',
+          order: { _id: result.insertedId, ...newOrder },
+      });
+  } catch (error) {
+      console.error('Error placing order:', error);
+      res.status(500).json({ message: 'Error placing order' });
+  }
 });
 
 // // Fetch orders route
