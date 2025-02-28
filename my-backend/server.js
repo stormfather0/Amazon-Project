@@ -275,6 +275,28 @@ app.post('/api/register', async (req, res) => {
 
 
 
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ message: 'Access Denied' });
+
+  try {
+      const verified = jwt.verify(token, JWT_SECRET);
+      req.user = verified; // Attach user info to request object
+      next();
+  } catch (err) {
+      return res.status(403).json({ message: 'Invalid Token' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -701,18 +723,6 @@ app.get('/api/verify', verifyUser, (req, res) => {
 
 
 
-const authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'Access Denied' });
-
-  try {
-      const verified = jwt.verify(token, JWT_SECRET);
-      req.user = verified; // Attach user info to request object
-      next();
-  } catch (err) {
-      return res.status(403).json({ message: 'Invalid Token' });
-  }
-};
 
 // Fetch user details
 app.get('/api/user', authenticateToken, async (req, res) => {
