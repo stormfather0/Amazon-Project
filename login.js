@@ -353,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userEmail', data.email);
                 updateUIAfterLogin(data.email);
+                window.location.reload(); 
                 
             
                 // Hide the login popup

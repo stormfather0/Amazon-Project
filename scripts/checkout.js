@@ -611,7 +611,7 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${authToken}` // ✅ Correct format
+        'Authorization': `${authToken}` 
       },
       body: JSON.stringify(orderData),
     });
@@ -620,11 +620,11 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       const createdOrder = await response.json();
       console.log('Order placed successfully:', createdOrder);
 
-     // Instead of localStorage.clear(), remove only cart-related data
-localStorage.removeItem('cart'); // Remove cart data only
-localStorage.removeItem('totalPrice'); // Remove total price if stored
+     //Remove cart and totalPrice
+localStorage.removeItem('cart'); 
+localStorage.removeItem('totalPrice'); 
 
-location.reload(); // Reload the page without logging out the user
+location.reload(); 
     } else {
       const errorData = await response.json();
       console.error('Failed to place order:', errorData.message || response.statusText);
@@ -722,6 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const authToken = localStorage.getItem('authToken');
   const loginContainer = document.querySelector('.login-container');
   const loginInfo = document.querySelector('.login-info');
+  const welcomeMessage = document.querySelector('.welcome');
 
   console.log('Auth Token:', authToken); // Debugging
 
@@ -731,6 +732,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Hide the login container
       if (loginContainer) {
           loginContainer.classList.add('hidden');
+          welcomeMessage.classList.remove('hidden');
+          
           
           console.log('✅ .login-container is now hidden.');
       } else {
@@ -740,6 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show the login-info div
       if (loginInfo) {
           loginInfo.classList.remove('hidden');
+         
           
           console.log('✅ .login-info is now visible.');
       } else {
@@ -749,6 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('⚠️ No Auth Token found. User is not logged in.');
   }
 });
+
 
 
 //
