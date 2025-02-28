@@ -555,25 +555,21 @@ function calculateTotalDeliveryCost() {
 
 
 document.querySelector('.place-order-button').addEventListener('click', async () => {
-
   const authToken = localStorage.getItem('authToken');
- 
 
   console.log('Auth Token:', authToken); // Debugging
- 
-  const user = {
-    userName: localStorage.getItem('userName'), 
-    userSurname: localStorage.getItem('userSurname'), 
-    email: localStorage.getItem('userEmail'), 
-    id: localStorage.getItem('userId')
-  };
-
- 
 
   if (!authToken) {
     console.error('No token found. User might not be authenticated.');
     return; // Stop execution if no token
   }
+
+  const user = {
+    // userName: localStorage.getItem('userName'), 
+    // userSurname: localStorage.getItem('userSurname'), 
+    email: localStorage.getItem('userEmail'), 
+    id: localStorage.getItem('userId')
+  };
 
   // Prepare order data
   const orderData = {
@@ -585,8 +581,8 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
         image: product.image,
         priceCents: product.priceCents,
         quantity: item.quantity,
-        userName: user.userName,
-        userSurname: user.userSurname,
+        // userName: user.userName,
+        // userSurname: user.userSurname,
         email: user.email,
         id: user.id
       };
@@ -615,7 +611,7 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer${authToken}` // Attach JWT token
+        'Authorization': `${authToken}` // ✅ Correct format
       },
       body: JSON.stringify(orderData),
     });
@@ -634,7 +630,6 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
     console.error('Error placing order:', error);
   }
 });
-
 
 
 
