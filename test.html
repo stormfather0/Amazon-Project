@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/amazon-header.css">
     <link rel="stylesheet" href="styles/pages/account-new.css">
+    <link rel="stylesheet" href="styles/pages/amazon.css">
 </head>
 <style>
     body {
@@ -98,6 +101,14 @@
         <div class="account-products-grid" id="favourite-products-container" style="display: none;"></div>
     </div>
 
+
+
+<!-- Footer -->
+    <div id="footer"></div>
+
+
+
+
     <script>
               document.addEventListener('DOMContentLoaded', async () => {
     const authToken = localStorage.getItem('authToken');
@@ -150,11 +161,11 @@
             }
 
             // Fetch header
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-container').innerHTML = data;
-                });
+            // fetch('header.html')
+            //     .then(response => response.text())
+            //     .then(data => {
+            //         document.getElementById('header-container').innerHTML = data;
+            //     });
 
             // Get menu items and sections
             const menuItems = document.querySelectorAll('.account-menu li');
@@ -193,6 +204,9 @@
             });
         });
     </script>
+       
+        <script src="scripts/header.js"></script>
+        <script src="footer.js"></script>
     <script src="test.js" type="module"></script>
   
 </body>

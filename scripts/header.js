@@ -1,74 +1,96 @@
-let headerInitialized = false;
+document.addEventListener("DOMContentLoaded", () => {
+  const headerContainer = document.getElementById("header-container");
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM fully loaded and parsed');
-  initializeHeader();
-});
-
-// This will initialize header logic and retry if elements are not available initially
-function initializeHeader() {
-  if (headerInitialized) {
-    console.log('Header already initialized for:', window.location.href);
+  if (!headerContainer) {
+    console.error("❌ header-container not found!");
     return;
   }
-  headerInitialized = true;
 
-  // Retry logic if elements are not available on the first attempt
-  setTimeout(() => {
-    const menuIcons = document.querySelectorAll('.menu-icon'); // Select both menu icons
-    const menuBar = document.querySelector('.menu-bar'); // Select the menu bar
-    const header = document.querySelector('.amazon-header'); // Select the header
+  headerContainer.innerHTML = `
+    <div class="ad-banner">
+      <p>Special Offer! Get 20% off on all products!</p>
+    </div>
+    <div class="placeholder"></div> <!-- Placeholder should only activate when needed -->
 
-    if (menuIcons.length > 0 && menuBar && header) {
-      // Initialize Menu logic
-      menuIcons.forEach((icon) => {
-        icon.addEventListener('click', () => {
-          console.log('Menu icon clicked:', icon);
-          menuBar.classList.toggle('hidden');
-          icon.classList.toggle('menu-icon-active');
-        });
-      });
+    <div class="header-menu-wrapper">
+      <div class="amazon-header">
+        <div class="amazon-header-left-section">
+          <a href="amazon.html" class="header-link">
+            <img class="amazon-logo" src="images/amazon-logo-white.png">
+            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
+          </a>
+        </div>
 
-      // Sticky header logic
-      const adBanner = document.querySelector('.ad-banner');
-      const placeholder = document.querySelector('.placeholder');
+        <div class="amazon-header-middle-section">
+          <img class="menu-icon menu-icon-hidden" src="images/icons/menu.svg">
+          <input class="search-bar" type="text" placeholder="Search">
+          <button class="search-button">
+            <img class="search-icon" src="images/icons/search-icon.png">
+          </button>
+        </div>
 
-      const handleScroll = () => {
-        const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
-        const headerHeight = header ? header.offsetHeight : 0;
+        <div class="amazon-header-right-section">
+          <a class="account-icon" href="test.html">
+            <svg class="account-icon-svg" width="40px" height="30px" viewBox="0 0 24 24" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
+              <defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs>
+              <circle class="cls-1" cx="12" cy="7.25" r="5.73"/>
+              <path class="cls-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"/>
+            </svg>
+          </a>
+          <a class="orders-link header-link" href="orders.html">
+            <span class="returns-text">Returns</span>
+            <span class="orders-text">& Orders</span>
+          </a>
+          <a class="cart-link header-link" href="checkout.html">
+            <img class="cart-icon" src="images/icons/cart-icon.png">
+            <div class="cart-quantity js-cart-quantity">0</div>
+            <div class="cart-text">Cart</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
 
-        // Get the position of the header relative to the viewport
-        const headerRect = header.getBoundingClientRect();
-        const headerTop = headerRect.top; // This is the distance from the top of the viewport
+  // ✅ Initialize sticky header script
+  initStickyHeader();
+});
 
-        // Calculate the position of the menu bar based on header's position
-        const menuBarTop = headerTop + headerHeight;
+function initStickyHeader() {
+  const header = document.querySelector(".amazon-header");
+  const placeholder = document.querySelector(".placeholder");
+  const adBanner = document.querySelector(".ad-banner");
 
-        if (window.scrollY > adBannerHeight) {
-          header.classList.add("is-sticky");
-          menuBar.classList.add("is-sticky"); // Add sticky class to menu-bar
-          placeholder.style.height = `${headerHeight}px`;
+  if (!header || !placeholder) {
+    console.error("❌ Header or placeholder not found!");
+    return;
+  }
 
-          // Adjust the top of the menu bar based on the header's top position
-          menuBar.style.top = `${menuBarTop}px`; // Position menu bar below the header
-        } else {
-          header.classList.remove("is-sticky");
-          menuBar.classList.remove("is-sticky"); // Remove sticky class from menu-bar
-          placeholder.style.height = '0px';
-          menuBar.style.top = ''; // Reset the top position when it's not sticky
-        }
-      };
+  // ✅ Set placeholder height initially
+  placeholder.style.height = "0px";
 
-      if (header && placeholder) {
-        window.addEventListener("scroll", handleScroll);
-        handleScroll(); // Initial setup
-      } else {
-        console.error('Header or placeholder not found!');
+  const handleScroll = () => {
+    const adBannerHeight = adBanner ? adBanner.offsetHeight : 0;
+    const headerHeight = header.offsetHeight;
+
+    if (window.scrollY > adBannerHeight) {
+      if (!header.classList.contains("is-sticky")) {
+        header.classList.add("is-sticky");
+        placeholder.style.height = `${headerHeight}px`; // Preserve space when sticky
       }
     } else {
-      console.error('Menu icons or menu bar or header not found!');
-      // Retry after a short delay
-      setTimeout(initializeHeader, 500);
+      if (header.classList.contains("is-sticky")) {
+        header.classList.remove("is-sticky");
+        placeholder.style.height = "0px"; // Remove space when not sticky
+      }
     }
-  }, 100);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", () => {
+    if (header.classList.contains("is-sticky")) {
+      placeholder.style.height = `${header.offsetHeight}px`; // Adjust dynamically
+    }
+  });
+
+  handleScroll(); // Run once on load
 }

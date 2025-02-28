@@ -6,6 +6,9 @@
     <title>Filtered Products</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
     <link rel="stylesheet" href="./styles/pages/amazon.css">
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="styles/shared/amazon-header.css">
 </head>
 <body>
    <!-- Load header -->
@@ -17,38 +20,44 @@
     </div> 
 <!-- Load footer -->
     <div id="footer"></div>
+ 
+
+
 
     <script type="module">
         // Load header
-        fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-container').innerHTML = data;
-        });
+        // fetch('header.html')
+        // .then(response => response.text())
+        // .then(data => {
+        //     document.getElementById('header-container').innerHTML = data;
+        // });
 
         // Load footer
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch('footer.html')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Failed to load footer.');
-                }
-                return response.text();
-            })
-            .then((data) => {
-                document.getElementById('footer').innerHTML = data;
-            })
-            .catch((error) => {
-                console.error('Error loading footer:', error);
-            });
-        });
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     fetch('footer.html')
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw new Error('Failed to load footer.');
+        //         }
+        //         return response.text();
+        //     })
+        //     .then((data) => {
+        //         document.getElementById('footer').innerHTML = data;
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error loading footer:', error);
+        //     });
+        // });
 
         // Fetch Products based on category from URL
         import { fetchProducts } from './menu-products.js';
         fetchProducts();  // Fetch and display products based on category
     </script>
 
-    <script src="scripts/header.js"></script>
+
+
+<script src="scripts/header.js"></script>
+<script src="footer.js"></script>
     <script type="module" src="login.js"></script>
     <script type="module" src="menu-products.js"></script>
 </body>

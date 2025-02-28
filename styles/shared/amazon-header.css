@@ -294,3 +294,23 @@ justify-content: bottom;
 
 }
 
+
+
+
+
+/* */
+
+
+.menu-icon {
+  height: 30px;
+  width: 30px;
+  /* margin-left: 29px; */
+  align-self: center;
+  margin-right: 9px;
+  }
+
+.menu-icon:hover{
+  opacity: 0.8;
+  /* transition: 0.3s ease-in-out; */
+  cursor: pointer; 
+}
