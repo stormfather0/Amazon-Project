@@ -1,4 +1,4 @@
-import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
+import { cart, addToCart, calculateCartQuantity, updateCartQuantity } from '../data/cart.js';
 // import {products} from '../data/products.js';
 // import { UpdateCartPrice } from '../';
 import { formatCurrency } from './utils/money.js';
@@ -286,25 +286,31 @@ export async function favouritesListener() {
 }
 // Update Cart Quantity
 // Update Cart Quantity
-export function updateCartQuantity() {
+// export function updateCartQuantity() {
 
 
-totalQuantity = 0;
-  // Loop through the cart to calculate total quantity
-  cart.forEach(item => {
-    totalQuantity += item.quantity; // Add quantity to total
-  });
+// let totalQuantity = 0;
+//   // Loop through the cart to calculate total quantity
+//   cart.forEach(item => {
+//     totalQuantity += item.quantity; // Add quantity to total
+//   });
 
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+//   const cartQuantityElement = document.querySelector('.js-cart-quantity');
 
-  if (!cartQuantityElement) {
-    console.warn("Warning: .js-cart-quantity element not found. Skipping update.");
-    return;
-  }
+//   if (!cartQuantityElement) {
+//     console.warn("Warning: .js-cart-quantity element not found. Skipping update.");
+//     return;
+//   }
 
-  cartQuantityElement.innerHTML = totalQuantity;
-  return cartQuantity;
-}
+//   cartQuantityElement.innerHTML = totalQuantity;
+//   return cartQuantityElement;
+// }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartQuantity();
+});
+
 
 // Add to Cart Button Listener
 
@@ -782,6 +788,7 @@ function displaySpecialOfferProducts(products) {
   const cartItemsNotification = document.getElementById('cart-items-notification'); // Select the notification container
   const quantityElement = document.getElementById('items-in-cart-count'); // Element to display item count
   const adSliderContainer = document.querySelector('.promotion-slider-container');
+
   let totalQuantity = 0;
 
   // Loop through the cart to calculate total quantity
