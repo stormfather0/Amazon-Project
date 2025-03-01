@@ -6,6 +6,11 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 10px;
   padding: 10px;
+  
+}
+
+.products-grid > *, .special-offers-container > * {
+  min-height: 0;
 }
 
 /* Media queries to adjust grid layout based on screen size */
@@ -228,17 +233,20 @@ text-align: center;
 }
 
 
+
+
+
 .menu-icon {
   height: 30px;
   width: 30px;
-  /* margin-left: 29px; */
+
   align-self: center;
   margin-right: 9px;
   }
 
 .menu-icon:hover{
   opacity: 0.8;
-  /* transition: 0.3s ease-in-out; */
+
   cursor: pointer; 
 }
 
@@ -335,7 +343,7 @@ text-align: center;
   opacity: 0.95;
   /* transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease; */
   letter-spacing: 0.3px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   display: flex;
   align-items: center;
   gap: 1px;
@@ -1068,10 +1076,10 @@ margin-top: 50px;
     height: 100%; 
   }
   
-  .menu-icon {
+  /* .menu-icon {
     width: 24px; 
     height: 24px;
-  }
+  } */
 }
 
 .favourites-style {

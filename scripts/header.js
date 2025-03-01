@@ -6,11 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Generate the header including the menu container
   headerContainer.innerHTML = `
     <div class="ad-banner">
       <p>Special Offer! Get 20% off on all products!</p>
     </div>
-    <div class="placeholder"></div> <!-- Placeholder should only activate when needed -->
+    <div class="placeholder"></div> 
 
     <div class="header-menu-wrapper">
       <div class="amazon-header">
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="amazon-header-middle-section">
-          <img class="menu-icon menu-icon-hidden" src="images/icons/menu.svg">
+          <img class="menu-icon" src="images/icons/menu.svg">
           <input class="search-bar" type="text" placeholder="Search">
           <button class="search-button">
             <img class="search-icon" src="images/icons/search-icon.png">
@@ -48,13 +49,32 @@ document.addEventListener("DOMContentLoaded", () => {
           </a>
         </div>
       </div>
+
+      <!-- MENU CONTAINER NOW INSIDE HEADER -->
+      <div class="menu-container">
+        <button class="close-menu-btn">✖</button> 
+        <ul class="category-list">
+          <li class="category"><a href="filtered-products.html?category=clothing"><img src="images/menu-images/clothes.svg" alt="Clothes"> Clothes</a></li>
+          <li class="category"><a href="filtered-products.html?category=electronics"><img src="images/menu-images/electronics.svg" alt="Electronics"> Electronics</a></li>
+          <li class="category"><a href="filtered-products.html?category=digital-content"><img src="images/menu-images/digital-content.svg" alt="Digital Content"> Digital content</a></li>
+          <li class="category"><a href="filtered-products.html?category=personal-care"><img src="images/menu-images/personal-care.svg" alt="Personal Care"> Personal care</a></li>
+          <li class="category"><a href="filtered-products.html?category=fashion"><img src="images/menu-images/fashion.svg" alt="Fashion"> Fashion</a></li>
+          <li class="category"><a href="filtered-products.html?category=gift-cards"><img src="images/menu-images/giftcards.svg" alt="Gift Cards"> Gift cards</a></li>
+          <li class="category"><a href="login-test.html"><img src="images/menu-images/giftcards.svg" alt="Login Test"> LOGIN-TEST</a></li>
+          <li class="category"><a href="access.html"><img src="images/menu-images/giftcards.svg" alt="Access Page"> PAGE I WANT TO ACCESS</a></li>
+        </ul>
+      </div>
     </div>
   `;
 
-  // ✅ Initialize sticky header script
+  //  Initialize sticky header behavior
   initStickyHeader();
+
+  // Initialize menu toggle functionality
+  initMenuToggle();
 });
 
+// Sticky Header Function
 function initStickyHeader() {
   const header = document.querySelector(".amazon-header");
   const placeholder = document.querySelector(".placeholder");
@@ -65,7 +85,6 @@ function initStickyHeader() {
     return;
   }
 
-  // ✅ Set placeholder height initially
   placeholder.style.height = "0px";
 
   const handleScroll = () => {
@@ -73,24 +92,62 @@ function initStickyHeader() {
     const headerHeight = header.offsetHeight;
 
     if (window.scrollY > adBannerHeight) {
-      if (!header.classList.contains("is-sticky")) {
-        header.classList.add("is-sticky");
-        placeholder.style.height = `${headerHeight}px`; // Preserve space when sticky
-      }
+      header.classList.add("is-sticky");
+      placeholder.style.height = `${headerHeight}px`; // Preserve space when sticky
     } else {
-      if (header.classList.contains("is-sticky")) {
-        header.classList.remove("is-sticky");
-        placeholder.style.height = "0px"; // Remove space when not sticky
-      }
+      header.classList.remove("is-sticky");
+      placeholder.style.height = "0px"; // Remove space when not sticky
     }
   };
 
   window.addEventListener("scroll", handleScroll);
   window.addEventListener("resize", () => {
     if (header.classList.contains("is-sticky")) {
-      placeholder.style.height = `${header.offsetHeight}px`; // Adjust dynamically
+      placeholder.style.height = `${header.offsetHeight}px`;
     }
   });
 
-  handleScroll(); // Run once on load
+  handleScroll();
+}
+
+
+
+
+
+
+
+
+
+
+function initMenuToggle() {
+  const menuIcon = document.querySelector(".menu-icon");
+  const menuContainer = document.querySelector(".menu-container");
+  const closeMenuBtn = document.querySelector(".close-menu-btn");
+  const body = document.body;
+
+  if (!menuIcon || !menuContainer || !closeMenuBtn) {
+    console.error("❌ Menu elements not found!");
+    return;
+  }
+
+  // Create a blur overlay and append it to body
+  const blurOverlay = document.createElement("div");
+  blurOverlay.classList.add("blur-overlay");
+  document.body.appendChild(blurOverlay);
+
+  menuIcon.addEventListener("click", () => {
+    menuContainer.style.display = "block";
+    blurOverlay.style.display = "block"; // Show blur overlay
+    body.classList.add("no-scroll");
+  });
+
+  function closeMenu() {
+    menuContainer.style.display = "none";
+    blurOverlay.style.display = "none"; // Hide blur overlay
+    body.classList.remove("no-scroll");
+  }
+
+  closeMenuBtn.addEventListener("click", closeMenu);
+
+  blurOverlay.addEventListener("click", closeMenu);
 }
