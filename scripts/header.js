@@ -51,7 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <!-- MENU CONTAINER NOW INSIDE HEADER -->
+      
       <div class="menu-container">
+           <div class="logo"> <img src="images/amazon-logo-menu1.png"></div>
         <button class="close-menu-btn">✖</button> 
         <ul class="category-list">
           <li class="category"><a href="filtered-products.html?category=clothing"><img src="images/menu-images/clothes.svg" alt="Clothes"> Clothes</a></li>
@@ -118,7 +120,6 @@ function initStickyHeader() {
 
 
 
-
 function initMenuToggle() {
   const menuIcon = document.querySelector(".menu-icon");
   const menuContainer = document.querySelector(".menu-container");
@@ -134,20 +135,22 @@ function initMenuToggle() {
   const blurOverlay = document.createElement("div");
   blurOverlay.classList.add("blur-overlay");
   document.body.appendChild(blurOverlay);
+  
+  // Ensure menu is hidden initially
+  menuContainer.classList.remove("active");
 
   menuIcon.addEventListener("click", () => {
-    menuContainer.style.display = "block";
-    blurOverlay.style.display = "block"; // Show blur overlay
+    menuContainer.classList.add("active");
+    blurOverlay.style.display = "block";
     body.classList.add("no-scroll");
   });
 
   function closeMenu() {
-    menuContainer.style.display = "none";
-    blurOverlay.style.display = "none"; // Hide blur overlay
+    menuContainer.classList.remove("active");
+    blurOverlay.style.display = "none";
     body.classList.remove("no-scroll");
   }
 
   closeMenuBtn.addEventListener("click", closeMenu);
-
   blurOverlay.addEventListener("click", closeMenu);
 }
