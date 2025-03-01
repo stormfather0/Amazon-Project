@@ -50,6 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
 
+            <div class="menu-bottom-850px">
+        <div class="menu-icon-container">
+          <img class="menu-icon menu-icon-bottom" src="images/icons/menu.svg">
+          <a href="favourites.html"><img class="menu-icon menu-icon-bottom" src="images/icons/favourite-bottom.svg"
+              alt=""></a>
+        </div>
+      </div>
+
       <!-- MENU CONTAINER NOW INSIDE HEADER -->
       
       <div class="menu-container">
@@ -118,15 +126,13 @@ function initStickyHeader() {
 
 
 
-
-
 function initMenuToggle() {
-  const menuIcon = document.querySelector(".menu-icon");
+  const menuIcons = document.querySelectorAll(".menu-icon"); // Select all menu icons
   const menuContainer = document.querySelector(".menu-container");
   const closeMenuBtn = document.querySelector(".close-menu-btn");
   const body = document.body;
 
-  if (!menuIcon || !menuContainer || !closeMenuBtn) {
+  if (!menuIcons.length || !menuContainer || !closeMenuBtn) {
     console.error("❌ Menu elements not found!");
     return;
   }
@@ -139,10 +145,13 @@ function initMenuToggle() {
   // Ensure menu is hidden initially
   menuContainer.classList.remove("active");
 
-  menuIcon.addEventListener("click", () => {
-    menuContainer.classList.add("active");
-    blurOverlay.style.display = "block";
-    body.classList.add("no-scroll");
+  // Add event listeners to all menu icons
+  menuIcons.forEach((menuIcon) => {
+    menuIcon.addEventListener("click", () => {
+      menuContainer.classList.add("active");
+      blurOverlay.style.display = "block";
+      body.classList.add("no-scroll");
+    });
   });
 
   function closeMenu() {

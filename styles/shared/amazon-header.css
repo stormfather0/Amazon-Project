@@ -23,6 +23,43 @@
 
 
 
+  .menu-icon {
+    height: 30px;
+    width: 30px;
+  
+    align-self: center;
+    margin-right: 9px;
+    }
+  
+  .menu-icon:hover{
+    opacity: 0.8;
+  
+    cursor: pointer; 
+  }
+
+  .menu-bottom-850px {
+    display: none;
+  }
+  @media (max-width: 850px) {
+    .menu-bottom-850px {
+  
+      width: 100%; 
+      height: 50px;
+      background-color: #97978a;
+      position: fixed;
+      bottom: 0;
+      z-index: 1000;
+      display: block;  
+    }
+  
+    
+    .menu-icon-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center; 
+      height: 100%; 
+    }
+  }
 
   .ad-banner {
     width: 100%;
@@ -258,27 +295,23 @@
 
 
 /* Menu styling */
-/* Blur effect when menu is active *//* Full-screen blur overlay */
+
 .blur-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(5px); /* Apply blur effect */
-  background: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background */
-  z-index: 1000; /* Ensure it's below the menu */
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.3); 
+  z-index: 1000;
   display: none;
 }
 
-/* Prevent scrolling when menu is open */
-.no-scroll {
-  overflow: hidden;
-  height: 100vh;
-}
 
-/* Ensure menu stays visible above the blur */
-/* Ensure menu stays visible above the blur */
+
+
+
 .menu-container {
   display: none;
   position: fixed;
@@ -306,7 +339,7 @@
   height: 100vh;
 }
 
-/* Close button styles */
+
 .close-menu-btn {
   background: none;
   border: none;
@@ -316,7 +349,6 @@
   top: -2px;
   right: -1px;
   color: black;
-  /* bottom: -34%; */
   height: 50px;
   width: 50px;
   border: 1px solid rgb(96, 94, 94);
@@ -324,9 +356,6 @@
 
 
 
-
-
-/* When menu is active */
 .menu-container.active {
   left: 0;
 }
