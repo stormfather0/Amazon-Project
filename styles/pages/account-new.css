@@ -2,11 +2,12 @@
 
 /* Special offers block */
 .account-products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-    gap: 10px;
-    padding: 10px;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  min-height: 500px;  /* Ensures the div takes up at least 500px in height */
+}
   
   /* Media queries to adjust grid layout based on screen size */
 
