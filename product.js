@@ -9,9 +9,6 @@ import { API_BASE_URL } from "../config.js";
 
 // Fetch products data from backend
 let products = [];
-let freeDeliveryThreshold = 0;
-
-
 fetch('https://amazon-project-sta4.onrender.com/api/products')
   .then((response) => {
     if (!response.ok) {
@@ -52,8 +49,8 @@ function renderProductDetails(product) {
   }
 
   // Check if the product has free delivery
-//  let price = product.priceCents;
-//  checkFreeDelivery(price); 
+ let price = product.priceCents;
+ checkFreeDelivery(price); 
 
 
   container.innerHTML = `
@@ -178,22 +175,22 @@ function renderProductDetails(product) {
 
 
 //check if free delivery applies
-// async function checkFreeDelivery(productPrice) {
-//   try {
-//       const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
-//       const data = await response.json();
-//       const threshold = data.threshold;
+async function checkFreeDelivery(productPrice) {
+  try {
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
+      const data = await response.json();
+      const threshold = data.threshold;
 
-//       if (productPrice >= threshold) {
-//           console.log('✅ Free delivery applies!');
-//           document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
-//       } else {
-//           console.log('🚚 Standard delivery applies.');
-//           document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
-//       }
-//   } catch (error) {
-//       console.error('Error fetching delivery threshold:', error);
-//   }
-// }
+      if (productPrice >= threshold) {
+          console.log('✅ Free delivery applies!');
+          document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
+      } else {
+          console.log('🚚 Standard delivery applies.');
+          document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
+      }
+  } catch (error) {
+      console.error('Error fetching delivery threshold:', error);
+  }
+}
 
 
