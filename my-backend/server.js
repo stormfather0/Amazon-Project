@@ -408,24 +408,38 @@ app.delete('/api/orders/:id', async (req, res) => {
 
 
 
-// Fetch products route
-app.get('/api/products', (req, res) => {
-    const productsPath = path.join(__dirname, 'products.json');
-    
-    fs.readFile(productsPath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading products.json:', err);
-            return res.status(500).json({ message: 'Error reading products' });
-        }
+const settings = require('./models/settings'); // Import the settings model
 
-        try {
-            const productsData = JSON.parse(data);
-            res.json(productsData);
-        } catch (parseError) {
-            console.error('Error parsing products.json:', parseError);
-            res.status(500).json({ message: 'Error parsing products' });
-        }
-    });
+app.get('/api/products', async (req, res) => {
+    const productsPath = path.join(__dirname, 'products.json');
+
+    try {
+        // Fetch free delivery threshold from MongoDB
+        const setting = await settings.findOne();
+        const freeDeliveryThreshold = setting ? setting.freeDeliveryAmount : 8000;
+
+        // Read product data from JSON file
+        fs.readFile(productsPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading products.json:', err);
+                return res.status(500).json({ message: 'Error reading products' });
+            }
+
+            try {
+                const productsData = JSON.parse(data);
+                res.json({ 
+                    products: productsData, 
+                    freeDeliveryThreshold 
+                });
+            } catch (parseError) {
+                console.error('Error parsing products.json:', parseError);
+                res.status(500).json({ message: 'Error parsing products' });
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching free delivery threshold:', error);
+        res.status(500).json({ message: 'Error fetching delivery threshold' });
+    }
 });
 
 

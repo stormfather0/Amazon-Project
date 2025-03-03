@@ -48,12 +48,10 @@ function renderProductDetails(product) {
     return;
   }
 
-  if(product.priceCents >= 5000) {
-    console.log('Works');
-  } else {
-    console.log('Also works');
-    
-  }
+  // Check if the product has free delivery
+ let price = product.priceCents;
+ checkFreeDelivery(price); 
+
 
   container.innerHTML = `
     <div class="product-detail">
@@ -175,6 +173,8 @@ function renderProductDetails(product) {
 //   favouritesListenerPages();
 // });
 
+
+//check if free delivery applies
 async function checkFreeDelivery(productPrice) {
   try {
       const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
@@ -193,5 +193,4 @@ async function checkFreeDelivery(productPrice) {
   }
 }
 
-// Example Usage (pass product price)
-checkFreeDelivery(6000); // Call this when loading a product
+
