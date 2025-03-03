@@ -177,7 +177,7 @@ function renderProductDetails(product) {
 
 async function checkFreeDelivery(productPrice) {
   try {
-      const response = await fetch('/api/delivery-threshold');
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
       const data = await response.json();
       const threshold = data.threshold;
 

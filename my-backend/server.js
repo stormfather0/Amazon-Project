@@ -834,7 +834,7 @@ app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
 app.get('/api/delivery-threshold', async (req, res) => {
   try {
       // Fetch from MongoDB if available
-      const setting = await Setting.findOne();
+      const setting = await setting.findOne();
       const threshold = setting ? setting.freeDeliveryAmount : 8000; // Default to $50 (5000 cents)
       res.json({ threshold });
   } catch (error) {
