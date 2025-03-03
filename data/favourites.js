@@ -226,7 +226,7 @@
 
 
 
-//NEW CODE
+
 // ✅ Fetch and display user favorites when page loads
 async function loadFavoritesAndDisplay() {
     try {
@@ -349,7 +349,7 @@ function displayFavoriteProducts(favouriteProducts) {
 }
 
 // ✅ Function to listen for clicks on favorite icons
-function favouritesListener() {
+ function favouritesListener() {
     const favouriteIcons = document.querySelectorAll('.favourites-style');
 
     favouriteIcons.forEach((icon) => {
@@ -392,6 +392,12 @@ function favouritesListener() {
         });
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    favouritesListener();
+  });
+
+
 
 // ✅ Function to add a product to user's favorites in MongoDB
 export async function addFavourite(productId) {
@@ -456,34 +462,109 @@ window.onload = loadFavoritesAndDisplay;
 
 //===========NEXT
 
-export async function isFavourite(productId) {
-    try {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            console.error('❌ No authToken found!');
-            return false;
-        }
+// export async function isFavourite(productId) {
+//     try {
+//         const token = localStorage.getItem('authToken');
+//         if (!token) {
+//             console.error('❌ No authToken found!');
+//             return false;
+//         }
 
-        const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
-            headers: { 'Authorization': token }
+//         const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+//             headers: { 'Authorization': token }
            
             
-        });
+//         });
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch favorites');
+//         if (!response.ok) {
+//             throw new Error('Failed to fetch favorites');
+//         }
+
+//         const data = await response.json();
+
+//         // Check if the product ID exists in the user's favorites
+//         return data.favorites.includes(productId);
+//     } catch (error) {
+//         console.error('❌ Error checking favorite:', error);
+//         return false;
+//     }
+// }
+
+
+
+
+
+export async function favouritesListenerPages() {
+    try {
+        const token = localStorage.getItem('authToken');
+  
+        // Fetch user favorites only if logged in
+        let userFavorites = new Set();
+        if (token) {
+            const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
+                headers: { 'Authorization': token }
+            });
+  
+            if (response.ok) {
+                const data = await response.json();
+                console.log('📝 API Response:', data);
+  
+                const favoritesArray = Array.isArray(data.favorites) ? data.favorites : []; 
+                userFavorites = new Set(favoritesArray.map(String));
+            } else {
+                throw new Error('❌ Failed to fetch user favorites');
+            }
         }
-
-        const data = await response.json();
-
-        // Check if the product ID exists in the user's favorites
-        return data.favorites.includes(productId);
+  
+        console.log('✅ User favorites:', userFavorites);
+  
+        setTimeout(() => {
+            document.querySelectorAll('.favourites-style').forEach((icon) => {
+                const productId = String(icon.dataset.favouritesId);
+  
+                // Apply favorite-active class
+                if (userFavorites.has(productId)) {
+                    icon.classList.add('favourite-active');
+                } else {
+                    icon.classList.remove('favourite-active');
+                }
+  
+                // Clone and replace to remove previous event listeners
+                const newIcon = icon.cloneNode(true);
+                icon.replaceWith(newIcon);
+  
+                newIcon.addEventListener('click', async () => {
+                    const token = localStorage.getItem('authToken'); // Re-check auth on click
+  
+                    if (!token) {
+                        console.warn('⚠️ No authToken found! Opening login popup...');
+                        openLoginPopup(); 
+                        return;
+                    }
+  
+                    newIcon.classList.toggle('favourite-active');
+  
+                    try {
+                        if (newIcon.classList.contains('favourite-active')) {
+                            await addFavourite(productId);
+                        } else {
+                            await removeFavourite(productId);
+                        }
+                    } catch (error) {
+                        console.error('❌ Error updating favorite:', error);
+                    }
+                });
+            });
+        }, 300);
     } catch (error) {
-        console.error('❌ Error checking favorite:', error);
-        return false;
+        console.error('❌ Error loading favorites:', error);
     }
-}
-
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    favouritesListenerPages();
+  });
+  
 
 
 

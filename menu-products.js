@@ -1,5 +1,5 @@
 import { formatCurrency } from './scripts/utils/money.js';
-import { addFavourite, removeFavourite, isFavourite } from './data/favourites.js';
+import { addFavourite, removeFavourite } from './data/favourites.js';
 import {cart, addToCart, calculateCartQuantity, updateCartQuantity} from './data/cart.js';
 
 
@@ -136,25 +136,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-document.addEventListener('click', (event) => {
-  if (event.target && event.target.classList.contains('js-add-to-cart')) {
-    const button = event.target;
-    const productId = button.dataset.productId;
-    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-    const quantity = parseInt(quantitySelect.value, 10);
-
-    addToCart(productId, quantity);
-    updateCartQuantity();
-
-    // Show the popup
-    const popup = document.getElementById('cart-popup');
-    popup.classList.add('show');
-
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popup.classList.remove('show');
-    }, 3000);
-  }
-});

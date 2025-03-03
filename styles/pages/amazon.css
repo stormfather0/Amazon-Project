@@ -860,188 +860,6 @@ a {
   color: white;
 }
 
-/* footer */
-/* Footer Styling */
-.modern-footer {
-  background-color: rgb(19, 25, 33); 
-  color: #f4f4f4;
-margin-top: 50px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  
-}
-
-.footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-section {
-  flex: 1;
-  min-width: 200px;
-  margin: 10px;
-}
-
-.footer-section h3 {
-  color: #ffa500;
-  margin-bottom: 15px;
-  font-size: 15px;
-}
-
-.footer-section p {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-section ul li {
-  margin: 10px 0;
-}
-
-.footer-section ul li a {
-  color: #f4f4f4;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-  color: #ffa500;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.social-icon {
-  color: #f4f4f4;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.social-icon:hover {
-  color: #ffa500;
-}
-
-.footer-bottom {
-  /* margin-top: 20px; */
-  border-top: 1px solid rgb(19, 25, 33);
-  /* padding-top: 10px; */
-  font-size: 14px;
-}
-
-.download-apps {
-  /* display: flex; */
-  width: 100%;
-  background-color: rgb(255, 216, 20);
-  height: 100px;
-  display: flex;
-  color: black;
-  font-size: 1.2rem;
-  align-items: center;
-  justify-content: space-around;
-  font-weight: bold;
-  /* margin-top: 50px; */
-
-}
-
-@media (max-width: 550px) {
-  .download-apps {
-   
-    flex-direction: column;
-    height: 152px;
-    padding-top: 20px;
-  }
-}
-
-.download-apps-right {
-  display: flex;
-  gap: 20px;
-}
-
-.download-applestore img {
-  height: 140px;
-
-}
-.download-applestore:hover {
-  opacity: 0.7;
-  transition: 0.3s ease-in-out;
-}
-
-.download-googleplay {
-  height: 140px;
-}
-.download-googleplay:hover {
-  opacity: 0.7;
-  transition: 0.3s ease-in-out;
-}
-
-
-
-.social-footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.social-icons {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.social-icon img {
-  width: 25px;
-  height: 30px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.social-icon img:hover {
-  transform: scale(1.1);
-  opacity: 0.8;
-}
-
-.social-footer p {
-  font-size: 14px;
-  margin-top: 10px;
-  border-top: 1px solid #444;
-  padding-top: 10px;
-  max-width: 600px;
-  line-height: 1.5;
-}
-
-
-.footer-bottom-right {
-  display: flex;
-  gap: 20px;
-  color: #f4f4f4;
-  font-size: 14px;
-  line-height: 1.6;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 20px 0px 20px;
-}
-
-@media (max-width:850px) {
-  .footer-bottom-right {
-    margin: 0 20px 47px 20px;
-}
-}
-
-
-.payment-icon-visa {
-  height: 40px;
-  padding: 13px;
-}
 
 /* @media (max-width: 850px) {
   .menu-bottom-850px {
@@ -1067,23 +885,23 @@ margin-top: 50px;
     height: 24px;
   } */
 
+  .favourites-style {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    left: 98%;
+    top: -7%;
+    stroke: #ffa900;
+  }
+  
+  .favourite-active {
+    stroke:#ffa900;
+    fill: #ffa900;
+  }
+  .favourites-style:hover { 
+    scale: 1.1;
+  }
 
-.favourites-style {
-  height: 20px;
-  width: 20px;
-  position: relative;
-  left: 98%;
-  top: -7%;
-  stroke: #ffa900;
-}
-
-.favourite-active {
-  stroke:#ffa900;
-  fill: #ffa900;
-}
-.favourites-style:hover { 
-  scale: 1.1;
-}
 
 .menu-icon-desktop {
   position: absolute;

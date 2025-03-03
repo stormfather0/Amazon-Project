@@ -1,4 +1,3 @@
-// import { updateCartNotification } from '../scripts/amazon.js';
 export let cart = JSON.parse(localStorage.getItem('cart')) || []; 
 
 
@@ -49,7 +48,36 @@ export function calculateCartQuantity() {
 
 calculateCartQuantity();
 
-console.log(cart); 
+
+
+
+// Add to cart event listener.==================================================================
+document.addEventListener('click', (event) => {
+  if (event.target && event.target.classList.contains('js-add-to-cart')) {
+    const button = event.target;
+    const productId = button.dataset.productId;
+    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
+    const quantity = parseInt(quantitySelect.value, 10);
+
+    addToCart(productId, quantity);
+    updateCartQuantity();
+
+    // Show the popup
+    const popup = document.getElementById('cart-popup');
+    popup.classList.add('show');
+
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 3000);
+  }
+});
+//================================================================================================
+
+
+
+
+
 
 
 
@@ -61,8 +89,6 @@ console.log(cart);
 
 
 export function updateCartQuantity() {
-
-
   let totalQuantity = 0;
     // Loop through the cart to calculate total quantity
     cart.forEach(item => {
@@ -79,3 +105,10 @@ export function updateCartQuantity() {
     cartQuantityElement.innerHTML = totalQuantity;
     return cartQuantityElement;
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateCartQuantity();
+  });
+
+  console.log('Cart is loaded');
+  

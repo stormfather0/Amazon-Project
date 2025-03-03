@@ -2,14 +2,14 @@ import { cart, addToCart, calculateCartQuantity, updateCartQuantity } from '../d
 // import {products} from '../data/products.js';
 // import { UpdateCartPrice } from '../';
 import { formatCurrency } from './utils/money.js';
-import { addFavourite, removeFavourite, isFavourite } from '../data/favourites.js';
+import { addFavourite, removeFavourite, } from '../data/favourites.js';
 import { API_BASE_URL } from "../config.js";
 import { openLoginPopup, isUserLoggedIn, getAuthToken } from '../login.js';
 
 
 
 
-console.log("API Base URL:", API_BASE_URL);
+// console.log("API Base URL:", API_BASE_URL);
 
 
 // Fetch Products from API
@@ -340,26 +340,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //WORKING EVENT LISTENER
 
-document.addEventListener('click', (event) => {
-  if (event.target && event.target.classList.contains('js-add-to-cart')) {
-    const button = event.target;
-    const productId = button.dataset.productId;
-    const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-    const quantity = parseInt(quantitySelect.value, 10);
+// document.addEventListener('click', (event) => {
+//   if (event.target && event.target.classList.contains('js-add-to-cart')) {
+//     const button = event.target;
+//     const productId = button.dataset.productId;
+//     const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
+//     const quantity = parseInt(quantitySelect.value, 10);
 
-    addToCart(productId, quantity);
-    updateCartQuantity();
+//     addToCart(productId, quantity);
+//     updateCartQuantity();
 
-    // Show the popup
-    const popup = document.getElementById('cart-popup');
-    popup.classList.add('show');
+//     // Show the popup
+//     const popup = document.getElementById('cart-popup');
+//     popup.classList.add('show');
 
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popup.classList.remove('show');
-    }, 3000);
-  }
-});
+//     // Hide the popup after 3 seconds
+//     setTimeout(() => {
+//       popup.classList.remove('show');
+//     }, 3000);
+//   }
+// });
 
 
 
