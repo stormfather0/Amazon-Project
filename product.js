@@ -9,6 +9,8 @@ import { API_BASE_URL } from "../config.js";
 
 // Fetch products data from backend
 let products = [];
+let freeDeliveryThreshold = 0;
+
 fetch('https://amazon-project-sta4.onrender.com/api/products')
   .then((response) => {
     if (!response.ok) {
@@ -17,19 +19,26 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
     return response.json();
   })
   .then((data) => {
-    products = data;
+    // Extract products and free delivery threshold
+    products = data.products;
+    freeDeliveryThreshold = data.freeDeliveryThreshold;
+
     console.log('Products fetched successfully:', products);
+    console.log('Free delivery threshold:', freeDeliveryThreshold);
 
     // Get product ID after fetching data
     const productId = getProductIdFromURL();
     const product = products.find((p) => p.id === productId);
 
-    renderProductDetails(product);
+    if (product) {
+      renderProductDetails(product);
+    } else {
+      console.error('Product not found:', productId);
+    }
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
   });
-
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -49,8 +58,8 @@ function renderProductDetails(product) {
   }
 
   // Check if the product has free delivery
- let price = product.priceCents;
- checkFreeDelivery(price); 
+//  let price = product.priceCents;
+//  checkFreeDelivery(price); 
 
 
   container.innerHTML = `
@@ -175,22 +184,22 @@ function renderProductDetails(product) {
 
 
 //check if free delivery applies
-async function checkFreeDelivery(productPrice) {
-  try {
-      const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
-      const data = await response.json();
-      const threshold = data.threshold;
+// async function checkFreeDelivery(productPrice) {
+//   try {
+//       const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
+//       const data = await response.json();
+//       const threshold = data.threshold;
 
-      if (productPrice >= threshold) {
-          console.log('✅ Free delivery applies!');
-          document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
-      } else {
-          console.log('🚚 Standard delivery applies.');
-          document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
-      }
-  } catch (error) {
-      console.error('Error fetching delivery threshold:', error);
-  }
-}
+//       if (productPrice >= threshold) {
+//           console.log('✅ Free delivery applies!');
+//           document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
+//       } else {
+//           console.log('🚚 Standard delivery applies.');
+//           document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
+//       }
+//   } catch (error) {
+//       console.error('Error fetching delivery threshold:', error);
+//   }
+// }
 
 

@@ -447,40 +447,45 @@ app.get('/api/products', async (req, res) => {
 
 
 app.get('/api/products/:id', (req, res) => {
-    const productId = req.params.id;
-    const filePath = path.join(__dirname, 'products.json');
-  
-    // Log the incoming ID to check if it's correct
-    console.log(`Received ID: ${productId}`);
-  
-    fs.readFile(filePath, 'utf-8', (err, data) => {
+  const productId = req.params.id.trim(); // Trim to remove any accidental spaces
+  const filePath = path.join(__dirname, 'products.json');
+
+  // Log the incoming ID to debug
+  console.log(`Received ID: ${productId}`);
+
+  fs.readFile(filePath, 'utf-8', (err, data) => {
       if (err) {
-        return res.status(500).json({ error: 'Error reading the file' });
+          console.error('Error reading file:', err);
+          return res.status(500).json({ error: 'Error reading the file' });
       }
-  
+
       let products;
       try {
-        products = JSON.parse(data); // Parse the JSON data
+          products = JSON.parse(data);
+          if (!Array.isArray(products)) {
+              console.error('Invalid products format:', products);
+              return res.status(500).json({ error: 'Invalid products data format' });
+          }
       } catch (parseError) {
-        return res.status(500).json({ error: 'Error parsing JSON data' });
+          console.error('Error parsing JSON:', parseError);
+          return res.status(500).json({ error: 'Error parsing JSON data' });
       }
-  
-      // Log the parsed products to check the content
-      console.log('Parsed Products:', products);
-  
-      // Find the product by ID (trim to ensure no extra spaces)
-      const product = products.find(p => p.id && p.id.trim() === productId.trim());
-  
+
+      console.log('Parsed Products:', products); // Log to debug JSON structure
+
+      // Find the product (Convert both ID and stored IDs to strings)
+      const product = products.find(p => p.id?.toString().trim() === productId);
+
       if (product) {
-        console.log('Found product:', product); // Log the found product
-        return res.json(product);
+          console.log('Found product:', product);
+          return res.json(product);
       } else {
-        console.log(`Product with ID ${productId} not found`);
-        return res.status(404).json({ error: 'Product not found' });
+          console.log(`Product with ID ${productId} not found`);
+          return res.status(404).json({ error: 'Product not found' });
       }
-    });
   });
-  
+});
+
 
 
 
