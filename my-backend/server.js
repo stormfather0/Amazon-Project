@@ -830,7 +830,22 @@ app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
 
 
 
-//Favourites for test
+// API to get free delivery threshold
+app.get('/api/delivery-threshold', async (req, res) => {
+  try {
+      // Fetch from MongoDB if available
+      const setting = await Setting.findOne();
+      const threshold = setting ? setting.freeDeliveryAmount : 8000; // Default to $50 (5000 cents)
+      res.json({ threshold });
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching threshold", error });
+  }
+});
+
+
+
+
+
 
 
 

@@ -48,6 +48,13 @@ function renderProductDetails(product) {
     return;
   }
 
+  if(product.priceCents >= 5000) {
+    console.log('Works');
+  } else {
+    console.log('Also works');
+    
+  }
+
   container.innerHTML = `
     <div class="product-detail">
 
@@ -84,9 +91,14 @@ function renderProductDetails(product) {
 
 
 <div class="product-detail-purchase">
-      <div class="product-detail-price">$${formatCurrency(product.priceCents)}</div>
+      <div class="product-detail-price">$${formatCurrency(product.priceCents)}   
+      <p class="free-delivery"> Free Delivery </p>
+      </div>
+    
 
 
+
+      <button class="js-add-to-cart button-primary add-to-cart-button" data-product-id="${product.id}">Add to Cart</button>
 
   <svg class="favourites-style js-favourites-${product.id}" 
              data-favourites-id="${product.id}" 
@@ -106,7 +118,6 @@ function renderProductDetails(product) {
           <path d="M12,21 L10.55,19.7051771 C5.4,15.1242507 2,12.1029973 2,8.39509537 C2,5.37384196 4.42,3 7.5,3 C9.24,3 10.91,3.79455041 12,5.05013624 C13.09,3.79455041 14.76,3 16.5,3 C19.58,3 22,5.37384196 22,8.39509537 C22,12.1029973 18.6,15.1242507 13.45,19.7149864 L12,21 Z"/> 
         </svg>
 
-      <button class="js-add-to-cart button-primary add-to-cart-button" data-product-id="${product.id}">Add to Cart</button>
     </div>
 
 
@@ -164,3 +175,23 @@ function renderProductDetails(product) {
 //   favouritesListenerPages();
 // });
 
+async function checkFreeDelivery(productPrice) {
+  try {
+      const response = await fetch('/api/delivery-threshold');
+      const data = await response.json();
+      const threshold = data.threshold;
+
+      if (productPrice >= threshold) {
+          console.log('✅ Free delivery applies!');
+          document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
+      } else {
+          console.log('🚚 Standard delivery applies.');
+          document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
+      }
+  } catch (error) {
+      console.error('Error fetching delivery threshold:', error);
+  }
+}
+
+// Example Usage (pass product price)
+checkFreeDelivery(6000); // Call this when loading a product
