@@ -829,18 +829,29 @@ app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
 
 
 
+// Define the Setting model
+const SettingSchema = new mongoose.Schema({
+  _id: String,  // Since your ID is "deliveryThreshold", it must be a string
+  freeDeliveryAmount: Number
+});
+const Setting = mongoose.model('Setting', SettingSchema, 'settings');
 
 // API to get free delivery threshold
 app.get('/api/delivery-threshold', async (req, res) => {
   try {
-      // Fetch from MongoDB if available
-      const setting = await settings.findOne();
-      const threshold = setting ? setting.freeDeliveryAmount : 8000; // Default to $50 (5000 cents)
+      // Fetch the specific document with _id "deliveryThreshold"
+      const setting = await Setting.findOne({ _id: "deliveryThreshold" });
+
+      // Use the stored value or fallback to default ($50 = 5000 cents)
+      const threshold = setting ? setting.freeDeliveryAmount : 5000; 
+
       res.json({ threshold });
   } catch (error) {
+      console.error("Error fetching threshold:", error);
       res.status(500).json({ message: "Error fetching threshold", error });
   }
 });
+
 
 
 
