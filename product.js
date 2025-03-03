@@ -11,6 +11,7 @@ import { API_BASE_URL } from "../config.js";
 let products = [];
 let freeDeliveryThreshold = 0;
 
+
 fetch('https://amazon-project-sta4.onrender.com/api/products')
   .then((response) => {
     if (!response.ok) {
@@ -19,26 +20,19 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
     return response.json();
   })
   .then((data) => {
-    // Extract products and free delivery threshold
-    products = data.products;
-    freeDeliveryThreshold = data.freeDeliveryThreshold;
-
+    products = data;
     console.log('Products fetched successfully:', products);
-    console.log('Free delivery threshold:', freeDeliveryThreshold);
 
     // Get product ID after fetching data
     const productId = getProductIdFromURL();
     const product = products.find((p) => p.id === productId);
 
-    if (product) {
-      renderProductDetails(product);
-    } else {
-      console.error('Product not found:', productId);
-    }
+    renderProductDetails(product);
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
   });
+
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
