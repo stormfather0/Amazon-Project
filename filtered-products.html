@@ -11,8 +11,46 @@
     <link rel="stylesheet" href="styles/shared/amazon-header.css">
 </head>
 <body>
+
+    <style>
+        .page-navigation {
+display: flex;
+height: 20px;
+width: 100%;
+align-items: center;
+justify-content: center;
+margin: 45px 0 10px 0;
+border-bottom: 1px solid #ddd;
+padding-bottom: 10px;
+/* background-color: red; */
+}
+
+.page-navigation-link {
+    list-style: none;
+    text-decoration: none;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 5px;
+}
+
+    </style>
    <!-- Load header -->
     <div id="header-container"></div>
+
+
+
+
+
+    <div class="page-navigation">
+        <a class="page-navigation-link" href="amazon.html" class="link-primary">Home</a>
+        <span> > </span>
+        <a class="page-navigation-link js-category" href="#" class="link-primary"> Test</a>
+     
+      
+       </div>
 
 <!-- Main -->
     <div class="products-grid js-products-grid" id="products-container">

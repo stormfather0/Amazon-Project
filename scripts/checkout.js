@@ -1,40 +1,12 @@
 import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail,  } from '../login.js'
+// import {checkFreeDelivery} from '../product.js';
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+let freeDelivery = false;
 let totalPriceCents = 0; 
 let products = []; 
 // Using external library DayJS to get current date and set delivery options 
@@ -88,6 +60,7 @@ function initializeCartSummary() {
 
     // Calculate the total price
     const totalPrice = (matchingProduct.priceCents * cartItem.quantity) / 100;
+ 
 
     // Generate the HTML for each cart item
     cartSummaryHTML += `
@@ -455,6 +428,8 @@ export function UpdateCartPrice() {
     }
   });
   monitorDeliveryOptions()
+
+  checkFreeDelivery(totalPriceCents);
   return totalPriceCents; // Optional
 }
 
@@ -826,3 +801,47 @@ document.addEventListener('DOMContentLoaded', async () => {
       userEmailElement.textContent = 'No email found';
   }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  let a = checkFreeDelivery(totalPriceCents);
+  console.log(totalPriceCents);
+  
+  console.log(`Here is ${a}`);
+  
+})
+
+
+//check free delivery
+export async function checkFreeDelivery(productPrice) {
+  try {
+      const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
+      const data = await response.json();
+      const threshold = data.threshold;
+
+      if (productPrice >= threshold) {
+        freeDelivery = true;
+          console.log('✅ Free delivery applies!');
+          // document.querySelector('.free-delivery').textContent = "Free Delivery";
+      } else {
+          console.log('🚚 Standard delivery applies.');
+          // document.querySelector('.free-delivery').textContent = "";
+      }
+  } catch (error) {
+      console.log('error', error);
+  }
+console.log(freeDelivery);
+
+  return freeDelivery;
+}
+
+if (freeDelivery) {
+  // Select all non-free delivery options and hide them
+  document.querySelectorAll('.delivery-option-one, .delivery-option-two').forEach(option => {
+    option.style.display = 'none';
+  });
+}
+
+  
+

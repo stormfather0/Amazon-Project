@@ -7,6 +7,8 @@ import { API_BASE_URL } from "../config.js";
   return (priceCents / 100).toFixed(2);
 }
 
+
+
 // Fetch products data from backend
 let products = [];
 fetch('https://amazon-project-sta4.onrender.com/api/products')
@@ -30,12 +32,33 @@ fetch('https://amazon-project-sta4.onrender.com/api/products')
     console.error('Error fetching products:', error);
   });
 
+
+
+
+let categoryName;
+let categoryNameFromURL; // Variable to store the category name from the URL (digital-content, clothing, etc.)
 function getProductIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  console.log('Product ID from URL:', id); // Debugging
+  const category = params.get('category');
+
+  categoryName = category;
+ categoryNameFromURL = category;
+
+  
+  console.log('Product ID from URL:', id); 
   return id;
 }
+
+
+getProductIdFromURL();
+console.log(categoryName); 
+
+  
+
+
+
+
 
 const product = products.find((p) => p.id === Number(productId));
 
@@ -47,6 +70,19 @@ function renderProductDetails(product) {
     container.innerHTML = `<p>Product not found.</p>`;
     return;
   }
+  const categoryMapping = {
+    'electronics': 'Electronics',
+    'digital-content': 'Digital Content',
+    'clothing': 'Clothing',
+    'personal-care': 'Personal Care',
+    'fashion': 'Fashion',
+    'gift-cards': 'Gift Cards'
+  };
+  
+  categoryName = categoryMapping[categoryName] || categoryName;
+ 
+
+
 
   // Check if the product has free delivery
  let price = product.priceCents;
@@ -54,6 +90,15 @@ function renderProductDetails(product) {
 
 
   container.innerHTML = `
+<div class="page-navigation">
+  <a class="page-navigation-link" href="amazon.html" class="link-primary">Home</a>
+  <span> > </span>
+  <a class="page-navigation-link" href="filtered-products.html?category=${categoryNameFromURL}" class="link-primary">${categoryName}</a>
+  <span> > </span>
+  <a class="page-navigation-link" href="#" class="link-primary">${product.name}</a>
+
+ </div>
+
     <div class="product-detail">
 
     <div class="product-detail-left"> 
@@ -90,7 +135,7 @@ function renderProductDetails(product) {
 
 <div class="product-detail-purchase">
       <div class="product-detail-price">$${formatCurrency(product.priceCents)}   
-      <p class="free-delivery"> Free Delivery </p>
+      <p class="free-delivery"></p>
       </div>
     
 
@@ -175,7 +220,7 @@ function renderProductDetails(product) {
 
 
 //check if free delivery applies
-async function checkFreeDelivery(productPrice) {
+export async function checkFreeDelivery(productPrice) {
   try {
       const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
       const data = await response.json();
@@ -183,14 +228,18 @@ async function checkFreeDelivery(productPrice) {
 
       if (productPrice >= threshold) {
           console.log('✅ Free delivery applies!');
-          document.getElementById('delivery-message').textContent = "🎉 You qualify for FREE delivery!";
+          document.querySelector('.free-delivery').textContent = "Free Delivery";
       } else {
           console.log('🚚 Standard delivery applies.');
-          document.getElementById('delivery-message').textContent = "Standard delivery charges apply.";
+          document.querySelector('.free-delivery').textContent = "";
       }
   } catch (error) {
-      console.error('Error fetching delivery threshold:', error);
+      console.log('error', error);
   }
 }
 
 
+
+
+
+  

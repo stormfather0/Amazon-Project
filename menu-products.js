@@ -4,9 +4,27 @@ import {cart, addToCart, calculateCartQuantity, updateCartQuantity} from './data
 
 
 
+// Page Navigation =======================================
+const urlParams = new URLSearchParams(window.location.search);
+
+let categoryNameFromURL = urlParams.get("category");
+
+const categoryMapping = {
+  'electronics': 'Electronics',
+  'digital-content': 'Digital Content',
+  'clothing': 'Clothing',
+  'personal-care': 'Personal Care',
+  'fashion': 'Fashion',
+  'gift-cards': 'Gift Cards'
+};
+
+categoryNameFromURL = categoryMapping[categoryNameFromURL] || categoryNameFromURL;
+let categoryName = document.querySelector('.js-category')
+categoryName.innerHTML = categoryNameFromURL;
 
 
-// Fetch Products from API (with caching)
+
+// Fetch Products from API (with caching)========================================
 export async function fetchProducts() {
   try {
     let products = JSON.parse(localStorage.getItem("products"));
@@ -24,6 +42,7 @@ export async function fetchProducts() {
     // Get category from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get("category");
+   
 
     // Filter products by category (if specified)
     const filteredProducts = category
@@ -44,11 +63,17 @@ export async function fetchProducts() {
   }
 }
 
+
+
+//  <a href="product.html?id=${product.id}">
 // Generate Product Cards Efficiently
 export function generateProductHTML(products) {
   return products
     .map(
       (product) => `
+
+  
+
       <div class="product-container">
         <svg class="favourites-style js-favourites-${product.id}" 
              data-favourites-id="${product.id}"
@@ -65,7 +90,11 @@ export function generateProductHTML(products) {
         </svg>
 
         <div class="product-image-container">
-          <a href="product.html?id=${product.id}">
+
+         
+          <a href="product.html?category=${product.type}&id=${product.id}">
+
+
             <img class="product-image" src="${product.image}" loading="lazy">
           </a>
         </div>
