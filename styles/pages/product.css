@@ -50,6 +50,7 @@ padding-bottom: 10px;
     max-width: 350px;
     height: auto;
     margin-bottom: 20px;
+
 }
 
 
@@ -503,4 +504,130 @@ padding-bottom: 10px;
     .product-detail-bottom-menu li {
         text-align: center;
     }
+}
+
+
+
+
+
+
+
+
+  
+  
+  /* .product-detail-image {
+    width: 100%;
+  } */
+  
+  .product-detail-left {
+    position: relative; /* Make this the reference for absolute positioning */
+    display: flex;
+    align-items: center;
+}
+
+.slider-container {
+    width: 361px;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    display: flex; /* Centering */
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slider-btn {
+    position: absolute;
+
+    height: 50px;
+    width: 50px;
+    background: rgba(134, 134, 134, 0.5);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    /* padding: 10px; */
+    font-size: 30px;
+    z-index: 10;
+}
+
+/* Position buttons outside but aligned */
+.prev-btn {
+    left: 0%; /* Move outside left */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    left: 90%; /* Move outside left */
+    /* Move outside right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (max-width:1024px) {
+    /* Position buttons outside but aligned */
+.prev-btn {
+    left: -30%; /* Move outside left */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    left: 125%; /* Move outside left */
+    /* Move outside right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+}
+
+
+@media (max-width:620px) {
+    /* Position buttons outside but aligned */
+.prev-btn {
+    left: 35%; /* Move outside left */
+    top: 90%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    left: 65%; /* Move outside left */
+    /* Move outside right */
+    top: 90%;
+    transform: translateY(-50%);
+}
+}
+
+
+.thumbnails {
+    display: flex
+;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 5px;
+    position: absolute;
+    top: 100%;
+    left: 20%;
+}
+
+.thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.thumbnail.active {
+    border-color: #000;
+    opacity: 0.7;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
 }

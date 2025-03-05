@@ -82,6 +82,9 @@ function renderProductDetails(product) {
   categoryName = categoryMapping[categoryName] || categoryName;
  
 
+// Ensure images array exists
+const images = product.images && product.images.length > 0 ? product.images : [product.image];
+
 
 
   // Check if the product has free delivery
@@ -100,12 +103,30 @@ function renderProductDetails(product) {
  </div>
 
     <div class="product-detail">
-
-    <div class="product-detail-left"> 
-  
-      <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+    
+      <div class="product-detail-left">
+       
+        <div class="slider-container">
+        
+          <div class="slider">
+            ${images.map(img => `<img src="${img}" alt="${product.name}" class="product-detail-image">`).join('')}
+          </div>
       
+          
+        </div>
+     <button class="slider-btn prev-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">‹</button>
+    <button class="slider-btn next-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">›</button>
       </div>
+      
+          <div class="thumbnails">
+      ${images.map((img, index) => `
+        <img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}" alt="Thumbnail">
+      `).join('')}
+    </div>
+
+      
+      
+  
       
 
           
@@ -215,6 +236,35 @@ function renderProductDetails(product) {
    
      </div>
   `;
+  // Slider logic
+  if (images.length > 1) {
+    let currentIndex = 0;
+    const slider = document.querySelector('.slider');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+  
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      thumbnails.forEach(thumb => thumb.classList.remove('active'));
+      thumbnails[currentIndex].classList.add('active');
+    }
+  
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+      updateSlider();
+    });
+  
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+      updateSlider();
+    });
+  
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', (e) => {
+        currentIndex = parseInt(e.target.dataset.index);
+        updateSlider();
+      })}) }
 
   // Attach the event listener after rendering the product details
   document.querySelector('.js-add-to-cart').addEventListener('click', () => {
