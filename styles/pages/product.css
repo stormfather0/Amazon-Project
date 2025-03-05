@@ -31,7 +31,6 @@ padding-bottom: 10px;
     align-items: center;
     padding: 20px;
     max-width: 1200px;
-    /* margin: 75px auto 100px; */
     text-align: center;
 }
 
@@ -55,7 +54,7 @@ padding-bottom: 10px;
 
 
 .product-detail-right {
-    flex: 1.2; /* Make it slightly bigger than the left section */
+    flex: 1.2; 
     max-width: 55%;
     text-align: left;
     padding: 20px;
@@ -77,7 +76,6 @@ padding-bottom: 10px;
 }
 
 .free-delivery {
-    /* display: none; */
  font-size: 14px;
     color: green;
 }
@@ -310,7 +308,7 @@ padding-bottom: 10px;
 @media (max-width: 545px) {
     .product-detail {
         flex-direction: column;
-        padding: 15px; /* Added padding for better spacing */
+        padding: 15px; 
     }
 
     .product-detail-right {
@@ -318,14 +316,14 @@ padding-bottom: 10px;
     }
 
     .product-detail-left {
-        max-width: 90%; /* Adjusted to prevent excessive shrinking */
+        max-width: 90%; 
         padding-bottom: 15px;
     }
 
     .product-detail-right {
         width: 100%;
         text-align: center;
-        padding: 20px; /* More padding for readability */
+        padding: 20px; 
     }
 .page-navigation {
     height: 45px;
@@ -334,11 +332,11 @@ padding-bottom: 10px;
     padding: 0;
 }
     .product-detail-name {
-        font-size: 24px; /* Slightly bigger for emphasis */
+        font-size: 24px; 
     }
 
     .product-detail-price {
-        font-size: 28px; /* Bigger and more readable */
+        font-size: 28px; 
     }
 
     .product-detail-description {
@@ -353,7 +351,7 @@ padding-bottom: 10px;
 
     .add-to-cart-button {
         width: 95%;
-        height: 50px; /* Bigger for easier tapping */
+        height: 50px; 
         font-size: 16px;
     }
 
@@ -381,17 +379,14 @@ padding-bottom: 10px;
 .limited-special-offers {
     width: 100%;
     height: auto;
-    /* background-color: red; */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* padding: 20px; */
     box-sizing: border-box;
 }
 
 .limited-special-offers-img {
     width: 101%;
-    /* max-width: 431px; */
     height: 150px;
     max-height: 200px;
     object-fit: cover;
@@ -446,7 +441,6 @@ padding-bottom: 10px;
 .product-detail-bottom-menu {
     width: 40%;
     max-width: 301px;
-    /* height: 98%; */
     background-color: rgb(237, 237, 237);
     padding: 6px;
     border-radius: 8px;
@@ -489,6 +483,13 @@ padding-bottom: 10px;
     overflow-y: auto;
 }
 
+
+
+
+
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .product-detail-bottom {
@@ -508,33 +509,16 @@ padding-bottom: 10px;
     }
 }
 
-
-
-
-
-
-
-
-  
-  
-  /* .product-detail-image {
-    width: 100%;
-  } */
-  
   .product-detail-left {
-    position: relative; /* Make this the reference for absolute positioning */
+    position: relative; 
     display: flex;
     align-items: center;
 }
 
 .slider-container {
     width: 361px;
-    /* height: 400px; */
     overflow: hidden;
     position: relative;
-    /* display: flex;  */
-    /* justify-content: center; 
-    align-items: center;  */
 }
 
 .slider {
@@ -544,7 +528,6 @@ padding-bottom: 10px;
 
 .slider-btn {
     position: absolute;
-
     height: 50px;
     width: 50px;
     background: rgba(134, 134, 134, 0.5);
@@ -552,21 +535,19 @@ padding-bottom: 10px;
     border: none;
     border-radius: 100px;
     cursor: pointer;
-    /* padding: 10px; */
     font-size: 30px;
     z-index: 10;
 }
 
 /* Position buttons outside but aligned */
 .prev-btn {
-    left: -3%; /* Move outside left */
+    left: -3%; 
     top: 50%;
     transform: translateY(-50%);
 }
 
 .next-btn {
-    left: 92%; /* Move outside left */
-    /* Move outside right */
+    left: 92%; 
     top: 50%;
     transform: translateY(-50%);
 }
@@ -575,8 +556,7 @@ padding-bottom: 10px;
 
 
 .thumbnails {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     margin-top: 10px;
     gap: 5px;
@@ -606,22 +586,19 @@ padding-bottom: 10px;
 
 
 @media (max-width:1024px) {
-    /* Position buttons outside but aligned */
 .prev-btn {
-    left: -30%; /* Move outside left */
+    left: -30%; 
     top: 50%;
     transform: translateY(-50%);
 }
 
 .next-btn {
-    left: 120%; /* Move outside left */
-    /* Move outside right */
+    left: 120%; 
     top: 50%;
     transform: translateY(-50%);
 }
 
 .thumbnails {
-    /* position: absolute; */
     top: 83%;
     left: 45%;
 }
@@ -629,16 +606,14 @@ padding-bottom: 10px;
 
 
 @media (max-width:620px) {
-    /* Position buttons outside but aligned */
 .prev-btn {
-    left: 35%; /* Move outside left */
+    left: 35%; 
     top: 105%;
     transform: translateY(-50%);
 }
 
 .next-btn {
-    left: 65%; /* Move outside left */
-    /* Move outside right */
+    left: 65%; 
     top: 105%;
     transform: translateY(-50%);
 }
