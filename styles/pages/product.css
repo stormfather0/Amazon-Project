@@ -31,7 +31,7 @@ padding-bottom: 10px;
     align-items: center;
     padding: 20px;
     max-width: 1200px;
-    margin: 75px auto 100px;
+    /* margin: 75px auto 100px; */
     text-align: center;
 }
 
@@ -47,7 +47,7 @@ padding-bottom: 10px;
 
 .product-detail-image {
     width: 100%;
-    max-width: 350px;
+    max-width: 370px;
     height: auto;
     margin-bottom: 20px;
 
@@ -236,6 +236,7 @@ padding-bottom: 10px;
     .product-detail {
         flex-direction: column;
         text-align: center;
+        margin: 0;
     }
 
     .product-detail-left {
@@ -247,6 +248,7 @@ padding-bottom: 10px;
     .product-detail-right {
         width: 100%;
         text-align: center;
+        margin-top: 130px;
     }
 
     .product-detail-right-bottom {
@@ -527,12 +529,12 @@ padding-bottom: 10px;
 
 .slider-container {
     width: 361px;
-    height: 400px;
+    /* height: 400px; */
     overflow: hidden;
     position: relative;
-    display: flex; /* Centering */
-    justify-content: center; /* Horizontally center */
-    align-items: center; /* Vertically center */
+    /* display: flex;  */
+    /* justify-content: center; 
+    align-items: center;  */
 }
 
 .slider {
@@ -557,50 +559,19 @@ padding-bottom: 10px;
 
 /* Position buttons outside but aligned */
 .prev-btn {
-    left: 0%; /* Move outside left */
+    left: -3%; /* Move outside left */
     top: 50%;
     transform: translateY(-50%);
 }
 
 .next-btn {
-    left: 90%; /* Move outside left */
+    left: 92%; /* Move outside left */
     /* Move outside right */
     top: 50%;
     transform: translateY(-50%);
 }
 
-@media (max-width:1024px) {
-    /* Position buttons outside but aligned */
-.prev-btn {
-    left: -30%; /* Move outside left */
-    top: 50%;
-    transform: translateY(-50%);
-}
 
-.next-btn {
-    left: 125%; /* Move outside left */
-    /* Move outside right */
-    top: 50%;
-    transform: translateY(-50%);
-}
-}
-
-
-@media (max-width:620px) {
-    /* Position buttons outside but aligned */
-.prev-btn {
-    left: 35%; /* Move outside left */
-    top: 90%;
-    transform: translateY(-50%);
-}
-
-.next-btn {
-    left: 65%; /* Move outside left */
-    /* Move outside right */
-    top: 90%;
-    transform: translateY(-50%);
-}
-}
 
 
 .thumbnails {
@@ -610,7 +581,7 @@ padding-bottom: 10px;
     margin-top: 10px;
     gap: 5px;
     position: absolute;
-    top: 100%;
+    top: 105%;
     left: 20%;
 }
 
@@ -631,3 +602,45 @@ padding-bottom: 10px;
 .thumbnail:hover {
     opacity: 0.8;
 }
+
+
+
+@media (max-width:1024px) {
+    /* Position buttons outside but aligned */
+.prev-btn {
+    left: -30%; /* Move outside left */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    left: 120%; /* Move outside left */
+    /* Move outside right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.thumbnails {
+    /* position: absolute; */
+    top: 83%;
+    left: 45%;
+}
+}
+
+
+@media (max-width:620px) {
+    /* Position buttons outside but aligned */
+.prev-btn {
+    left: 35%; /* Move outside left */
+    top: 105%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    left: 65%; /* Move outside left */
+    /* Move outside right */
+    top: 105%;
+    transform: translateY(-50%);
+}
+}
+
