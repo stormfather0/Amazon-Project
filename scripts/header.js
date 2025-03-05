@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="amazon-header-middle-section">
-          <img class="menu-icon" src="images/icons/menu.svg">
+          <img class="menu-icon" id="menu-icon" src="images/icons/menu.svg">
           <input class="search-bar" type="text" placeholder="Search">
           <button class="search-button">
             <img class="search-icon" src="images/icons/search-icon.png">

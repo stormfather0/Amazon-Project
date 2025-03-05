@@ -6,6 +6,9 @@
     <title>Clothes</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
     <link rel="stylesheet" href="./styles/pages/amazon.css">
+    <link rel="stylesheet" href="./styles/shared/amazon-header.css">
+    <link rel="stylesheet" href="./styles/shared/general.css">
+
 </head>
 <body>
    <!-- Load header -->
@@ -148,40 +151,13 @@
     </style>
 
 
-    <script type="module">
+  
 
+   
 
-
-        //Load header
-         fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
-        });
-      
-        //Load footer 
-        
-        document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM content loaded");
-    fetch('footer.html')
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Failed to load footer.');
-            }
-            return response.text();
-        })
-        .then((data) => {
-            document.getElementById('footer').innerHTML = data;
-        })
-        .catch((error) => {
-            console.error('Error loading footer:', error);
-        });
-});
-
-    </script>
-
-     <script src="/scripts/header.js"></script>
 
      
 </body>
+<script src="scripts/header.js"></script>
+<script src="footer.js"></script>
 </html>

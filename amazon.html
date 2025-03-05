@@ -353,22 +353,7 @@
 <script>
 
 
-  // Load footer (unchanged)
-  document.addEventListener("DOMContentLoaded", () => {
-    fetch('footer.html')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to load footer.');
-        }
-        return response.text();
-      })
-      .then(data => {
-        document.getElementById('footer').innerHTML = data;
-      })
-      .catch(error => {
-        console.error('Error loading footer:', error);
-      });
-  });
+ 
 
   // Function to redirect to the filtered products page based on category
   document.querySelectorAll('.category-list a').forEach((categoryLink) => {
@@ -381,7 +366,9 @@
 
 <!-- Day.js Library -->
 <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
+
 <script src="./scripts/header.js" defer></script> 
+<script src="footer.js"></script>
 <!-- 🚀 Remove header.js from here because we now load it dynamically above -->
 <script type="module" src="login.js"></script>
 <script type="module" src="scripts/amazon.js"></script>

@@ -921,16 +921,16 @@ a {
 
 /* Hidden class to initially hide the banner */
 .hidden {
-  transform: translateX(100%); /* Move off-screen */
+  transform: translateX(100%); 
   opacity: 0;
   visibility: hidden;
-  /* transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease; */
+
 }
 
 /* When the ad is visible */
 #promotion-banner {
   position: fixed;
-  bottom: 20px;
+  bottom: 10%;
   right: 20px;
   width: 260px;
   background-color: white;
@@ -942,7 +942,7 @@ a {
   visibility: visible;
   transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
   padding: 25px;
-  border: 2px solid #ffa900;
+
 }
 
 .promotion-content {

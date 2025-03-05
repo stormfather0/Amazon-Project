@@ -935,7 +935,11 @@
   },
   {
     "id": "63cfce93-5e1f-4ef5-b7a2-d276f6dbba02",
-    "image": "images/products/robot-vacuum.webp",
+    "images": 
+    [
+     "images/products/robot-vacuum.webp",
+     "images/products/monitor.webp"
+     ],
     "name": "Robot Vacuum 2024 Pro",
     "rating": {
       "stars": 4,

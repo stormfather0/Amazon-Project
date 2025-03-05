@@ -93,7 +93,7 @@ function renderProductDetails(product) {
 <div class="page-navigation">
   <a class="page-navigation-link" href="amazon.html" class="link-primary">Home</a>
   <span> > </span>
-  <a class="page-navigation-link" href="filtered-products.html?category=${categoryNameFromURL}" class="link-primary">${categoryName}</a>
+  <a class="page-navigation-link" href="filtered-products.html?category=${categoryName}" class="link-primary">${categoryName}</a>
   <span> > </span>
   <a class="page-navigation-link" href="#" class="link-primary">${product.name}</a>
 
@@ -110,11 +110,6 @@ function renderProductDetails(product) {
           
     <div class="product-detail-right">
           <h1 class="product-detail-name">${product.name}</h1> 
-
- 
-
-
-
 
             <div class="product-rating-container">
           <img class="product-rating-stars" src="images/ratings/rating-${product.rating.stars * 10}.png">
@@ -188,9 +183,35 @@ function renderProductDetails(product) {
 
 </div>
 
+
+<div class="limited-special-offers">
+<img class="limited-special-offers-img" src="images/spring-sale.webp">
+</div>
+
+
 </div>
 
      </div>
+     </div>
+
+     <div class="product-detail-bottom">
+     <div class="product-detail-bottom-menu">
+     <ul>
+
+     <li>Product Details
+     </li>
+
+     <li>Reviews
+     </li>
+
+     </ul>
+      </div>
+     
+     <div class="product-detail-bottom-submenu">
+     <p>text </p>
+     </div>
+
+   
      </div>
   `;
 

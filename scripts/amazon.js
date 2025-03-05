@@ -9,9 +9,6 @@ import { openLoginPopup, isUserLoggedIn, getAuthToken } from '../login.js';
 
 
 
-// console.log("API Base URL:", API_BASE_URL);
-
-
 // Fetch Products from API
 export async function fetchProducts() {
   try {
@@ -128,6 +125,10 @@ export function generateProductHTML(products) {
   return productsHTML;
 }
 
+
+
+
+//Pages for products ==============================================================================================
 let productsDisplayed = 0; // To keep track of how many products are displayed
 const productsPerPage = 20; // Number of products to display per page
 let currentPage = 1; // Keep track of the current page
@@ -139,7 +140,7 @@ function displayProducts() {
   
   // Clear the current product grid to prevent adding duplicates
   const productGrid = document.querySelector('.js-products-grid');
-  productGrid.innerHTML = ''; // Clear existing products
+  productGrid.innerHTML = ''; 
   productGrid.insertAdjacentHTML('beforeend', generateProductHTML(productsToShow));
   
   // Calculate the total number of pages
@@ -156,10 +157,9 @@ function updatePagination(totalPages) {
   // Clear existing pagination
   paginationContainer.innerHTML = '';
 
-  // Generate page numbers dynamically
-// Generate page numbers dynamically
-// Generate page numbers dynamically
-// Generate page numbers dynamically
+
+
+
 // Generate page numbers dynamically
 for (let i = 1; i <= totalPages; i++) {
   const pageButton = document.createElement('button');
@@ -206,7 +206,6 @@ const navigateButton = document.querySelector('.ad-btn');
 
 // Add an event listener to handle clicks
 navigateButton.addEventListener('click', () => {
-  // Navigate to the desired URL
   window.location.href = 'https://amazon-project-sta4.onrender.com/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add'; // Replace with your target URL
 });
 
@@ -285,93 +284,16 @@ export async function favouritesListener() {
   }
 }
 // Update Cart Quantity
-// Update Cart Quantity
-// export function updateCartQuantity() {
-
-
-// let totalQuantity = 0;
-//   // Loop through the cart to calculate total quantity
-//   cart.forEach(item => {
-//     totalQuantity += item.quantity; // Add quantity to total
-//   });
-
-//   const cartQuantityElement = document.querySelector('.js-cart-quantity');
-
-//   if (!cartQuantityElement) {
-//     console.warn("Warning: .js-cart-quantity element not found. Skipping update.");
-//     return;
-//   }
-
-//   cartQuantityElement.innerHTML = totalQuantity;
-//   return cartQuantityElement;
-// }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   updateCartQuantity();
 });
 
 
-// Add to Cart Button Listener
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   // Your existing event listener setup here
-//   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-//     button.addEventListener('click', () => {
-//       const productId = button.dataset.productId;
-//       const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-//       const quantity = parseInt(quantitySelect.value, 10);
-
-//       addToCart(productId, quantity);
-//       updateCartQuantity();
-//     });
-//   });
-// });
 
 
 
-
-
-
-
-
-
-
-//WORKING EVENT LISTENER
-
-// document.addEventListener('click', (event) => {
-//   if (event.target && event.target.classList.contains('js-add-to-cart')) {
-//     const button = event.target;
-//     const productId = button.dataset.productId;
-//     const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
-//     const quantity = parseInt(quantitySelect.value, 10);
-
-//     addToCart(productId, quantity);
-//     updateCartQuantity();
-
-//     // Show the popup
-//     const popup = document.getElementById('cart-popup');
-//     popup.classList.add('show');
-
-//     // Hide the popup after 3 seconds
-//     setTimeout(() => {
-//       popup.classList.remove('show');
-//     }, 3000);
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-// Image Slider Functionality
+// Image Slider =============================================================
 let currentIndex = 0;
 const slides = document.querySelectorAll('.promotion-slide');
 const totalSlides = slides.length;
@@ -379,7 +301,7 @@ const prevButton = document.querySelector('.prev-button');
 const nextButton = document.querySelector('.next-button');
 const indicators = document.querySelectorAll('.indicator');
 const slider = document.querySelector('.promotion-slider');
-const slideInterval = 5000; // Auto slide speed
+const slideInterval = 5000; 
 
 // Function to move to the next slide
 function moveToNextSlide() {
@@ -414,9 +336,9 @@ let autoSlide = setInterval(moveToNextSlide, slideInterval);
 
 // Manual slide with buttons
 prevButton.addEventListener('click', () => {
-  clearInterval(autoSlide); // Stop auto slide when user interacts
+  clearInterval(autoSlide); 
   moveToPrevSlide();
-  autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
+  autoSlide = setInterval(moveToNextSlide, slideInterval); 
 });
 
 nextButton.addEventListener('click', () => {
@@ -442,7 +364,7 @@ let startX, endX;
 slider.addEventListener('mousedown', (e) => {
   isDragging = true;
   startX = e.pageX;
-  clearInterval(autoSlide); // Stop auto slide while dragging
+  clearInterval(autoSlide); 
 });
 
 slider.addEventListener('mousemove', (e) => {
@@ -459,7 +381,7 @@ slider.addEventListener('mouseup', () => {
       moveToPrevSlide();
     }
     isDragging = false;
-    autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
+    autoSlide = setInterval(moveToNextSlide, slideInterval); 
   }
 });
 
@@ -494,11 +416,13 @@ slider.addEventListener(
         moveToPrevSlide();
       }
       isDragging = false;
-      autoSlide = setInterval(moveToNextSlide, slideInterval); // Restart auto slide
+      autoSlide = setInterval(moveToNextSlide, slideInterval); 
     }
   },
   { passive: true }
 );
+
+
 
 // Popup Message=====================================================================================
 document.addEventListener("DOMContentLoaded", function () {
@@ -550,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
+//Promotion Banner Popup ===============================================================================
 document.addEventListener("DOMContentLoaded", () => {
   const adBanner = document.getElementById("promotion-banner");
   const closeAdBtn = document.getElementById("close-promotion");
@@ -577,129 +501,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// LOGIN POPUP
-// LOGIN POPUP
-// document.addEventListener('DOMContentLoaded', () => {
-//   const loginButton = document.querySelector('.log-in-btn');
-//   const accountIconButton = document.querySelector('.account-icon'); // New button
-
-//   const popup = document.querySelector('.login-popup');
-//   const closeButton = document.querySelector('.close-popup-btn'); // Updated selector
-
-//   // Show the pop-up when the login button is clicked
-//   loginButton.addEventListener('click', () => {
-//     popup.classList.remove('hidden'); // Show pop-up
-//   });
-
-//   // Show the pop-up when the account icon button is clicked
-//   accountIconButton.addEventListener('click', () => {
-//     popup.classList.remove('hidden'); // Show pop-up
-//   });
-
-//   // Hide the pop-up when the close button is clicked
-//   closeButton.addEventListener('click', () => {
-//     popup.classList.add('hidden'); // Hide pop-up
-//   });
-
-//   // Optional: Close the pop-up when clicking outside the content
-//   popup.addEventListener('click', (event) => {
-//     if (event.target === popup) {
-//       popup.classList.add('hidden'); // Hide pop-up
-//     }
-//   });
-// });
 
 
-
-
-
-
-//Moved to login.js
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   // Ensure elements are available before attaching event listeners
-//   const loginButton = document.querySelector('.log-in-btn');
-//   const accountIconButton = document.querySelector('.account-icon'); // Check if this element exists
-//   const createAccountLink = document.querySelector('.open-signup'); // Link for "Create your Amazon account"
-//   const popup = document.querySelector('.login-popup');
-//   const closeButton = document.querySelector('.close-popup-btn'); // Updated selector
-//   const loginForm = popup.querySelector('.login-form');
-//   const signupForm = popup.querySelector('.signup-form');
-//   const switchToSignupLink = popup.querySelector('.switch-to-signup'); // Link for switching to signup form
-//   const switchToLoginLink = popup.querySelector('.switch-to-login'); // Link for switching to login form
-
-//   // Ensure the elements exist before proceeding with the event listeners
-//   if (loginButton && popup && closeButton && loginForm && signupForm) {
-//     // Show the pop-up when the login button is clicked
-//     loginButton.addEventListener('click', () => {
-//       popup.classList.remove('hidden'); // Show pop-up
-//       loginForm.classList.remove('hidden'); // Show login form
-//       signupForm.classList.add('hidden'); // Hide signup form
-//     });
-
-//     // Show the pop-up when the account icon button is clicked
-//     if (accountIconButton) { // Check if the account icon exists
-//       accountIconButton.addEventListener('click', () => {
-//         popup.classList.remove('hidden'); // Show pop-up
-//         loginForm.classList.remove('hidden'); // Show login form
-//         signupForm.classList.add('hidden'); // Hide signup form
-//       });
-//     } else {
-//       console.error('Account icon button not found.');
-//     }
-
-//     // Show the signup form when the "Create your Amazon account" link is clicked
-//     if (createAccountLink) {
-//       createAccountLink.addEventListener('click', (event) => {
-//         event.preventDefault(); // Prevent default behavior of the link
-//         popup.classList.remove('hidden'); // Show pop-up
-//         loginForm.classList.add('hidden'); // Hide login form
-//         signupForm.classList.remove('hidden'); // Show signup form
-//       });
-//     }
-
-//     // Switch to the signup form when the "Switch to sign-up" link is clicked inside the popup
-//     if (switchToSignupLink) {
-//       switchToSignupLink.addEventListener('click', (event) => {
-//         event.preventDefault(); // Prevent default behavior of the link
-//         loginForm.classList.add('hidden'); // Hide login form
-//         signupForm.classList.remove('hidden'); // Show signup form
-//       });
-//     }
-
-//     // Switch to the login form when the "Switch to login" link is clicked inside the popup
-//     if (switchToLoginLink) {
-//       switchToLoginLink.addEventListener('click', (event) => {
-//         event.preventDefault(); // Prevent default behavior of the link
-//         signupForm.classList.add('hidden'); // Hide signup form
-//         loginForm.classList.remove('hidden'); // Show login form
-//       });
-//     }
-
-//     // Hide the pop-up when the close button is clicked
-//     if (closeButton) {
-//       closeButton.addEventListener('click', () => {
-//         popup.classList.add('hidden'); // Hide pop-up
-//       });
-//     }
-
-//     // Optional: Close the pop-up when clicking outside the content
-//     popup.addEventListener('click', (event) => {
-//       if (event.target === popup) {
-//         popup.classList.add('hidden'); // Hide pop-up
-//       }
-//     });
-//   } else {
-//     console.error('Some necessary elements are missing in the DOM.');
-//   }
-// });
-
-
-
-// Special offers
-
-// Special offers
-// Special offer product IDs
+//Special offers===================================================================================
+// Hardcorded special offer product IDs
 const specialOfferIds = [
   'bc2847e9-5323-403f-b7cf-57fde044a955',
   'aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f',
@@ -711,8 +516,6 @@ const specialOfferIds = [
   '0d7f9afa-2efe-4fd9-b0fd-ba5663e0a524',
   'd37a651a-d501-483b-aae6-a9659b0757a0',
   'd339adf3-e004-4c20-a120-40e8874c66cb',
-
-  
 ];
 
 // Function to display special offer products
@@ -782,7 +585,7 @@ function displaySpecialOfferProducts(products) {
 
 
 
-// 
+// ===================================================================================================
 
  function updateCartNotification() {
   const cartItemsNotification = document.getElementById('cart-items-notification'); // Select the notification container
@@ -797,14 +600,14 @@ function displaySpecialOfferProducts(products) {
   });
 
   // Update the UI based on the cart's content
-  if (totalQuantity > 1) {  // Check if there is more than one item in the cart
-    cartItemsNotification.classList.add('visible'); // Add 'visible' class if there is more than one item
-    quantityElement.textContent = totalQuantity; // Update total quantity of items
-    quantityElement.style.fontWeight = 'bold'; // Display total quantity of items
+  if (totalQuantity > 1) {  
+    cartItemsNotification.classList.add('visible'); 
+    quantityElement.textContent = totalQuantity; 
+    quantityElement.style.fontWeight = 'bold'; 
     console.log('Total Quantity:', totalQuantity);
     adSliderContainer.style.margin = "20px 0 0px 21px";
   } else {
-    cartItemsNotification.classList.remove('visible'); // Remove 'visible' class if there is 1 or fewer items
+    cartItemsNotification.classList.remove('visible'); 
   }
 }
 
