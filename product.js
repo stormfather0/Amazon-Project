@@ -104,6 +104,7 @@ function renderProductDetails(product) {
     <div class="product-detail-left"> 
   
       <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+      
       </div>
       
 
