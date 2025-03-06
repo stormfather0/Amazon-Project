@@ -398,7 +398,7 @@ display: initial;
 
 /* Login container as a block */
 .login-popup {
-  width: 100%;
+  /* width: 100%; */
   max-width: 400px;
   margin: 0 auto;
   background-color: #fff;
