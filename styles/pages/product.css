@@ -599,7 +599,7 @@ padding-bottom: 10px;
 }
 
 .thumbnails {
-    top: 83%;
+    top: 86%;
     left: 45%;
 }
 }
@@ -619,3 +619,172 @@ padding-bottom: 10px;
 }
 }
 
+
+.cart-popup {
+    display: none; 
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(254, 189, 105);
+    color: black;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cart-popup.show {
+    display: block;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    color: rgb(104, 85, 0); 
+  
+  }
+
+
+
+
+
+
+
+  /* Why us section */
+
+  .why-us {
+    background-color: #ffffff;
+    padding: 50px 20px;
+}
+
+.why-us h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center; 
+    text-align: center;
+
+    background: #fff;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+.feature img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    font-size: 1.5rem;
+    color: #444;
+}
+
+.feature p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.review-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+    gap: 50px;
+    margin: 100px auto;
+
+    background-color: #ffffff;
+    padding: 120px 0;
+    border: 1px solid rgb(226, 226, 226);
+    border-radius: 10px;
+  
+   
+
+}
+
+.review-form {
+    flex: 2;
+    text-align: center;
+    max-width: 300px;
+    padding: 10px;
+}
+
+.review-form h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.review-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-form input,
+.review-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.review-form textarea {
+    height: 100px;
+    resize: none;
+}
+
+.review-form button {
+
+
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    width: 320px;
+}
+
+.review-form button:hover {
+    opacity: 0.8;
+}
+
+/* No Reviews Box on the Right */
+.no-reviews-container {
+    flex: 1;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 700px
+}
+
+.no-reviews {
+    color: #777;
+    font-style: italic;
+}

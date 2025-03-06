@@ -1,6 +1,6 @@
 import {cart, addToCart, calculateCartQuantity, updateCartQuantity } from './data/cart.js'; 
 import { addFavourite, removeFavourite, favouritesListenerPages } from '../data/favourites.js';
-import { API_BASE_URL } from "../config.js";
+// import { API_BASE_URL } from "../config.js";
 
 
  function formatCurrency(priceCents) {
@@ -216,25 +216,24 @@ const images = product.images && product.images.length > 0 ? product.images : [p
      </div>
      </div>
 
-     <div class="product-detail-bottom">
-     <div class="product-detail-bottom-menu">
-     <ul>
+     <section class="review-container">
+        <!-- Review Form -->
+        <div class="review-form">
+            <h2>Leave a Review</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button class="button-primary"  >Submit Review</button>
+            </form>
+        </div>
 
-     <li>Product Details
-     </li>
+        <!-- No Reviews Message on the Right -->
+        <div class="no-reviews-container">
+            <p class="no-reviews">No reviews yet. Be the first to leave a review!</p>
+        </div>
+    </section>
 
-     <li>Reviews
-     </li>
-
-     </ul>
-      </div>
-     
-     <div class="product-detail-bottom-submenu">
-     <p>text </p>
-     </div>
-
-   
-     </div>
   `;
   // Slider logic
   if (images.length > 1) {

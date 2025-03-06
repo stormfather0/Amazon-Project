@@ -84,7 +84,7 @@ export function generateProductHTML(products) {
         <div class="product-image-container">
           <a href="product.html?id=${product.id}">
           <div class="made-in">${madeInImage}</div>
-            <img class="product-image" src="${product.image}">
+            <img class="product-image" src="${product.image || product.images[0]}">
           </a>
         </div>
 
@@ -132,6 +132,7 @@ export function generateProductHTML(products) {
 let productsDisplayed = 0; // To keep track of how many products are displayed
 const productsPerPage = 20; // Number of products to display per page
 let currentPage = 1; // Keep track of the current page
+
 
 // Function to display products with pagination logic
 function displayProducts() {
