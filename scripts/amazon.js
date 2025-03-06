@@ -3,7 +3,7 @@ import { cart, addToCart, calculateCartQuantity, updateCartQuantity } from '../d
 // import { UpdateCartPrice } from '../';
 import { formatCurrency } from './utils/money.js';
 import { addFavourite, removeFavourite, } from '../data/favourites.js';
-import { API_BASE_URL } from "../config.js";
+// import { API_BASE_URL } from "../config.js";
 import { openLoginPopup, isUserLoggedIn, getAuthToken } from '../login.js';
 
 
@@ -12,7 +12,7 @@ import { openLoginPopup, isUserLoggedIn, getAuthToken } from '../login.js';
 // Fetch Products from API
 export async function fetchProducts() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/products`);
+    const response = await fetch(`https://amazon-project-sta4.onrender.com/api/products`);
     
     if (!response.ok) {
       throw new Error('Failed to fetch products');
