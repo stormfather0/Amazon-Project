@@ -23,8 +23,6 @@ export async function fetchProducts() {
     // Store products globally for later use
     window.products = products; // Store products in a global variable
     
-
-
     //
     displaySpecialOfferProducts(products);
 

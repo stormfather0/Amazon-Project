@@ -1,5 +1,5 @@
 import {cart, addToCart, calculateCartQuantity, updateCartQuantity } from './data/cart.js'; 
-import { addFavourite, removeFavourite, favouritesListenerPages } from '../data/favourites.js';
+import { addFavourite, removeFavourite, favouritesListenerPages } from 'data/favourites.js';
 // import { API_BASE_URL } from "../config.js";
 
 
