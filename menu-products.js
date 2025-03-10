@@ -72,7 +72,7 @@ export function generateProductHTML(products) {
     .map(
       (product) => `
 
-  
+ 
 
       <div class="product-container">
         <svg class="favourites-style js-favourites-${product.id}" 

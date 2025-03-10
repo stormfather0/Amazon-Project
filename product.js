@@ -1,5 +1,5 @@
 import {cart, addToCart, calculateCartQuantity, updateCartQuantity } from './data/cart.js'; 
-// import { addFavourite, removeFavourite, favouritesListenerPages } from './data/favourites.js';
+import { addFavourite, removeFavourite, favouritesListenerPages } from './data/favourites.js';
 
 
 // import { API_BASE_URL } from "../config.js";
@@ -47,6 +47,7 @@ function getProductIdFromURL() {
   categoryName = category;
  categoryNameFromURL = category;
 
+ 
   
   console.log('Product ID from URL:', id); 
   return id;
@@ -72,6 +73,7 @@ function renderProductDetails(product) {
     container.innerHTML = `<p>Product not found.</p>`;
     return;
   }
+
   const categoryMapping = {
     'electronics': 'Electronics',
     'digital-content': 'Digital Content',
@@ -80,29 +82,30 @@ function renderProductDetails(product) {
     'fashion': 'Fashion',
     'gift-cards': 'Gift Cards'
   };
-  
-  categoryName = categoryMapping[categoryName] || categoryName;
- 
 
-// Ensure images array exists
-const images = product.images && product.images.length > 0 ? product.images : [product.image];
+  const categoryName = categoryMapping[product.type] || product.type; 
 
-
+  // Ensure images array exists
+  const images = product.images && product.images.length > 0 ? product.images : [product.image];
 
   // Check if the product has free delivery
- let price = product.priceCents;
- checkFreeDelivery(price); 
+  let price = product.priceCents;
+  checkFreeDelivery(price); 
 
+  // Generate the category link only if `product.type` exists
+  const categoryLinkHTML = product.type ? `
+    <a class="page-navigation-link" 
+       href="filtered-products.html?category=${categoryName}" 
+       class="link-primary">${categoryName}</a>
+    <span> > </span>` : '';
 
   container.innerHTML = `
-<div class="page-navigation">
-  <a class="page-navigation-link" href="amazon.html" class="link-primary">Home</a>
-  <span> > </span>
-  <a class="page-navigation-link" href="filtered-products.html?category=${categoryName}" class="link-primary">${categoryName}</a>
-  <span> > </span>
-  <a class="page-navigation-link" href="#" class="link-primary">${product.name}</a>
-
- </div>
+    <div class="page-navigation">
+      <a class="page-navigation-link" href="amazon.html" class="link-primary">Home</a>
+      <span> > </span>
+      ${categoryLinkHTML}
+      <a class="page-navigation-link" href="#" class="link-primary">${product.name}</a>
+    </div>
 
     <div class="product-detail">
     
@@ -148,14 +151,17 @@ const images = product.images && product.images.length > 0 ? product.images : [p
     <p>Seller:</p>
       <img src="images/seller-amazon-3.png" alt="Amazon" class="product-seller-image">
     </div>
- <p class="product-detail-in-stock">In Stock</p>
+
           
 
 
 <div class="product-detail-purchase">
+<div>  <p class="product-detail-in-stock">In Stock</p>
       <div class="product-detail-price">$${formatCurrency(product.priceCents)}   
       <p class="free-delivery"></p>
       </div>
+      </div>
+
     
 
 
@@ -217,24 +223,49 @@ const images = product.images && product.images.length > 0 ? product.images : [p
 
      </div>
      </div>
+<section class="review-container">
+    <!-- Review Form -->
+    <div class="review-form">
+        <h2>Leave a Review</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button class="button-primary">Submit Review</button>
+        </form>
+    </div>
 
-     <section class="review-container">
-        <!-- Review Form -->
-        <div class="review-form">
-            <h2>Leave a Review</h2>
-            <form>
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button class="button-primary"  >Submit Review</button>
-            </form>
-        </div>
+    <!-- Customer Reviews -->
+    <div class="reviews-container">
+        <h3 class="reviews-title">Customer Reviews</h3>
+        
+        <div class="user-reviews">
+            <div class="review">
+                <img src="images/reviews-icon.png" alt="Alice Johnson" class="review-img">
+                <div class="review-content">
+                    <p class="review-author">Alice Johnson</p>
+                    <p class="review-text">"Absolutely love this product! The quality is top-notch."</p>
+                </div>
+            </div>
 
-        <!-- No Reviews Message on the Right -->
-        <div class="no-reviews-container">
-            <p class="no-reviews">No reviews yet. Be the first to leave a review!</p>
+            <div class="review">
+                <img src="images/reviews-icon.png" alt="John Doe" class="review-img">
+                <div class="review-content">
+                    <p class="review-author">John Doe</p>
+                    <p class="review-text">"Great product and fast shipping. Definitely recommend!"</p>
+                </div>
+            </div>
+
+            <div class="review">
+                <img src="images/reviews-icon.png" alt="Emma Smith" class="review-img">
+                <div class="review-content">
+                    <p class="review-author">Emma Smith</p>
+                    <p class="review-text">"The best purchase I’ve made in a while. Worth every penny!"</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
   `;
   // Slider logic

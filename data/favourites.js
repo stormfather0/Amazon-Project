@@ -122,7 +122,11 @@ function displayFavoriteProducts(favouriteProducts) {
 }
 
 // ✅ Function to listen for clicks on favorite icons
- function favouritesListener() {
+function favouritesListener() {
+    if (!window.location.pathname.endsWith('favourites.html')) {
+        return; // Exit if not on favourites.html
+    }
+
     const favouriteIcons = document.querySelectorAll('.favourites-style');
 
     favouriteIcons.forEach((icon) => {
@@ -150,17 +154,19 @@ function displayFavoriteProducts(favouriteProducts) {
                 }
             }
 
-            // Check if there are any remaining favorite products
+            // ✅ Only check if remaining products exist on favourites.html
             const remainingProducts = document.querySelectorAll('.product-container');
             if (remainingProducts.length === 0) {
                 const favouriteProductsContainer = document.getElementById('favourite-products-container');
-                favouriteProductsContainer.innerHTML = `
-                    <div class="empty-cart-container">
-                        <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image">
-                    </div>
-                    <button class="button-primary shop-now-button">
-                        <a href="amazon.html">Shop Now</a>
-                    </button>`;
+                if (favouriteProductsContainer) {
+                    favouriteProductsContainer.innerHTML = `
+                        <div class="empty-cart-container">
+                            <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image">
+                        </div>
+                        <button class="button-primary shop-now-button">
+                            <a href="amazon.html">Shop Now</a>
+                        </button>`;
+                }
             }
         });
     });
@@ -168,9 +174,7 @@ function displayFavoriteProducts(favouriteProducts) {
 
 document.addEventListener("DOMContentLoaded", () => {
     favouritesListener();
-  });
-
-
+});
 
 // ✅ Function to add a product to user's favorites in MongoDB
 export async function addFavourite(productId) {

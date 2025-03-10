@@ -47,15 +47,16 @@ padding-bottom: 10px;
 .product-detail-image {
     width: 100%;
     max-width: 370px;
-    height: auto;
+    max-height: 305px;
+    object-fit: contain;
     margin-bottom: 20px;
-
 }
 
 
 .product-detail-right {
     flex: 1.2; 
     max-width: 55%;
+    width: 500px;
     text-align: left;
     padding: 20px;
 }
@@ -111,6 +112,7 @@ padding-bottom: 10px;
     color: green;
     margin-top: 10px;
     padding: 0 15px;
+    text-align: left;
 }
 
 
@@ -271,6 +273,11 @@ padding-bottom: 10px;
         flex-direction: column;
         align-items: flex-start;
     }
+
+    .review-container {
+        flex-direction: column;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -321,10 +328,11 @@ padding-bottom: 10px;
     }
 
     .product-detail-right {
-        width: 100%;
+        max-width: 80%;
         text-align: center;
         padding: 20px; 
     }
+     
 .page-navigation {
     height: 45px;
 }
@@ -599,7 +607,7 @@ padding-bottom: 10px;
 }
 
 .thumbnails {
-    top: 86%;
+    top: 80%;
     left: 45%;
 }
 }
@@ -643,6 +651,7 @@ padding-bottom: 10px;
     color: rgb(104, 85, 0); 
   
   }
+
 
 
 
@@ -708,28 +717,32 @@ padding-bottom: 10px;
     font-size: 1rem;
 }
 
+
+
+
 .review-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 90%;
     gap: 50px;
-    margin: 100px auto;
-
-    background-color: #ffffff;
-    padding: 120px 0;
+    margin: 80px auto;
+    background-color: #dfdfdf;
+    /* padding: 80px 40px; */
     border: 1px solid rgb(226, 226, 226);
     border-radius: 10px;
-  
-   
 
+   
 }
 
+/* Review Form */
 .review-form {
-    flex: 2;
+    flex: 1;
+    max-width: 350px;
+    padding: 20px;
     text-align: center;
-    max-width: 300px;
-    padding: 10px;
+    margin: 0 auto;
+    padding: 100px 15px;
 }
 
 .review-form h2 {
@@ -741,50 +754,126 @@ padding-bottom: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
 }
 
 .review-form input,
 .review-form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
 
 .review-form textarea {
-    height: 100px;
+    height: 120px;
     resize: none;
 }
 
 .review-form button {
-
-
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
-    width: 320px;
+    width: 100%;
+    width: 378px;
 }
 
 .review-form button:hover {
     opacity: 0.8;
 }
 
-/* No Reviews Box on the Right */
-.no-reviews-container {
-    flex: 1;
-    background-color: #f1f1f1;
-    padding: 20px;
-    border-radius: 10px;
+/* Reviews Section */
+.reviews-container {
+    flex: 2;
+    background-color: #f8f9fa;
+    padding: 25px;
+    /* border-radius: 10px; */
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 700px
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 100%;
+    padding: 0 50px;
+    padding: 100px 20px;
 }
 
-.no-reviews {
-    color: #777;
-    font-style: italic;
+.reviews-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* User Reviews */
+.user-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+   
+}
+
+/* Individual Review */
+.review {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 15px;
+}
+
+.review-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-author {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-text {
+    color: #555;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .review-container {
+        flex-direction: column;
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    /* .review-form,
+    .reviews-container {
+        margin: 0 auto;
+    } */
+
+    .review {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .review-img {
+        width: 70px;
+        height: 70px;
+    }
+    .button-primary {
+        margin: 0 auto;
+    }
 }

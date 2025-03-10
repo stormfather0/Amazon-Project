@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-bottom-850px">
         <div class="menu-icon-container">
           <img class="menu-icon menu-icon-bottom" src="images/icons/menu.svg">
-          <a href="favourites.html"><img class="menu-icon menu-icon-bottom" src="images/icons/favourite-bottom.svg"
+          <a href="test.html"><img class="menu-icon menu-icon-bottom" src="images/icons/favourite-bottom.svg"
               alt=""></a>
         </div>
       </div>
@@ -70,8 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <li class="category"><a href="filtered-products.html?category=personal-care"><img src="images/menu-images/personal-care.svg" alt="Personal Care"> Personal care</a></li>
           <li class="category"><a href="filtered-products.html?category=fashion"><img src="images/menu-images/fashion.svg" alt="Fashion"> Fashion</a></li>
           <li class="category"><a href="filtered-products.html?category=gift-cards"><img src="images/menu-images/giftcards.svg" alt="Gift Cards"> Gift cards</a></li>
-          <li class="category"><a href="login-test.html"><img src="images/menu-images/giftcards.svg" alt="Login Test"> LOGIN-TEST</a></li>
-          <li class="category"><a href="access.html"><img src="images/menu-images/giftcards.svg" alt="Access Page"> PAGE I WANT TO ACCESS</a></li>
         </ul>
       </div>
     </div>

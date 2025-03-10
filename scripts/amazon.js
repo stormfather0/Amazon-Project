@@ -58,6 +58,7 @@ export function generateProductHTML(products) {
       madeInImage = '<img class="made-in-image" src="images/madeIn/usa.avif" alt="Made in USA" />';
     }
 
+  
 
     productsHTML += `
       <div class="product-container">
@@ -82,7 +83,7 @@ export function generateProductHTML(products) {
 
         
         <div class="product-image-container">
-          <a href="product.html?id=${product.id}">
+          <a href="product.html?category=${product.type}&id=${product.id}">
           <div class="made-in">${madeInImage}</div>
             <img class="product-image" src="${product.image || product.images[0]}">
           </a>
@@ -207,7 +208,7 @@ const navigateButton = document.querySelector('.ad-btn');
 
 // Add an event listener to handle clicks
 navigateButton.addEventListener('click', () => {
-  window.location.href = 'https://amazon-project-sta4.onrender.com/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add'; // Replace with your target URL
+  window.location.href = 'https://amazon-project-sta4.onrender.com/product.html?id=54e0eccd-8f36-462b-b68a-8182611d9add'; 
 });
 
 
