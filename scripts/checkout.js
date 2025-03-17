@@ -528,8 +528,7 @@ function calculateTotalDeliveryCost() {
 
 
 
-console.log('111111Stored First Name:', localStorage.getItem('firstName'));
-console.log('S1111111tored Last Name:', localStorage.getItem('lastName'));
+
 
 
 
@@ -563,10 +562,10 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
         image: product.image,
         priceCents: product.priceCents,
         quantity: item.quantity,
-        firstName: user.firstName,  // Send firstName instead of userName
-        lastName: user.lastName,    // Send lastName instead of userSurname
         email: user.email,
-        id: user.id
+        // id: user.id,
+        firstName: user.firstName, 
+        lastName: user.lastName, 
         
       };
       

@@ -188,7 +188,7 @@ app.post('/api/login', async (req, res) => {
           return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1000h' });
+      const token = jwt.sign({ id: user._id, email: user.email,firstName: user.firstName, lastName: user.lastName }, JWT_SECRET, { expiresIn: '1000h' });
 
       console.log('✅ Logging in user:', email, '| User ID:', user._id); // Debugging
 

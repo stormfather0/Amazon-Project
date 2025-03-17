@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok && data.email && data.token) {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userEmail', data.email);
-                localStorage.setItem('userName', data.firstName);
+                localStorage.setItem('firstName', data.firstName);
                 localStorage.setItem('lastName', data.lastName);
               
              
