@@ -116,18 +116,23 @@ function renderProductDetails(product) {
           <div class="slider">
             ${images.map(img => `<img src="${img}" alt="${product.name}" class="product-detail-image">`).join('')}
           </div>
+
       
-          
-        </div>
-     <button class="slider-btn prev-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">‹</button>
-    <button class="slider-btn next-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">›</button>
-      </div>
-      
+             
           <div class="thumbnails">
       ${images.map((img, index) => `
         <img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}" alt="Thumbnail">
       `).join('')}
     </div>
+    
+        </div>
+     <button class="slider-btn prev-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">‹</button>
+    <button class="slider-btn next-btn" style="display: ${images.length > 1 ? 'block' : 'none'};">›</button>
+      </div>
+   
+
+
+
 
       
       

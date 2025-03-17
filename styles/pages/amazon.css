@@ -719,22 +719,22 @@ a {
 
 
 .scroll-to-top {
+  
   position: fixed;
   bottom: 20px;
   left: 20px;
   background-color: transparent;
   border: none;
   border-radius: 50%;
-  padding: 12px;
-  /* font-size: 16px; */
+
   cursor: pointer;
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); */
 
     z-index: 10;
-  
+  transform: rotate(-90deg);
   opacity: 0; 
   visibility: hidden; 
   transition: opacity 0.3s ease, visibility 0.3s ease;
+
 }
 
 .scroll-to-top.visible {
@@ -751,9 +751,9 @@ a {
   background-color: rgb(254, 189, 105);  */
 
 /* } */
-#scrollToTopBtn img {
+/* #scrollToTopBtn img {
   height: 50px;
-}
+} */
 
 
 

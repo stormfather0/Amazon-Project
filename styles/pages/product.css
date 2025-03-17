@@ -36,20 +36,20 @@ padding-bottom: 10px;
 
 
 .product-detail-left {
-    
     flex: 1;
     max-width: 50%;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .product-detail-image {
-    width: 100%;
-    max-width: 370px;
-    max-height: 305px;
-    object-fit: contain;
-    margin-bottom: 20px;
+    max-width: 100%; /* Ensures images don’t overflow */
+    height: auto; /* Keeps aspect ratio */
+    display: block;
 }
 
 
@@ -531,6 +531,7 @@ padding-bottom: 10px;
 
 .slider {
     display: flex;
+  
     transition: transform 0.5s ease-in-out;
 }
 
@@ -568,9 +569,6 @@ padding-bottom: 10px;
     justify-content: center;
     margin-top: 10px;
     gap: 5px;
-    position: absolute;
-    top: 105%;
-    left: 20%;
 }
 
 .thumbnail {
