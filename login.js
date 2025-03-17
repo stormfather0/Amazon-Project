@@ -13,6 +13,25 @@ export function getUserEmail() {
     return localStorage.getItem('userEmail');
 }
 
+export function getUserName() {
+    console.log('1', localStorage.getItem('userName'));
+    
+    return localStorage.getItem('userName');
+}
+
+export function getLastName() {
+    console.log('2', localStorage.getItem('lastName'));
+
+    return localStorage.getItem('lastName');
+}
+
+getUserName()
+getLastName()
+
+
+
+
+
 export function openLoginPopup() {
     const popup = document.querySelector('.login-popup');
     const loginForm = popup?.querySelector('.login-form');
@@ -44,6 +63,10 @@ export function logoutUser() {
     console.log('🚪 Logging out...');
     localStorage.removeItem('authToken');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('lastName');
+
+
     window.location.reload(); 
 
     const loginContainer = document.querySelector('.log-in-container');
@@ -143,6 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok && data.email && data.token) {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userName', data.firstName);
+                localStorage.setItem('lastName', data.lastName);
+              
+             
+                
+
+
                 updateUIAfterLogin(data.email);
                 window.location.reload(); 
                 
@@ -273,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
   
+
 
 
 

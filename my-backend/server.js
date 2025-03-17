@@ -320,8 +320,8 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
 
   const newOrder = {
     userId: id,         
-    firstName: firstName,    // Receive firstName correctly
-    lastName: lastName,    // Receive lastName correctly
+    firstName: user.firstName,    
+    lastName: lastName,    
     email: email, 
     items,
     total,

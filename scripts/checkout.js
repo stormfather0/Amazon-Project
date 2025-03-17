@@ -1,7 +1,10 @@
 import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
-import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail,  } from '../login.js'
+import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail, getUserName, getLastName  } from '../login.js'
 // import {checkFreeDelivery} from '../product.js';
+
+
+
 
 
 
@@ -525,9 +528,9 @@ function calculateTotalDeliveryCost() {
 
 
 
-console.log('Stored First Name:', localStorage.getItem('firstName'));
-console.log('Stored Last Name:', localStorage.getItem('lastName'));
-console.log('Stored Email:', localStorage.getItem('userEmail'));
+console.log('111111Stored First Name:', localStorage.getItem('firstName'));
+console.log('S1111111tored Last Name:', localStorage.getItem('lastName'));
+
 
 
 
@@ -544,8 +547,6 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
   }
 
   const user = {
-    // userName: localStorage.getItem('userName'), 
-    // userSurname: localStorage.getItem('userSurname'), 
     email: localStorage.getItem('userEmail'), 
     id: localStorage.getItem('userId'),
     firstName: localStorage.getItem('firstName'),
@@ -619,6 +620,7 @@ location.reload();
     console.error('Error placing order:', error);
   }
 });
+
 
 
 
