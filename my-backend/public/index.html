@@ -110,7 +110,7 @@
                             <div class="order-item">
                                 <img src="${item.image}" alt="${item.name}" class="order-item-image" />
                                 <div class="order-item-info">
-                                       <p> <strong>Customer:</strong> ${item.firstName} ${item.lastName}</p>
+                                      
                                     <p><strong>Item:</strong> ${item.name}</p>
                                 
                                     <p><strong>Quantity:</strong> ${item.quantity}</p>
@@ -122,8 +122,18 @@
                     }).join('');
 
                     orderElement.innerHTML = `
-                    
-                        <h3 class="order-details">Order Total: $${(order.total / 100).toFixed(2)}</h3>
+                    <div class="customer-info"> 
+                        <h3 class="customer-name">  Customer: ${order.firstName} ${order.lastName}</h3>
+                        <h3 class="customer-email">  Email: ${order.email}</h3> </div>
+                      
+                
+                        <div class="order-status">     
+                            <h3 class="order-details">Order Total: $${(order.total / 100).toFixed(2)}</h3>
+                            <div class="order-status-container"> <h3 class="order-status">Order Status: Loading...</h3> 
+                            <img src="../backend-images/edit-1.svg" alt="edit-status">
+                            </div>
+                            </div>
+                     
                         <h4 class="details-info-header">Order Details:</h4>
                         <div class="order-items">${orderDetails}</div>
                         <button class="delete-button" data-id="${order._id}">Delete Order</button>

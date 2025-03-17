@@ -52,11 +52,34 @@ button {
     
 }
 
-.order-details, .details-info-header {
+.order-details, .details-info-header, .customer-name {
     margin-left: 40px;
+}
+
+.customer-info {
+   
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(52, 58, 83);
+    color: white;
+    border-radius: 10px 10px 0px 0px;
 
 }
 
+.order-status {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(210, 217, 236);
+    color: rgb(36, 36, 42);
+    /* border-radius: 10px; */
+    border-radius: 0px 0px 10px 10px;
+}
+
+.order-status-container {
+    display: flex;
+    gap: 10px;
+  
+}
 
 
 
@@ -93,3 +116,5 @@ button {
     flex-direction: column;
     justify-content: center;
   }
+
+ 

@@ -219,14 +219,16 @@ function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
   document.querySelector('.return-to-home-link').innerHTML = `${cartQuantity}`;
   document.querySelector('.payment-quantity').innerHTML = `Items (${cartQuantity})`;
- 
   
   return cartQuantity
 }
 
 updateCartQuantity(); 
-// Update quantity handler
-// Update quantity handler
+
+
+
+
+
 // Update quantity handler
 document.addEventListener('click', (event) => {
   // Check if the clicked element is a .js-update-link button
@@ -343,8 +345,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 console.log('Script is running!');
 
-// Select all radio buttons
-// Select all radio buttonslet previousSelectedOption;
 
 
 
@@ -353,64 +353,6 @@ console.log('Script is running!');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// document.addEventListener('DOMContentLoaded', function () {
-//   // Initial delivery date setup (default option)
-//   const selectedDeliveryDate = document.querySelector('.delivery-option-input:checked + div .delivery-option-date').textContent;
-//   const deliveryDateDisplay = document.getElementById('delivery-date');
-//   deliveryDateDisplay.textContent = selectedDeliveryDate;
-
-//   // Listen for changes on delivery option radios
-//   const deliveryOptions = document.querySelectorAll('.delivery-option-input');
-  
-//   deliveryOptions.forEach(option => {
-//     option.addEventListener('change', function () {
-//       // Get the corresponding delivery date text when this radio is selected
-//       const selectedDate = this.closest('.delivery-option').querySelector('.delivery-option-date').textContent;
-      
-//       // Update the displayed delivery date
-//       deliveryDateDisplay.textContent = selectedDate;
-      
-//       console.log('Selected Delivery Date:', selectedDate);
-//     });
-//   });
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let totalPriceCents = 0; // Declare totalPriceCents in the global scope
 
 export function UpdateCartPrice() {
   // Reset totalPriceCents to ensure it's calculated fresh each time the function runs
@@ -431,6 +373,7 @@ export function UpdateCartPrice() {
     }
   });
   monitorDeliveryOptions()
+  
 
   checkFreeDelivery(totalPriceCents);
   return totalPriceCents; // Optional
@@ -458,8 +401,7 @@ function monitorDeliveryOptions() {
 
  
 
-  // Function to calculate total delivery cost
-// Function to calculate total delivery cost
+// Function to calculate total delivery cost==============================
 function calculateTotalDeliveryCost() {
   let totalShippingCost = 0;
 
@@ -497,8 +439,8 @@ function calculateTotalDeliveryCost() {
   const orderTotal = (combinedTotal + estimatedTax).toFixed(2); // Calculate order total and ensure two decimal places
 
   // Display estimated tax and order total
-  document.querySelector('.js-estimated-tax').innerHTML = `$${estimatedTax.toFixed(2)}`; // Ensure 2 decimal places
-  document.querySelector('.js-payment-summary').innerHTML = `$${orderTotal}`; // Ensure 2 decimal places
+  document.querySelector('.js-estimated-tax').innerHTML = `$${estimatedTax.toFixed(2)}`; 
+  document.querySelector('.js-payment-summary').innerHTML = `$${orderTotal}`; 
 }
 
   // Add event listeners to each delivery option
@@ -511,7 +453,6 @@ function calculateTotalDeliveryCost() {
   // Initial calculation to log the total delivery cost based on current selections
   calculateTotalDeliveryCost();
 
-   // Return 'a' from monitorDeliveryOptions
 }
 
 
@@ -669,42 +610,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
-//
-// Function to check if user is verified
-   // Function to check if user is logged in
-
-//    document.addEventListener('DOMContentLoaded', () => {
-//     checkVerificationStatus();
-// });
-
-// function checkVerificationStatus() {
-//     try {
-//         const token = getAuthToken();
-//         console.log(`Checking verification status. Token: ${token}`);
-
-//         if (!token) {
-//             console.error('🚫 User is not logged in. No authToken found!');
-//             openLoginPopup(); // ✅ Show login popup if user isn't logged in
-//         } else {
-//             console.log('✅ User is logged in! Hiding login popup...');
-//             closeLoginPopup(); // ✅ Hide login popup if user is logged in
-//         }
-//     } catch (error) {
-//         console.error('❌ Error checking verification status:', error);
-//     }
-// }
-
-//     // checkVerificationStatus();
-
-
-
-//LOGIN CHECKOUT
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
   const authToken = localStorage.getItem('authToken');
   const loginContainer = document.querySelector('.login-container');
@@ -744,24 +649,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -818,13 +705,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  let a = checkFreeDelivery(totalPriceCents);
-  console.log(totalPriceCents);
-  
-  console.log(`Here is ${a}`);
-  
-})
+
 
 
 //check free delivery
@@ -833,29 +714,63 @@ export async function checkFreeDelivery(productPrice) {
       const response = await fetch('https://amazon-project-sta4.onrender.com/api/delivery-threshold');
       const data = await response.json();
       const threshold = data.threshold;
+      const htmlTotalDeliveryCost = document.querySelector('.total-delivery-cost');
+
+      const freeDeliveryOption = document.querySelector('.delivery-option-three')?.closest('.delivery-option');
+      const freeDeliveryPrice = freeDeliveryOption?.querySelector('.delivery-option-price');
 
       if (productPrice >= threshold) {
-        freeDelivery = true;
+          freeDelivery = true;
           console.log('✅ Free delivery applies!');
-          // document.querySelector('.free-delivery').textContent = "Free Delivery";
+          htmlTotalDeliveryCost.textContent = "FREE";
+          htmlTotalDeliveryCost.style.color = "green";
+          htmlTotalDeliveryCost.style.fontWeight = "bold";
+
+          // Hide both the radio button and text content for non-free options
+          document.querySelectorAll('.delivery-option-one, .delivery-option-two').forEach(option => {
+              const deliveryOptionContainer = option.closest('.delivery-option');
+              if (deliveryOptionContainer) {
+                  deliveryOptionContainer.style.display = 'none';
+              }
+          });
+
+          // Show only the free delivery option and update its text
+          if (freeDeliveryOption) {
+              freeDeliveryOption.style.display = 'grid';
+
+              // Select and check the radio button
+              const freeDeliveryRadio = freeDeliveryOption.querySelector('.delivery-option-input');
+              if (freeDeliveryRadio) {
+                  freeDeliveryRadio.checked = true;
+              }
+
+              // Update the delivery option price to show "FREE"
+              if (freeDeliveryPrice) {
+                  freeDeliveryPrice.textContent = 'FREE Shipping';
+          
+              }
+          }
+          
       } else {
+          freeDelivery = false;
           console.log('🚚 Standard delivery applies.');
-          // document.querySelector('.free-delivery').textContent = "";
+          htmlTotalDeliveryCost.style.fontWeight = "normal";
+          htmlTotalDeliveryCost.style.color = "black";
+
+          // Show all delivery options again
+          document.querySelectorAll('.delivery-option').forEach(option => {
+              option.style.display = 'grid';
+          });
+
+          // Restore original text for delivery-option-three
+          if (freeDeliveryPrice) {
+              freeDeliveryPrice.textContent = '$9.99 Shipping';
+      
+          }
       }
   } catch (error) {
-      console.log('error', error);
+      console.log('❌ Error:', error);
   }
-console.log(freeDelivery);
-
+  console.log('Free Delivery:', freeDelivery);
   return freeDelivery;
 }
-
-if (freeDelivery) {
-  // Select all non-free delivery options and hide them
-  document.querySelectorAll('.delivery-option-one, .delivery-option-two').forEach(option => {
-    option.style.display = 'none';
-  });
-}
-
-  
-

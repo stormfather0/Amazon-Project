@@ -576,6 +576,9 @@ a {
 
 /* Responsive styles */
 @media (max-width: 688px) {
+  .promotion-slider-container {
+    margin: 52px 0 0px 14px;
+  }
   .promotion-slide img {
     width: 95%;
     object-fit: cover;
@@ -588,9 +591,13 @@ a {
     padding: 10px 5px !important;
     height: 50px !important;
   }
+
 }
 
 @media (max-width: 460px) {
+  .promotion-slider-container {
+    margin: 52px 0 0px 10px;
+  }
   .promotion-slide img {
     object-fit: cover;
     display: block;
@@ -605,10 +612,7 @@ a {
     gap: 2px !important;
   }
 
-  .prev-button,
-  .next-button {
-    display: none;
-  }
+
 }
 
 
