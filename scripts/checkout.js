@@ -556,8 +556,8 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
         image: product.image,
         priceCents: product.priceCents,
         quantity: item.quantity,
-        userName: user.firstName,   
-        userSurname: user.lastName,
+        // userName: user.userName,
+        // userSurname: user.userSurname,
         email: user.email,
         id: user.id
       };
