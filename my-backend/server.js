@@ -319,15 +319,15 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
   console.log('Order details:', { items, total, deliveryOptions });
 
   const newOrder = {
-      userId: id,         
-      userName: firstName,   
-      userSurname: lastName,
-      email: email,     
-      items,
-      total,
-      deliveryOptions,
-      createdAt: new Date()
-  };
+    userId: id,         
+    userName: userName,   
+    userSurname: userSurname, 
+    email: email,     
+    items,
+    total,
+    deliveryOptions,
+    createdAt: new Date()
+};
 
   try {
       const ordersCollection = db.collection('orders');
