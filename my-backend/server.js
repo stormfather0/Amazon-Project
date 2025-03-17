@@ -317,7 +317,7 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
 
   console.log('Received order from:', { id, email });
   console.log('Order details:', { items, total, deliveryOptions });
-
+  console.log("Decoded User Data from Token:", req.user);
   const newOrder = {
     userId: id,         
     firstName: firstName,    
