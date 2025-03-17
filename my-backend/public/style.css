@@ -49,7 +49,7 @@ button {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    
+    background-color: #74aac361;
 }
 
 .order-details, .details-info-header, .customer-name {
