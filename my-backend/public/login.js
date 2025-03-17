@@ -18,7 +18,7 @@ async function handleLogin(event) {
         // Check if the response is ok (status code 200-299)
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message); // Throw an error if the response is not ok
+            throw new Error(errorData.message); 
         }
 
         const data = await response.json();
