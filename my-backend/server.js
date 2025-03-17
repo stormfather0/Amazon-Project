@@ -313,14 +313,14 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
   const { items, total, deliveryOptions } = req.body;
 
   // Get user data from the authenticated token
-  const { id,  email } = req.user;
+  const { id,  email, firstName, lastName  } = req.user;
 
   console.log('Received order from:', { id, email });
   console.log('Order details:', { items, total, deliveryOptions });
 
   const newOrder = {
     userId: id,         
-    firstName: firstName,  // Receive firstName correctly
+    firstName: firstName,    // Receive firstName correctly
     lastName: lastName,    // Receive lastName correctly
     email: email, 
     items,

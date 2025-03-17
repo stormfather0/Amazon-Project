@@ -525,12 +525,16 @@ function calculateTotalDeliveryCost() {
 
 
 
-
+console.log('Stored First Name:', localStorage.getItem('firstName'));
+console.log('Stored Last Name:', localStorage.getItem('lastName'));
+console.log('Stored Email:', localStorage.getItem('userEmail'));
 
 
 
 document.querySelector('.place-order-button').addEventListener('click', async () => {
   const authToken = localStorage.getItem('authToken');
+
+
 
   console.log('Auth Token:', authToken); // Debugging
 
@@ -543,7 +547,9 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
     // userName: localStorage.getItem('userName'), 
     // userSurname: localStorage.getItem('userSurname'), 
     email: localStorage.getItem('userEmail'), 
-    id: localStorage.getItem('userId')
+    id: localStorage.getItem('userId'),
+    firstName: localStorage.getItem('firstName'),
+    lastName: localStorage.getItem('lastName')
   };
 
   // Prepare order data
@@ -560,8 +566,12 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
         lastName: user.lastName,    // Send lastName instead of userSurname
         email: user.email,
         id: user.id
+        
       };
+      
     }),
+  
+   
     total: totalPriceCents,
     deliveryOptions: [...document.querySelectorAll('.delivery-option-input:checked')].map(option => {
       let deliveryDate;
@@ -576,10 +586,11 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
       return {
         deliveryType: option.classList[1],
         deliveryDate: deliveryDate,
+      
       };
     }),
   };
-
+  console.log('Order Data:', orderData);
   // Send the order data to the server with JWT token
   try {
     const response = await fetch('https://amazon-project-sta4.onrender.com/api/place-order', {
@@ -801,6 +812,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       userEmailElement.textContent = 'No email found';
   }
 });
+
+
 
 
 
