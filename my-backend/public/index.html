@@ -129,11 +129,22 @@
                 
                         <div class="order-status">     
                             <h3 class="order-details">Order Total: $${(order.total / 100).toFixed(2)}</h3>
-                            <div class="order-status-container"> <h3 class="order-status">Order Status: Loading...</h3> 
-                            <img src="../backend-images/edit-1.svg" alt="edit-status"> 
+                 <div class="order-status-container">
+    <span class="status-text">Pending</span>
+    <img src="../backend-images/edit-1.svg" alt="edit-status" class="edit-status">
+    
+
+  
+</div>
+
                             </div>
-                            </div>
-                     
+                       <div class="status-progress">
+        <span class="status-dot"></span>
+        <span class="status-dot"></span>
+        <span class="status-dot"></span>
+        <span class="status-dot"></span>
+        <span class="status-dot"></span>
+    </div>
                         <h4 class="details-info-header">Order Details:</h4>
                         <div class="order-items">${orderDetails}</div>
                         <button class="delete-button" data-id="${order._id}">Delete Order</button>
@@ -141,6 +152,8 @@
 
                     ordersContainer.appendChild(orderElement);
 
+                    //status progress
+                    updateProgressBar(orderElement, order.status || "Pending");
                     // Add delete functionality to the button
                     orderElement.querySelector('.delete-button').addEventListener('click', async () => {
                         await deleteOrder(order._id);
@@ -215,6 +228,100 @@
                 window.location.href = 'login.html';
             });
         });
+
+
+        document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('edit-status')) {
+        const parent = event.target.closest('.order-status-container');
+        if (!parent) return;
+
+        if (parent.querySelector('.status-select')) return; // Prevent duplicate dropdowns
+
+        const currentStatus = parent.querySelector('.status-text');
+        const oldStatus = currentStatus ? currentStatus.textContent : '';
+
+        // Create a dropdown for statuses
+        const select = document.createElement('select');
+        select.classList.add('status-select');
+
+        // Define order statuses
+        const statuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
+        statuses.forEach(status => {
+            const option = document.createElement('option');
+            option.value = status;
+            option.textContent = status;
+            if (status === oldStatus) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        });
+
+        // Create save button
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.classList.add('save-status');
+
+        // Hide current text & edit icon
+        currentStatus.style.display = 'none';
+        event.target.style.display = 'none';
+
+        // Append dropdown and button
+        parent.appendChild(select);
+        parent.appendChild(saveButton);
+    }
+
+    // Handle saving the new status
+    if (event.target.classList.contains('save-status')) {
+        const parent = event.target.closest('.order-status-container');
+        if (!parent) return;
+
+        const orderElement = parent.closest('.order'); // Get the whole order element
+        if (!orderElement) return;
+
+        const select = parent.querySelector('.status-select');
+        const newStatus = select.value;
+        const currentStatus = parent.querySelector('.status-text');
+        const editIcon = parent.querySelector('.edit-status');
+
+        // Update status text
+        currentStatus.textContent = newStatus;
+
+        // Update progress bar
+        updateProgressBar(orderElement, newStatus); // Updated to use orderElement
+
+        // Show updated status & edit icon, remove select & button
+        currentStatus.style.display = 'inline';
+        editIcon.style.display = 'inline';
+        select.remove();
+        event.target.remove();
+    }
+});
+
+// Function to update progress bar
+function updateProgressBar(orderElement, status) {
+    const statuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
+    const activeIndex = statuses.indexOf(status);
+
+    const progressBar = orderElement.querySelector('.status-progress');
+    if (!progressBar) return;
+
+    const dots = progressBar.querySelectorAll('.status-dot');
+
+    dots.forEach((dot, index) => {
+        if (index <= activeIndex) {
+            dot.classList.add('active'); // Turn dot green
+        } else {
+            dot.classList.remove('active');
+        }
+
+        // Ensure line between active dots turns green
+        if (index < activeIndex) {
+            dot.classList.add('active-line');
+        } else {
+            dot.classList.remove('active-line');
+        }
+    });
+}    
     </script>
 </body>
 </html>

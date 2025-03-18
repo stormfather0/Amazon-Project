@@ -77,6 +77,7 @@ button {
 
 .order-status-container {
     display: flex;
+    align-items: center;
     gap: 10px;
   
 }
@@ -117,4 +118,55 @@ button {
     justify-content: center;
   }
 
- 
+
+  .status-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    width: 35%;
+    position: relative;
+    padding: 0 10px; /* Ensures dots are evenly spaced */
+    margin: 20px auto;
+}
+
+/* The full background line */
+.status-progress::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Align with the first dot */
+    right: 10px; /* Align with the last dot */
+    height: 4px;
+    background-color: #ccc; /* Default gray line */
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+/* The dynamic green progress line */
+.status-line {
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Align with first dot */
+    height: 4px;
+    background-color: green;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 0%; /* Default: no progress */
+    transition: width 0.3s ease-in-out;
+}
+
+/* Individual status dots */
+.status-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #ccc; /* Default inactive */
+    position: relative;
+    z-index: 2;
+}
+
+/* When active, dot turns green */
+.status-dot.active {
+    background-color: green;
+}
