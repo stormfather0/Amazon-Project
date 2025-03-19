@@ -381,84 +381,37 @@ app.get('/api/orders', authenticateToken, async (req, res) => {
 
 
 
-
-
-
-
-// New endpoint: /api/user-orders
+// Fetch user orders from MongoDB
 app.get('/api/user-orders', authenticateToken, async (req, res) => {
   try {
-    // Extract query parameters for pagination and sorting
-    const { page = 1, limit = 10, sortBy = 'createdAt', order = 'desc' } = req.query;
+      const ordersCollection = db.collection('orders');
+      const orders = await ordersCollection.find({ userId: req.user.id }).toArray();
 
-    // Convert page and limit to integers
-    const pageNum = parseInt(page, 10);
-    const limitNum = parseInt(limit, 10);
-    const skip = (pageNum - 1) * limitNum;
-
-    // Define sort direction
-    const sortOrder = order.toLowerCase() === 'asc' ? 1 : -1;
-    const sortCriteria = { [sortBy]: sortOrder };
-
-    // Log request details
-    console.log('Fetching orders for user:', {
-      userId: req.user.id,
-      page: pageNum,
-      limit: limitNum,
-      sortBy,
-      order
-    });
-
-    const ordersCollection = db.collection('orders');
-
-    // Fetch orders with pagination and sorting
-    const orders = await ordersCollection
-      .find({ userId: req.user.id })
-      .sort(sortCriteria)
-      .skip(skip)
-      .limit(limitNum)
-      .toArray();
-
-    // Get total count for pagination metadata
-    const totalOrders = await ordersCollection.countDocuments({ userId: req.user.id });
-
-    // Log fetched orders
-    console.log('Orders fetched:', orders.length, 'of', totalOrders);
-
-    // Format the response
-    const response = {
-      orders: orders.map(order => ({
-        _id: order._id.toString(), // Convert ObjectId to string
-        userId: order.userId,
-        items: order.items,
-        total: order.total,
-        status: order.status,
-        createdAt: order.createdAt,
-        deliveryOptions: order.deliveryOptions || null
-      })),
-      pagination: {
-        currentPage: pageNum,
-        totalPages: Math.ceil(totalOrders / limitNum),
-        totalOrders,
-        limit: limitNum
-      }
-    };
-
-    // Log the final response
-    console.log('Sending response:', {
-      orderCount: response.orders.length,
-      pagination: response.pagination
-    });
-
-    res.json(response);
+      res.json(orders);
   } catch (error) {
-    console.error('Error fetching user orders:', error);
-    res.status(500).json({ 
-      message: 'Error fetching orders', 
-      error: error.message 
-    });
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ message: 'Error fetching orders' });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
