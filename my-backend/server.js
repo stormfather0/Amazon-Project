@@ -362,10 +362,13 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
 
 
 // Fetch orders route
-app.get('/api/orders', async (req, res) => {
+app.get('/api/orders', authenticateToken, async (req, res) => {
     try {
         const ordersCollection = db.collection('orders');
-        const orders = await ordersCollection.find({}).toArray();
+        // Filter orders by user ID from the verified token
+        const orders = await ordersCollection.find({ 
+            userId: req.user.id // Assuming the JWT contains user id
+        }).toArray();
 
         res.json(orders);
     } catch (error) {
