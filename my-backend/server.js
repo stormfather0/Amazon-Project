@@ -747,7 +747,7 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 
 
-//Favourites
+// Favourites
 app.get('/api/favorites', authenticateToken, async (req, res) => {
   try {
       console.log('✅ User authenticated:', req.user);
@@ -762,21 +762,25 @@ app.get('/api/favorites', authenticateToken, async (req, res) => {
 
       if (!user.favorites || user.favorites.length === 0) {
           console.warn('⚠️ User has no favorites.');
-          return res.json({ id: user._id, message: "You don't have favourites" });
+          return res.json({ id: user._id, favorites: [], message: "You don't have favourites" });
       }
 
-      return res.json({ id: user._id, favorites: user.favorites });
+      // Fetch full product details for the user's favorites
+      const favoriteProducts = await Product.find({
+          id: { $in: user.favorites }
+      });
+
+      return res.json({ 
+          id: user._id, 
+          favorites: favoriteProducts 
+      });
   } catch (error) {
       console.error('❌ Error fetching favorites:', error);
       return res.status(500).json({ message: 'Server error' });
   }
 });
 
-
-
-//=============================
-
-// ✅ Add Favorite
+// Add Favorite
 app.post('/api/favorites/add', authenticateToken, async (req, res) => {
   try {
       const { productId } = req.body;
@@ -785,20 +789,21 @@ app.post('/api/favorites/add', authenticateToken, async (req, res) => {
       const user = await User.findById(req.user.id);
       if (!user) return res.status(404).json({ error: 'User not found' });
 
-      // Add the product to favorites if it's not already there
       if (!user.favorites.includes(productId)) {
           user.favorites.push(productId);
           await user.save();
       }
 
-      res.json({ message: 'Product added to favorites', favorites: user.favorites });
+      // Optionally fetch updated favorite products
+      const favoriteProducts = await Product.find({ id: { $in: user.favorites } });
+      res.json({ message: 'Product added to favorites', favorites: favoriteProducts });
   } catch (error) {
       console.error('❌ Error adding favorite:', error);
       res.status(500).json({ error: 'Server error' });
   }
 });
 
-// ✅ Remove Favorite
+// Remove Favorite
 app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
   try {
       const { productId } = req.body;
@@ -810,13 +815,14 @@ app.delete('/api/favorites/remove', authenticateToken, async (req, res) => {
       user.favorites = user.favorites.filter(fav => fav !== productId);
       await user.save();
 
-      res.json({ message: 'Product removed from favorites', favorites: user.favorites });
+      // Optionally fetch updated favorite products
+      const favoriteProducts = await Product.find({ id: { $in: user.favorites } });
+      res.json({ message: 'Product removed from favorites', favorites: favoriteProducts });
   } catch (error) {
       console.error('❌ Error removing favorite:', error);
       res.status(500).json({ error: 'Server error' });
   }
 });
-
 
 
 
