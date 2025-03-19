@@ -363,18 +363,25 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
 
 // Fetch orders route
 app.get('/api/orders', authenticateToken, async (req, res) => {
-    try {
-        const ordersCollection = db.collection('orders');
-        // Filter orders by user ID from the verified token
-        const orders = await ordersCollection.find({ 
-            userId: req.user.id // Assuming the JWT contains user id
-        }).toArray();
+  try {
+    const ordersCollection = db.collection('orders');
+    const orders = await ordersCollection.find({ 
+      userId: req.user.id 
+    }).toArray();
+    
+    // Transform the data to match expected format if needed
+    const formattedOrders = orders.map(order => ({
+      _id: order._id,
+      date: order.createdAt,
+      total: order.total,
+      items: order.items // Should be an array of {name, image, quantity, deliveryDate}
+    }));
 
-        res.json(orders);
-    } catch (error) {
-        console.error('Error fetching orders:', error);
-        res.status(500).json({ message: 'Error fetching orders' });
-    }
+    res.json(formattedOrders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Error fetching orders' });
+  }
 });
 
 
