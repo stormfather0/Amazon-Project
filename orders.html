@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/amazon-header.css">
     <link rel="stylesheet" href="styles/pages/orders.css">
+    <style>
+      .error {
+        color: red;
+        padding: 10px;
+        text-align: center;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
     <div class="amazon-header">
@@ -18,14 +29,12 @@
           <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
         </a>
       </div>
-
       <div class="amazon-header-middle-section">
         <input class="search-bar" type="text" placeholder="Search">
         <button class="search-button">
           <img class="search-icon" src="images/icons/search-icon.png">
         </button>
       </div>
-
       <div class="amazon-header-right-section">
         <a class="orders-link header-link" href="orders.html">
           <span class="returns-text">Returns</span>
@@ -42,13 +51,13 @@
     <div class="main">
       <div class="page-title">Your Orders</div>
       <div class="orders-grid" id="orders-grid">
-        <!-- Orders will be dynamically inserted here -->
-        <p>Loading orders...</p>
+        <p class="loading">Loading orders...</p>
       </div>
     </div>
 
     <script>
       async function fetchOrders() {
+        const ordersGrid = document.getElementById('orders-grid');
         try {
           const authToken = localStorage.getItem('authToken');
           if (!authToken) {
@@ -64,23 +73,22 @@
           });
 
           if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Unknown error'}`);
           }
 
           const orders = await response.json();
-          console.log('User Orders:', orders);
+          console.log('Fetched orders:', orders);
           displayOrders(orders);
-
         } catch (error) {
           console.error('Error fetching orders:', error);
-          const ordersGrid = document.getElementById('orders-grid');
           ordersGrid.innerHTML = `<p class="error">Error: ${error.message}</p>`;
         }
       }
 
       function displayOrders(orders) {
         const ordersGrid = document.getElementById('orders-grid');
-        ordersGrid.innerHTML = '';
+        ordersGrid.innerHTML = ''; // Clear loading message
 
         if (!orders || orders.length === 0) {
           ordersGrid.innerHTML = '<p>No orders found.</p>';
@@ -97,7 +105,7 @@
               <div class="order-header-left-section">
                 <div class="order-date">
                   <div class="order-header-label">Order Placed:</div>
-                  <div>${new Date(order.date || order.createdAt).toLocaleDateString()}</div>
+                  <div>${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}</div>
                 </div>
                 <div class="order-total">
                   <div class="order-header-label">Total:</div>
@@ -106,47 +114,40 @@
               </div>
               <div class="order-header-right-section">
                 <div class="order-header-label">Order ID:</div>
-                <div>${order._id || order.orderId || 'N/A'}</div>
+                <div>${order._id || 'N/A'}</div>
               </div>
             </div>
           `;
 
           // Order Details
           let orderDetails = '<div class="order-details-grid">';
-          
-          // Assuming order.items is an array of products
-          (order.items || []).forEach(item => {
-            orderDetails += `
-              <div class="product-image-container">
-                <img src="${item.image || 'images/products/default-product.jpg'}">
-              </div>
-              <div class="product-details">
-                <div class="product-name">
-                  ${item.name || item.productName || 'Unknown Product'}
+          if (order.items && Array.isArray(order.items)) {
+            order.items.forEach(item => {
+              orderDetails += `
+                <div class="product-image-container">
+                  <img src="${item.image || 'images/products/default-product.jpg'}">
                 </div>
-                <div class="product-delivery-date">
-                  Arriving on: ${item.deliveryDate ? 
-                    new Date(item.deliveryDate).toLocaleDateString() : 
-                    'TBD'}
-                </div>
-                <div class="product-quantity">
-                  Quantity: ${item.quantity || 1}
-                </div>
-                <button class="buy-again-button button-primary">
-                  <img class="buy-again-icon" src="images/icons/buy-again.png">
-                  <span class="buy-again-message">Buy it again</span>
-                </button>
-              </div>
-              <div class="product-actions">
-                <a href="tracking.html?orderId=${order._id}">
-                  <button class="track-package-button button-secondary">
-                    Track package
+                <div class="product-details">
+                  <div class="product-name">${item.name || item.productName || 'Unknown Product'}</div>
+                  <div class="product-delivery-date">
+                    Arriving on: ${item.deliveryDate ? new Date(item.deliveryDate).toLocaleDateString() : 'TBD'}
+                  </div>
+                  <div class="product-quantity">Quantity: ${item.quantity || 1}</div>
+                  <button class="buy-again-button button-primary">
+                    <img class="buy-again-icon" src="images/icons/buy-again.png">
+                    <span class="buy-again-message">Buy it again</span>
                   </button>
-                </a>
-              </div>
-            `;
-          });
-
+                </div>
+                <div class="product-actions">
+                  <a href="tracking.html?orderId=${order._id}">
+                    <button class="track-package-button button-secondary">Track package</button>
+                  </a>
+                </div>
+              `;
+            });
+          } else {
+            orderDetails += '<p>No items in this order.</p>';
+          }
           orderDetails += '</div>';
 
           orderContainer.innerHTML = orderHeader + orderDetails;
@@ -154,7 +155,7 @@
         });
       }
 
-      // Fetch orders when page loads
+      // Fetch orders when the page loads
       document.addEventListener('DOMContentLoaded', fetchOrders);
     </script>
   </body>
