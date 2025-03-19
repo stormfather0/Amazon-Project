@@ -7,7 +7,7 @@ async function fetchOrders() {
         const authToken = localStorage.getItem('authToken');
         
         // Make the API request with the authorization header
-        const response = await fetch('/api/orders', {
+        const response = await fetch('https://amazon-project-sta4.onrender.com/api/orders', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
