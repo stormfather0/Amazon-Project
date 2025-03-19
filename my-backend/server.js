@@ -362,13 +362,10 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
 
 
 // Fetch orders route
-app.get('/api/orders', authenticateToken, async (req, res) => {
+app.get('/api/orders', async (req, res) => {
     try {
         const ordersCollection = db.collection('orders');
-        // Filter orders by user ID from the verified token
-        const orders = await ordersCollection.find({ 
-            userId: req.user.id // Assuming the JWT contains user id
-        }).toArray();
+        const orders = await ordersCollection.find({}).toArray();
 
         res.json(orders);
     } catch (error) {
@@ -376,46 +373,6 @@ app.get('/api/orders', authenticateToken, async (req, res) => {
         res.status(500).json({ message: 'Error fetching orders' });
     }
 });
-
-
-
-
-
-// // Fetch user orders from MongoDB
-// app.get('/api/user-orders', authenticateToken, async (req, res) => {
-//   try {
-//       const ordersCollection = db.collection('orders');
-//       const orders = await ordersCollection.find({ userId: req.user.id }).toArray();
-
-//       res.json(orders);
-//   } catch (error) {
-//       console.error('Error fetching orders:', error);
-//       res.status(500).json({ message: 'Error fetching orders' });
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
