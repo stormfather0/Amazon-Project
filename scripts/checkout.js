@@ -7,10 +7,11 @@ import { openLoginPopup,isUserLoggedIn,  getAuthToken, getUserEmail, getUserName
 
 
 
-
+let orderTotal = 0;
 
 let freeDelivery = false;
 let totalPriceCents = 0; 
+
 let products = []; 
 // Using external library DayJS to get current date and set delivery options 
 const today = dayjs();
@@ -355,28 +356,22 @@ console.log('Script is running!');
 
 
 export function UpdateCartPrice() {
-  // Reset totalPriceCents to ensure it's calculated fresh each time the function runs
-  totalPriceCents = 0; 
-
+  totalPriceCents = 0;
 
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
-
-    // Find the product in the products array by its id
     const matchingProduct = products.find(product => product.id === productId);
-
     if (matchingProduct) {
-      // Multiply priceCents by the quantity of the cartItem
       totalPriceCents += matchingProduct.priceCents * cartItem.quantity;
-
       document.querySelector('.payment-summary-money').innerHTML = `$${formatCurrency(totalPriceCents)}`;
     }
   });
-  monitorDeliveryOptions()
-  
 
+  orderTotal = monitorDeliveryOptions(); // Updates orderTotal with initial delivery costs
   checkFreeDelivery(totalPriceCents);
-  return totalPriceCents; // Optional
+
+  console.log(`Total Price in Cents: ${totalPriceCents}, Order Total: ${orderTotal}`);
+  return totalPriceCents;
 }
 
 // Call the function to update the cart price
@@ -389,71 +384,60 @@ console.log(`Total Price in Cents: ${formatCurrency(totalPriceCents)}`); // This
 
 //
 function monitorDeliveryOptions() {
-  // Select all radio buttons for delivery options
   const deliveryOptions = document.querySelectorAll('input[type="radio"][name^="delivery-option-"]');
-  
-  // Object to store shipping costs associated with delivery options
   const deliveryOptionPrices = {
     'delivery-option-one': 0,     // Free Shipping
     'delivery-option-two': 4.99,  // $4.99 Shipping
     'delivery-option-three': 9.99 // $9.99 Shipping
   };
 
- 
+  function calculateTotalDeliveryCost() {
+    let totalShippingCost = 0;
 
-// Function to calculate total delivery cost==============================
-function calculateTotalDeliveryCost() {
-  let totalShippingCost = 0;
+    deliveryOptions.forEach(option => {
+      if (option.checked) {
+        totalShippingCost += deliveryOptionPrices[option.classList[1]];
+      }
+    });
 
-  // Calculate total shipping cost for selected delivery options
-  deliveryOptions.forEach(option => {
-    if (option.checked) {
-      totalShippingCost += deliveryOptionPrices[option.classList[1]];
+    function formatCurrency(amount) {
+      return `$${amount.toFixed(2)}`;
     }
-  });
 
-  // Function to format currency to 2 decimal places
-  function formatCurrency(amount) {
-    return `$${amount.toFixed(2)}`;
+    function calculateEstimatedTax(amount, taxRate) {
+      return ((amount * taxRate) / 100).toFixed(2);
+    }
+
+    console.log(`Total Delivery Cost: ${formatCurrency(totalShippingCost)}`);
+    document.querySelector('.total-delivery-cost').innerHTML = formatCurrency(totalShippingCost);
+
+    const combinedTotal = (totalPriceCents + totalShippingCost * 100) / 100;
+    console.log(combinedTotal);
+
+    const totalBeforeTax = formatCurrency(combinedTotal);
+    document.querySelector('.js-total-before-tax').innerHTML = totalBeforeTax;
+
+    const estimatedTax = parseFloat(calculateEstimatedTax(combinedTotal, 10));
+    orderTotal = (combinedTotal + estimatedTax).toFixed(2); // Update global orderTotal
+
+    document.querySelector('.js-estimated-tax').innerHTML = `$${estimatedTax.toFixed(2)}`; 
+    document.querySelector('.js-payment-summary').innerHTML = `$${orderTotal}`; 
+
+    console.log(`Updated orderTotal: ${orderTotal}`); // Debug log
+    return orderTotal; // Return for initial call
   }
 
-  // Function to calculate estimated tax
-  function calculateEstimatedTax(amount, taxRate) {
-    return ((amount * taxRate) / 100).toFixed(2);
-  }
-
-  // Log and update the total delivery cost
-  console.log(`Total Delivery Cost: ${formatCurrency(totalShippingCost)}`);
-  document.querySelector('.total-delivery-cost').innerHTML = formatCurrency(totalShippingCost);
-
-  // Calculate combined total
-  const combinedTotal = (totalPriceCents + totalShippingCost * 100) / 100;
-  console.log(combinedTotal);
-
-  // Update total before tax
-  const totalBeforeTax = formatCurrency(combinedTotal);
-  document.querySelector('.js-total-before-tax').innerHTML = totalBeforeTax;
-
-  // Calculate estimated tax and order total
-  const estimatedTax = parseFloat(calculateEstimatedTax(combinedTotal, 10)); // Convert to float to ensure proper calculation
-  const orderTotal = (combinedTotal + estimatedTax).toFixed(2); // Calculate order total and ensure two decimal places
-
-  // Display estimated tax and order total
-  document.querySelector('.js-estimated-tax').innerHTML = `$${estimatedTax.toFixed(2)}`; 
-  document.querySelector('.js-payment-summary').innerHTML = `$${orderTotal}`; 
-}
-
-  // Add event listeners to each delivery option
   deliveryOptions.forEach(option => {
     option.addEventListener('change', () => {
-      calculateTotalDeliveryCost();  // Call the function on change
+      calculateTotalDeliveryCost(); // Updates orderTotal on change
     });
   });
 
-  // Initial calculation to log the total delivery cost based on current selections
-  calculateTotalDeliveryCost();
-
+  return calculateTotalDeliveryCost(); // Initial calculation
 }
+  
+
+
 
 
 
@@ -477,13 +461,10 @@ function calculateTotalDeliveryCost() {
 document.querySelector('.place-order-button').addEventListener('click', async () => {
   const authToken = localStorage.getItem('authToken');
 
-
-
-  console.log('Auth Token:', authToken); // Debugging
-
+//Check if user is authenticated
   if (!authToken) {
     console.error('No token found. User might not be authenticated.');
-    return; // Stop execution if no token
+    return; 
   }
 
   const user = {
@@ -513,7 +494,7 @@ document.querySelector('.place-order-button').addEventListener('click', async ()
     }),
   
    
-    total: totalPriceCents,
+    total: parseFloat(orderTotal) * 100,
     deliveryOptions: [...document.querySelectorAll('.delivery-option-input:checked')].map(option => {
       let deliveryDate;
       if (option.classList.contains('delivery-option-one')) {

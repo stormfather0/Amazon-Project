@@ -326,6 +326,7 @@ app.post('/api/place-order', cors(corsOptions), authenticateToken, async (req, r
     items,
     total,
     deliveryOptions,
+    status: "pending", 
     createdAt: new Date()
 };
 

@@ -156,6 +156,14 @@ button {
     transition: width 0.3s ease-in-out;
 }
 
+.status-text {
+    padding: 10px;
+    background-color: rgb(52, 58, 83);
+    color: white;
+    border-radius: 10px;
+  
+}
+
 /* Individual status dots */
 .status-dot {
     width: 15px;
