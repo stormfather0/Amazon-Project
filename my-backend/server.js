@@ -862,6 +862,46 @@ app.get('/api/delivery-threshold', async (req, res) => {
 
 
 
+app.put('/api/update-order-status/:orderId', cors(corsOptions), async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+  }
+
+  try {
+      const ordersCollection = db.collection('orders');
+
+      const result = await ordersCollection.updateOne(
+          { _id: new ObjectId(orderId) },  // Find order by ID
+          { $set: { status: status } }    // Update status
+      );
+
+      if (result.modifiedCount === 0) {
+          return res.status(404).json({ message: "Order not found or status unchanged" });
+      }
+
+      res.json({ message: "Order status updated successfully" });
+  } catch (error) {
+      console.error('Error updating order status:', error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
