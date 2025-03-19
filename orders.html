@@ -15,32 +15,7 @@
     <link rel="stylesheet" href="styles/pages/orders.css">
 </head>
 <body>
-    <!-- Amazon Header -->
-    <div class="amazon-header">
-        <div class="amazon-header-left-section">
-            <a href="amazon.html" class="header-link">
-                <img class="amazon-logo" src="images/amazon-logo-white.png">
-                <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
-            </a>
-        </div>
-        <div class="amazon-header-middle-section">
-            <input class="search-bar" type="text" placeholder="Search">
-            <button class="search-button">
-                <img class="search-icon" src="images/icons/search-icon.png">
-            </button>
-        </div>
-        <div class="amazon-header-right-section">
-            <a class="orders-link header-link" href="orders.html">
-                <span class="returns-text">Returns</span>
-                <span class="orders-text">& Orders</span>
-            </a>
-            <a class="cart-link header-link" href="checkout.html">
-                <img class="cart-icon" src="images/icons/cart-icon.png">
-                <div class="cart-quantity">3</div>
-                <div class="cart-text">Cart</div>
-            </a>
-        </div>
-    </div>
+    <div id="header-container"></div>
 
     <!-- Main Content -->
     <div class="main">
@@ -50,15 +25,25 @@
         </div>
     </div>
 
-    <script>
+  <!-- Load footer -->
+  <footer id="footer">
+  </footer>
+
+    <script src="./scripts/header.js" defer></script> 
+    <script src="footer.js"></script>
+    <script type="module">
+import { formatCurrency } from '/scripts/utils/money.js';
+
         document.addEventListener('DOMContentLoaded', fetchOrders);
 
         async function fetchOrders() {
             const token = localStorage.getItem('authToken');
             if (!token) {
-                document.getElementById('orders-container').innerHTML = '<p>Please log in to view orders.</p>';
-                return;
-            }
+        // Store the current page before redirecting to login
+        localStorage.setItem('redirectAfterLogin', window.location.pathname);
+        window.location.href = 'login-test.html';
+        return;
+    }
 
             try {
                 const response = await fetch('https://amazon-project-sta4.onrender.com/api/user-orders', {
@@ -86,7 +71,7 @@
                                 </div>
                                 <div class="order-total">
                                     <div class="order-header-label">Total:</div>
-                                    <div>$${order.total.toFixed(2)}</div>
+                                    <div>$${formatCurrency(order.total.toFixed(2))}</div>
                                 </div>
                             </div>
                             <div class="order-header-right-section">
@@ -96,27 +81,30 @@
                         </div>
                         <div class="order-details-grid">
                             ${order.items.map(item => `
+                              <a href="product.html?id=${item.productId}">
                                 <div class="product-image-container">
-                                    <img src="${item.imageUrl || 'images/products/placeholder.png'}">
+                                    <img src="${item.image || 'images/products/placeholder.png'}">
                                 </div>
+                              </a>
                                 <div class="product-details">
                                     <div class="product-name">${item.name}</div>
-                                    <div class="product-delivery-date">
-                                        Arriving on: ${order.deliveryOptions[0]?.date || 'TBD'}
-                                    </div>
+                                   
                                     <div class="product-quantity">Quantity: ${item.quantity}</div>
+
+                                    <a href="product.html?id=${item.productId}">
                                     <button class="buy-again-button button-primary">
                                         <img class="buy-again-icon" src="images/icons/buy-again.png">
                                         <span class="buy-again-message">Buy it again</span>
                                     </button>
+                                 </a>
                                 </div>
-                                <div class="product-actions">
-                                    <a href="tracking.html">
-                                        <button class="track-package-button button-secondary">
-                                            Track package
-                                        </button>
-                                    </a>
-                                </div>
+                                 <div class="product-actions">
+                <a href="tracking.html?productId=${item.productId}">
+                    <button class="track-package-button button-secondary">
+                        Track package
+                    </button>
+                </a>
+            </div>
                             `).join('')}
                         </div>
                     </div>
