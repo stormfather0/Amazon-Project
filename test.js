@@ -1,62 +1,86 @@
 import { cart, addToCart, calculateCartQuantity, updateCartQuantity } from '../data/cart.js';
 
-// Fetch and display user favorites
+
+
+// ✅ Fetch and display user favorites when page loads
 async function loadFavoritesAndDisplay() {
+    try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('❌ No authToken found in localStorage!');
+            return;
+        }
+
+        const headers = { 'Authorization': token };
+        console.log('🔍 Sending Headers:', headers);
+
+        // Fetch user favorites
+        const favResponse = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', { headers });
+
+        if (!favResponse.ok) {
+            throw new Error(`❌ Server error: ${favResponse.status}`);
+        }
+
+        const favData = await favResponse.json();
+        console.log('✅ Fetched Favorites:', favData);
+
+        if (!favData.favorites || favData.favorites.length === 0) {
+            console.warn("⚠️ User has no favorites.");
+            displayFavoriteProducts([]); // Display empty cart UI
+            return;
+        }
+
+        // Fetch all products
+        const prodResponse = await fetch('https://amazon-project-sta4.onrender.com/api/products');
+        if (!prodResponse.ok) {
+            throw new Error('❌ Failed to fetch products');
+        }
+
+        const products = await prodResponse.json();
+        console.log('✅ Products fetched successfully:', products);
+
+        // Ensure product IDs are compared correctly
+        const favoriteProducts = products.filter(product =>
+            favData.favorites.includes(String(product.id)) // Convert product.id to string for comparison
+        );
+
+        console.log('🎯 User’s Favorite Products:', favoriteProducts);
+
+        // ✅ Call function to display favorite products
+        displayFavoriteProducts(favoriteProducts);
+        favouritesListener(); // Attach event listeners
+
+    } catch (error) {
+        console.error('❌ Error loading favorites and products:', error);
+    }
+}
+
+// ✅ Function to display favorite products
+function displayFavoriteProducts(favouriteProducts) {
     const favouriteProductsContainer = document.getElementById('favourite-products-container');
+
     if (!favouriteProductsContainer) {
         console.error('❌ favourite-products-container element not found!');
         return;
     }
 
-    try {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            console.error('❌ No authToken found!');
-            window.location.href = 'login.html';
-            return;
-        }
-
-        favouriteProductsContainer.innerHTML = '<p>Loading favorites...</p>';
-
-        const headers = { 'Authorization': `Bearer ${token}` };
-        const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', { headers });
-
-        if (!response.ok) throw new Error(`❌ Server error: ${response.status}`);
-        const data = await response.json();
-        console.log('✅ Fetched Favorite Products:', data);
-
-        displayFavoriteProducts(data.favorites || []);
-        favouritesListener();
-
-    } catch (error) {
-        console.error('❌ Error loading favorites:', error);
+    if (favouriteProducts.length === 0) {
         favouriteProductsContainer.innerHTML = `
-            <div class="empty-cart-container">
-                <p>Error loading favorites. Please try again later.</p>
-            </div>`;
-    }
-}
-
-// Display favorite products
-function displayFavoriteProducts(favoriteProducts) {
-    const favouriteProductsContainer = document.getElementById('favourite-products-container');
-
-    if (favoriteProducts.length === 0) {
-        favouriteProductsContainer.innerHTML = `
-            <div class="empty-cart-container">
-                <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"> 
-                <button class="shop-now-button">
-                    <a href="amazon.html">Shop Now</a>
-                </button>
-            </div>`;
+           <div class="empty-cart-container">
+    <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image"> 
+    <button class="shop-now-button">
+        <a href="amazon.html">Shop Now</a>
+    </button>
+</div>
+`;
         return;
     }
 
-    favouriteProductsContainer.innerHTML = '';
+    favouriteProductsContainer.innerHTML = ''; // Clear existing content
 
-    favoriteProducts.forEach(product => {
+    favouriteProducts.forEach(product => {
         const productHTML = `
-            <div class="product-container" data-product-id="${product.id}">
+            <div class="product-container">
                 <svg class="favourites-style js-favourites-${product.id} favourite-active" 
                      data-favourites-id="${product.id}" 
                      width="30px" 
@@ -95,124 +119,185 @@ function displayFavoriteProducts(favoriteProducts) {
                     Add to Cart
                 </button>
             </div>`;
+
         favouriteProductsContainer.innerHTML += productHTML;
     });
+
+    favouritesListener(); // Reattach event listeners
 }
 
-// Function to listen for clicks on favorite icons
+// ✅ Function to listen for clicks on favorite icons
 function favouritesListener() {
     const favouriteIcons = document.querySelectorAll('.favourites-style');
 
     favouriteIcons.forEach((icon) => {
         const productId = icon.dataset.favouritesId;
+        if (!productId) {
+            console.error("❌ Missing data-favourites-id for icon:", icon);
+            return;
+        }
 
         icon.addEventListener('click', async () => {
             console.log(`🖱️ Clicked Product ID: ${productId}`);
+
+            // Toggle 'favourite-active' class
             icon.classList.toggle('favourite-active');
 
             if (icon.classList.contains('favourite-active')) {
                 await addFavourite(productId);
             } else {
                 await removeFavourite(productId);
+
+                // Remove the product from the page if it's no longer a favorite
                 const productContainer = icon.closest('.product-container');
                 if (productContainer) {
                     productContainer.remove();
-
-                    // Check if container is empty
-                    const remainingProducts = document.querySelectorAll('.product-container');
-                    if (remainingProducts.length === 0) {
-                        document.getElementById('favourite-products-container').innerHTML = `
-                            <div class="empty-cart-container">
-                                <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image">
-                                <button class="shop-now-button">
-                                    <a href="amazon.html">Shop Now</a>
-                                </button>
-                            </div>`;
-                    }
                 }
+            }
+
+            // Check if there are any remaining favorite products
+            const remainingProducts = document.querySelectorAll('.product-container');
+            if (remainingProducts.length === 0) {
+                const favouriteProductsContainer = document.getElementById('favourite-products-container');
+                favouriteProductsContainer.innerHTML = `
+                    <div class="empty-cart-container">
+                        <img src="images/cart.png" alt="Empty Cart" class="empty-cart-image">
+                    </div>
+                    <button class="button-primary shop-now-button">
+                        <a href="amazon.html">Shop Now</a>
+                    </button>`;
             }
         });
     });
 }
 
-// Function to add a product to user's favorites
+// ✅ Function to add a product to user's favorites in MongoDB
 async function addFavourite(productId) {
     try {
         const token = localStorage.getItem('authToken');
-        if (!token) throw new Error('❌ No authToken found!');
+        if (!token) {
+            console.error('❌ No authToken found in localStorage!');
+            return;
+        }
 
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites/add', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ productId })
         });
 
-        if (!response.ok) throw new Error(`❌ Failed to add favorite: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`❌ Failed to add favorite: ${response.status}`);
+        }
+
         console.log(`✅ Product ${productId} added to favorites!`);
     } catch (error) {
         console.error('❌ Error adding favorite:', error);
     }
 }
 
-// Function to remove a product from user's favorites
+// ✅ Function to remove a product from user's favorites in MongoDB
 async function removeFavourite(productId) {
     try {
         const token = localStorage.getItem('authToken');
-        if (!token) throw new Error('❌ No authToken found!');
+        if (!token) {
+            console.error('❌ No authToken found in localStorage!');
+            return;
+        }
 
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites/remove', {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ productId })
         });
 
-        if (!response.ok) throw new Error(`❌ Failed to remove favorite: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`❌ Failed to remove favorite: ${response.status}`);
+        }
+
         console.log(`✅ Product ${productId} removed from favorites!`);
     } catch (error) {
         console.error('❌ Error removing favorite:', error);
     }
 }
 
-// Check if a product is a favorite
+// ✅ Ensure this function runs when the page loads
+window.onload = loadFavoritesAndDisplay;
+
+
+
+//===========NEXT
+
 export async function isFavourite(productId) {
     try {
         const token = localStorage.getItem('authToken');
-        if (!token) throw new Error('❌ No authToken found!');
+        if (!token) {
+            console.error('❌ No authToken found!');
+            return false;
+        }
 
         const response = await fetch('https://amazon-project-sta4.onrender.com/api/favorites', {
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 'Authorization': token }
+           
+            
         });
 
-        if (!response.ok) throw new Error('Failed to fetch favorites');
+        if (!response.ok) {
+            throw new Error('Failed to fetch favorites');
+        }
+
         const data = await response.json();
-        return data.favorites.includes(String(productId));
+
+        // Check if the product ID exists in the user's favorites
+        return data.favorites.includes(productId);
     } catch (error) {
         console.error('❌ Error checking favorite:', error);
         return false;
     }
 }
 
-// Add to cart event listener
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('js-add-to-cart')) {
-        const button = event.target;
-        const productId = button.dataset.productId;
-        const quantity = 1; // Default quantity since no select element is present
-
-        addToCart(productId, quantity);
-        updateCartQuantity();
-
-        const popup = document.getElementById('cart-popup');
-        popup.classList.add('show');
-        setTimeout(() => popup.classList.remove('show'), 3000);
+    if (event.target && event.target.classList.contains('js-add-to-cart')) {
+      const button = event.target;
+      const productId = button.dataset.productId;
+      const quantitySelect = button.closest('.product-container').querySelector('.product-quantity-container select');
+      const quantity = parseInt(quantitySelect.value, 10);
+  
+      addToCart(productId, quantity);
+      updateCartQuantity();
+  
+      // Show the popup
+      const popup = document.getElementById('cart-popup');
+      popup.classList.add('show');
+  
+      // Hide the popup after 3 seconds
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 3000);
     }
-});
+  });
+  
 
-// Run on page load
-window.onload = loadFavoritesAndDisplay;
+
+  
+
+
+
+  
