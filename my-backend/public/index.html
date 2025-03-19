@@ -133,13 +133,14 @@
                                 <img src="images/edit-1.svg" alt="edit-status" class="edit-status">
                             </div>
                         </div>
-                        <div class="status-progress">
-                            <span class="status-dot"></span>
-                            <span class="status-dot"></span>
-                            <span class="status-dot"></span>
-                            <span class="status-dot"></span>
-                            <span class="status-dot"></span>
-                        </div>
+      <div class="status-progress">
+    <span class="status-line"></span> <!-- Add this line -->
+    <span class="status-dot"></span>
+    <span class="status-dot"></span>
+    <span class="status-dot"></span>
+    <span class="status-dot"></span>
+    <span class="status-dot"></span>
+</div>
                         <h4 class="details-info-header">Order Details:</h4>
                         <div class="order-items">${orderDetails}</div>
                         <button class="delete-button" data-id="${order._id}">Delete Order</button>
@@ -300,32 +301,38 @@
         });
 
         function updateProgressBar(orderElement, status) {
-            const statuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
-            const activeIndex = statuses.indexOf(status);
+    const statuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
+    const activeIndex = statuses.indexOf(status);
 
-            const progressBar = orderElement.querySelector('.status-progress');
-            if (!progressBar) return;
+    const progressBar = orderElement.querySelector('.status-progress');
+    if (!progressBar) return;
 
-            const dots = progressBar.querySelectorAll('.status-dot');
-            if (activeIndex === -1) {
-                console.warn(`Invalid status: ${status}`);
-                return;
-            }
+    const dots = progressBar.querySelectorAll('.status-dot');
+    const statusLine = progressBar.querySelector('.status-line');
+    if (!dots.length || !statusLine) {
+        console.warn('Missing dots or status line');
+        return;
+    }
 
-            dots.forEach((dot, index) => {
-                if (index <= activeIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+    if (activeIndex === -1) {
+        console.warn(`Invalid status: ${status}`);
+        return;
+    }
 
-                if (index < activeIndex) {
-                    dot.classList.add('active-line');
-                } else {
-                    dot.classList.remove('active-line');
-                }
-            });
+    // Update dots
+    dots.forEach((dot, index) => {
+        if (index <= activeIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
         }
+    });
+
+    // Calculate and set the progress line width
+    const totalSteps = statuses.length - 1; // 4 steps between 5 statuses
+    const progressPercentage = (activeIndex / totalSteps) * 100;
+    statusLine.style.width = `${progressPercentage}%`;
+}
     </script>
 </body>
 </html>

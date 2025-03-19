@@ -117,16 +117,13 @@ button {
     flex-direction: column;
     justify-content: center;
   }
-
-
   .status-progress {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  
     width: 35%;
     position: relative;
-    padding: 0 10px; /* Ensures dots are evenly spaced */
+    padding: 0 10px;
     margin: 20px auto;
 }
 
@@ -135,10 +132,10 @@ button {
     content: "";
     position: absolute;
     top: 50%;
-    left: 10px; /* Align with the first dot */
-    right: 10px; /* Align with the last dot */
+    left: 10px;
+    right: 10px;
     height: 4px;
-    background-color: #ccc; /* Default gray line */
+    background-color: #ccc;
     transform: translateY(-50%);
     z-index: 0;
 }
@@ -147,7 +144,7 @@ button {
 .status-line {
     position: absolute;
     top: 50%;
-    left: 10px; /* Align with first dot */
+    left: 10px;
     height: 4px;
     background-color: green;
     transform: translateY(-50%);
@@ -161,7 +158,6 @@ button {
     background-color: rgb(52, 58, 83);
     color: white;
     border-radius: 10px;
-  
 }
 
 /* Individual status dots */
@@ -169,7 +165,7 @@ button {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background-color: #ccc; /* Default inactive */
+    background-color: #ccc;
     position: relative;
     z-index: 2;
 }
