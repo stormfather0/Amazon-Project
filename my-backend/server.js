@@ -374,7 +374,18 @@ app.get('/api/orders', async (req, res) => {
     }
 });
 
+// Fetch user orders from MongoDB
+app.get('/api/user-orders', authenticateToken, async (req, res) => {
+  try {
+      const ordersCollection = db.collection('orders');
+      const orders = await ordersCollection.find({ userId: req.user.id }).toArray();
 
+      res.json(orders);
+  } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ message: 'Error fetching orders' });
+  }
+});
 
 
 
