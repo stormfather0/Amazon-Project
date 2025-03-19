@@ -2,36 +2,30 @@
 
 // Function to fetch orders
 async function fetchOrders() {
+    const token = localStorage.getItem('authToken'); // Fix token name
+    console.log("Token being used:", token); // Debugging
+
+    if (!token) {
+        document.getElementById('orders-container').innerHTML = '<p class="no-orders">Please log in to view orders.</p>';
+        return;
+    }
+
     try {
-        // Get the token from wherever it's stored (e.g., localStorage)
-        const authToken = localStorage.getItem('authToken');
-        
-        // Make the API request with the authorization header
-        const response = await fetch('https://amazon-project-sta4.onrender.com/api/orders', {
+        const response = await fetch('https://amazon-project-sta4.onrender.com/api/user-orders', {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'application/json'
-            }
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        // Check if response is ok
+        console.log("Response status:", response.status); // Debugging
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Failed to fetch orders. Status: ${response.status}`);
         }
 
-        // Parse the JSON response
         const orders = await response.json();
-        
-        // Log to console
-        console.log('User Orders:', orders);
-        
-        // Display in HTML
-        displayOrders(orders);
-        
+        console.log("Orders received:", orders); // Debugging
     } catch (error) {
-        console.error('Error fetching orders:', error);
-        displayError(error.message);
+        console.error('Error:', error);
     }
 }
 
