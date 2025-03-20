@@ -98,14 +98,14 @@
         <div class="account-menu">
             <ul>
                 <li id="personal-info-tab">Personal Info</li>
-                <li id="orders-tab">Orders</li>
+            
                 <li id="favorites-tab">Favorites</li>
             </ul>
         </div>
 
         <!-- Sections (60%) -->
         <p id="greeting-message" style="padding: 40px;">Hello! Here is your personal info.</p>
-        <p id="orders-message" style="display: none;">Here you can check your Orders.</p>
+      
         <div class="account-products-grid" id="favourite-products-container" style="display: none;"></div>
     </div>
 
@@ -178,12 +178,12 @@
             // Get menu items and sections
             const menuItems = document.querySelectorAll('.account-menu li');
             const greetingMessage = document.getElementById('greeting-message');
-            const ordersMessage = document.getElementById('orders-message');
+         
             const favouritesContainer = document.getElementById('favourite-products-container');
 
             // Set Personal Info as default active
             greetingMessage.style.display = 'block';
-            ordersMessage.style.display = 'none';
+          
             favouritesContainer.style.display = 'none';
             document.getElementById('personal-info-tab').classList.add('active'); // Highlight personal info tab by default
 
@@ -191,7 +191,7 @@
                 item.addEventListener('click', () => {
                     // Hide all sections first
                     greetingMessage.style.display = 'none';
-                    ordersMessage.style.display = 'none';
+                   
                     favouritesContainer.style.display = 'none';
 
                     // Remove active class from all menu items
@@ -204,8 +204,6 @@
                     if (index === 0) {
                         greetingMessage.style.display = 'block';  
                     } else if (index === 1) {
-                        ordersMessage.style.display = 'block';  
-                    } else if (index === 2) {
                         favouritesContainer.style.display = 'grid';  
                     }
                 });

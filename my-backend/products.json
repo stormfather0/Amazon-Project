@@ -739,6 +739,94 @@
     ],
        "type": "fashion"
   },
+
+
+
+
+  {
+    "id": "bba76fd4-3e5b-4a47-bf39-d5a3b2e4f7c1",
+    "image": "images/products/men-casual-sneakers.webp",  
+    "name": "Men's Casual Sneakers - Lightweight & Comfortable",
+    "rating": {
+      "stars": 4.3,
+      "count": 1340
+    },
+    "priceCents": 6999,
+    "keywords": [
+      "footwear",
+      "shoes",
+      "sneakers"
+    ],
+    "type": "fashion"
+  },
+  {
+    "id": "cfc87gd5-4f6a-4982-aeb3-c4f9e5d7a9f2",
+    "image": "images/products/leather-wallet-brown.webp",
+    "name": "Genuine Leather Wallet - Brown",
+    "rating": {
+      "stars": 4.6,
+      "count": 2178
+    },
+    "priceCents": 3999,
+    "keywords": [
+      "fashion",
+      "wallet",
+      "leather"
+    ],
+    "type": "fashion"
+  },
+  {
+    "id": "dda98he6-5g7b-4c23-bdc5-e6f9f7g8h9j3",
+    "image": "images/products/classic-sunglasses.webp",
+    "name": "Classic Aviator Sunglasses - UV Protection",
+    "rating": {
+      "stars": 4.7,
+      "count": 2895
+    },
+    "priceCents": 4999,
+    "keywords": [
+      "accessories",
+      "sunglasses",
+      "eyewear"
+    ],
+    "type": "fashion"
+  },
+  {
+    "id": "eef10if7-6h8c-5d34-cfe6-f7g8h9i0j1k4",
+    "image": "images/products/cotton-tshirt-black.webp",
+    "name": "Men's Cotton T-Shirt - Black",
+    "rating": {
+      "stars": 4.5,
+      "count": 3120
+    },
+    "priceCents": 2999,
+    "keywords": [
+      "clothing",
+      "t-shirt",
+      "cotton"
+    ],
+    "type": "fashion"
+  },
+  {
+    "id": "ffg21jg8-7i9d-6e45-dgf7-g8h9i0j1k2l5",
+    "image": "images/products/women-leather-handbag.jpg",
+    "name": "Women's Leather Handbag - Stylish & Durable",
+    "rating": {
+      "stars": 4.8,
+      "count": 3720
+    },
+    "priceCents": 10999,
+    "keywords": [
+      "fashion",
+      "handbag",
+      "leather"
+    ],
+    "type": "fashion"
+  },
+
+
+
+
   {
     "id": "aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f4",
     "image": "images/products/amazon-1x1.png",
