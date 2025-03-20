@@ -1440,3 +1440,19 @@ form input:focus {
 #loginPrompt.hidden {
   display: none; /* Hide the login prompt when it's not needed */
 }
+
+
+
+.loading-placeholder {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+.error {
+  text-align: center;
+  padding: 20px;
+  color: red;
+}
+.js-products-grid {
+  transition: opacity 0.3s ease; /* Smooth transition for loading */
+}
