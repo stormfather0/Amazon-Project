@@ -1089,7 +1089,46 @@
     "priceCents": 1099,
     "keywords": ["face wash", "skincare", "personal care"],
     "type": "personal-care"
+  },
+
+  {
+    "id": "b2d7f6e9-3a4b-5c8d-9e2a-4f1c8a3d7e5b",
+    "image": "images/products/ebook.jpg",
+    "name": "Mastering JavaScript - eBook",
+    "rating": {
+      "stars": 4.5,
+      "count": 2500
+    },
+    "priceCents": 1999,
+    "keywords": ["ebook", "programming", "JavaScript"],
+    "type": "digital-content"
+  },
+  {
+    "id": "c3e8a9d1-6b7c-5d9e-4f2a-3f7c1d8e9a5b",
+    "image": "images/products/online-course.jpg",
+    "name": "Full-Stack Web Development Course",
+    "rating": {
+      "stars": 4.5,
+      "count": 3780
+    },
+    "priceCents": 4999,
+    "keywords": ["course", "web development", "full-stack"],
+    "type": "digital-content"
+  },
+  {
+    "id": "d4f9b5a2-7c8d-6e9a-5b3f-2c7d1e8a9f4b",
+    "image": "images/products/music-album.png",
+    "name": "Top Hits 2025 - Digital Music Album",
+    "rating": {
+      "stars": 4.5,
+      "count": 4820
+    },
+    "priceCents": 1499,
+    "keywords": ["music", "album", "digital download"],
+    "type": "digital-content"
   }
+ 
+ 
 
 
 
