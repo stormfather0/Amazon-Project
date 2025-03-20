@@ -1041,6 +1041,27 @@
       "home"
     ],
     "type": "electronics"
+  },
+  {
+    "id": "63cfce93-5e1f-4ef5-b7a2-d276f6dbba02",
+    "images": 
+    [
+     "images/products/robot-vacuum.webp",
+     "images/products/robot-2.webp"
+     ],
+    "name": "Robot Vacuum 2024 Pro",
+    "rating": {
+      "stars": 4,
+      "count": 220
+    },
+    "priceCents": 35000,
+    "keywords": [
+      "robot-vacuum",
+      "electronics",
+      "cleaning",
+      "home"
+    ],
+    "type": "electronics"
   }
 
 

@@ -31,10 +31,12 @@ export async function fetchProducts() {
 
     // Fetch from API only if products are not in localStorage
     if (!products) {
+      localStorage.removeItem("products"); 
       const response = await fetch("https://amazon-project-sta4.onrender.com/api/products");
       if (!response.ok) throw new Error("Failed to fetch products");
       products = await response.json();
       localStorage.setItem("products", JSON.stringify(products)); // Store in localStorage
+      console.log("All Products from API:", products);
     }
 
     console.log("Fetched products:", products);
