@@ -744,7 +744,7 @@
     "image": "images/products/men-casual-sneakers.webp",  
     "name": "Men's Casual Sneakers - Lightweight & Comfortable",
     "rating": {
-      "stars": 4.3,
+      "stars": 4.5,
       "count": 1340
     },
     "priceCents": 6999,
@@ -760,7 +760,7 @@
     "image": "images/products/leather-wallet-brown.webp",
     "name": "Genuine Leather Wallet - Brown",
     "rating": {
-      "stars": 4.6,
+      "stars": 5,
       "count": 2178
     },
     "priceCents": 3999,
@@ -776,7 +776,7 @@
     "image": "images/products/classic-sunglasses.webp",
     "name": "Classic Aviator Sunglasses - UV Protection",
     "rating": {
-      "stars": 4.7,
+      "stars": 4,
       "count": 2895
     },
     "priceCents": 4999,
@@ -808,7 +808,7 @@
     "image": "images/products/women-leather-handbag.jpg",
     "name": "Women's Leather Handbag - Stylish & Durable",
     "rating": {
-      "stars": 4.8,
+      "stars": 4.5,
       "count": 3720
     },
     "priceCents": 10999,
@@ -1018,27 +1018,6 @@
       "electronics",
       "display",
       "4k"
-    ],
-    "type": "electronics"
-  },
-  {
-    "id": "63cfce93-5e1f-4ef5-b7a2-d276f6dbba02",
-    "images": 
-    [
-     "images/products/robot-vacuum.webp",
-     "images/products/robot-2.webp"
-     ],
-    "name": "Robot Vacuum 2024 Pro",
-    "rating": {
-      "stars": 4,
-      "count": 220
-    },
-    "priceCents": 35000,
-    "keywords": [
-      "robot-vacuum",
-      "electronics",
-      "cleaning",
-      "home"
     ],
     "type": "electronics"
   },
