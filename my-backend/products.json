@@ -1026,6 +1026,69 @@
       "home"
     ],
     "type": "electronics"
+  },
+
+
+
+  {
+    "id": "b1d3e6f8-2a4b-4d6a-9e5a-4f3c9d8a2b7c",
+    "image": "images/products/shampoo.jpg",
+    "name": "Herbal Shampoo - 500ml",
+    "rating": {
+      "stars": 4.5,
+      "count": 2340
+    },
+    "priceCents": 899,
+    "keywords": ["shampoo", "hair care", "personal care"],
+    "type": "personal-care"
+  },
+  {
+    "id": "c2e7f9a1-5d8b-47a9-b6c1-1f4d2e8c3f5a",
+    "image": "images/products/body-lotion.webp",
+    "name": "Moisturizing Body Lotion - 400ml",
+    "rating": {
+      "stars": 4.5,
+      "count": 1785
+    },
+    "priceCents": 1299,
+    "keywords": ["lotion", "moisturizer", "personal care"],
+    "type": "personal-care"
+  },
+  {
+    "id": "d3f8a5b2-6e9c-4d7a-8a5b-3f2c7d9e4a1f",
+    "image": "images/products/toothpaste.jpeg",
+    "name": "Whitening Toothpaste - 150g",
+    "rating": {
+      "stars": 4.5,
+      "count": 3250
+    },
+    "priceCents": 499,
+    "keywords": ["toothpaste", "oral care", "personal care"],
+    "type": "personal-care"
+  },
+  {
+    "id": "e4a9c7d8-5b2f-6e9c-4d7a-3f8a1f2c9e5a",
+    "image": "images/products/deodorant.jpg",
+    "name": "Natural Deodorant Stick - 75g",
+    "rating": {
+      "stars": 4.5,
+      "count": 890
+    },
+    "priceCents": 799,
+    "keywords": ["deodorant", "body care", "personal care"],
+    "type": "personal-care"
+  },
+  {
+    "id": "f5a1e2c9-4d7a-6e9c-8b2f-3f8a7d9c5a4b",
+    "image": "images/products/face-wash.avif",
+    "name": "Hydrating Face Wash - 250ml",
+    "rating": {
+      "stars": 4.5,
+      "count": 2100
+    },
+    "priceCents": 1099,
+    "keywords": ["face wash", "skincare", "personal care"],
+    "type": "personal-care"
   }
 
 
